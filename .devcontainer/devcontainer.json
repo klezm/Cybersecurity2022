@@ -1,0 +1,58 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/rust
+{
+	"name": "Rust",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	// "image": "mcr.microsoft.com/devcontainers/rust:0-1-bullseye",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"yzhang.markdown-all-in-one",
+				"GitHub.copilot",
+				"GitHub.copilot-labs",
+				"eamodio.gitlens"
+			]
+		}
+	},
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+		// "ghcr.io/devcontainers/features/desktop-lite:1": {},
+		// "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+		// "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+		// "ghcr.io/devcontainers/features/git-lfs:1": {},
+		// "ghcr.io/devcontainers/features/github-cli:1": {},
+		// "ghcr.io/devcontainers/features/go:1": {},
+		// "ghcr.io/devcontainers/features/java:1": {},
+		// "ghcr.io/devcontainers/features/nix:1": {},
+		// "ghcr.io/devcontainers/features/python:1": {},
+		// "ghcr.io/devcontainers/features/sshd:1": {},
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"configureZshAsDefaultShell": true,
+			"installZsh": "true",
+			"username": "vscode",
+            "uid": "1000",
+            "gid": "1000",
+            "upgradePackages": "true"
+		}
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "rustc --version",
+	// "postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/scripts/install-dependencies.sh"
+	// "postCreateCommand": "git clone --depth 1 https://github.com/NLnetLabs/routinator"
+	"postCreateCommand": "git clone --depth 1 https://github.com/NLnetLabs/krill"
+
+	// Configure tool-specific properties.
+	// "customizations": {},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+}
