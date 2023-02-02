@@ -1,0 +1,71 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/java
+{
+	"name": "Java",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	// "image": "mcr.microsoft.com/devcontainers/java:0-17",
+	"build": {"dockerfile": "Dockerfile"},
+
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"yzhang.markdown-all-in-one",
+				"GitHub.copilot",
+				"GitHub.copilot-labs",
+				"eamodio.gitlens",
+				"redhat.vscode-xml",
+				"redhat.fabric8-analytics",
+				"ms-vscode.live-server"
+			]
+		}
+	},
+
+	"features": {
+		"ghcr.io/devcontainers/features/java:1": {
+			"version": "none",
+			"installMaven": "true",
+			"installGradle": "true"
+		},
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"configureZshAsDefaultShell": true,
+			"installZsh": "true",
+			"username": "vscode",
+            "uid": "1000",
+            "gid": "1000",
+            "upgradePackages": "true"
+		},
+		"ghcr.io/balazs23/devcontainers-features/bazel:1": {},
+		// https://github.com/devcontainers/features/tree/main/src/docker-in-docker
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+		// "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+		// "ghcr.io/customink/codespaces-features/docker-log-level:1": {}
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	"userEnvProbe": "none",
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "java -version",
+	"postCreateCommand": "[ -d rpki-validator-3 ] || git clone --depth 1 https://github.com/RIPE-NCC/rpki-validator-3",
+	// copy .zsh_history from repositroy to container if no history file exists in container
+	"postStartCommand": "([ -f ~/.zsh_history ] && [ 0 -lt $(wc -l <~/.zsh_history) ]) && echo -e \"\\n$(git diff --no-index .zsh_history ~/.zsh_history | grep -oP '(?<=^\\+):.*$')\" >> .zsh_history || cp .zsh_history ~/.zsh_history"
+	// echo -e "\n$(git diff --no-index .zsh_history ~/.zsh_history | grep -oP '(?<=^\+):.*$')" >> .zsh_history
+	// "postStartCommand": "[ -f ~/.zsh_history ] && echo -e \"\n$(cat ~/.zsh_history)\" >> .zsh_history || cp .zsh_history ~/.zsh_history"
+	// $([ -f ~/.zsh_history ] || [ 0 -eq $(wc -l <~/.zsh_history) ]) && echo -e "\n$(git diff --no-index .zsh_history ~/.zsh_history | grep -oP '(?<=^\+):.*$')" >> .zsh_history || cp .zsh_history ~/.zsh_history
+	// $([ -f ~/.zsh_history ] && [ 0 -lt $(wc -l <~/.zsh_history) ]) && echo -e "\n$(git diff --no-index .zsh_history ~/.zsh_history | grep -oP '(?<=^\+):.*$')" >> .zsh_history || cp .zsh_history ~/.zsh_history
+	// $([ -f ~/.zsh_history ] || [ 0 -ge $(wc -l <~/.zsh_history) ]) && echo "yayyyyyyy" || echo "noooooooooo"
+	// git diff --no-ext-diff --no-index --unified=0 --exit-code -a --no-prefix .zsh_history ~/.zsh_history | grep -oP "(?<=^\+):.*$"
+
+	// intersting files & dirs:
+	// /.codespaces/bin/cache/
+	// /workspaces/.codespaces/shared/merged_devcontainer.json
+
+	// Configure tool-specific properties.
+	// "customizations": {},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+}

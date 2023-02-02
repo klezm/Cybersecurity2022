@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.ripe.rpki</groupId>
+    <artifactId>rpki-validator</artifactId>
+    <version>3.2-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <inceptionYear>2017</inceptionYear>
+    <name>rpki-validator-3</name>
+    <description>RPKI Validator</description>
+    <parent>
+        <groupId>net.ripe.rpki</groupId>
+        <artifactId>rpki-validator-3-parent</artifactId>
+        <version>3.2-SNAPSHOT</version>
+        <relativePath>../rpki-parent/</relativePath>
+    </parent>
+
+    <licenses>
+        <license>
+            <name>BSD</name>
+            <url>https://raw.github.com/RIPE-NCC/rpki-validator-3/master/LICENSE.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <properties>
+        <maven.build.timestamp.format>yyyy.MM.dd'.'HH.mm.ss</maven.build.timestamp.format>
+        <xodus.version>1.3.232</xodus.version>
+        <jetty.version>9.4.21.v20190926</jetty.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.code-intelligence</groupId>
+            <artifactId>jazzer-junit</artifactId>
+            <version>0.13.3</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.9.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jool-java-8</artifactId>
+            <version>0.9.13</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.21.0-GA</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.xodus</groupId>
+            <artifactId>xodus-openAPI</artifactId>
+            <version>${xodus.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.xodus</groupId>
+            <artifactId>xodus-environment</artifactId>
+            <version>${xodus.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.xodus</groupId>
+            <artifactId>xodus-entity-store</artifactId>
+            <version>${xodus.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>kryo</artifactId>
+            <version>5.0.0-RC2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
+
+        <!-- add javax.xml dependency to avoid issues with new JDKs-->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.2.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>2.2.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.2.11</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.hateoas</groupId>
+            <artifactId>spring-hateoas</artifactId>
+            <version>0.24.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty.http2</groupId>
+            <artifactId>http2-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty.http2</groupId>
+            <artifactId>http2-http-client-transport</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty.alpn</groupId>
+            <artifactId>alpn-boot</artifactId>
+            <version>8.1.11.v20170118</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.functionaljava</groupId>
+            <artifactId>functionaljava-java8</artifactId>
+            <version>4.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.pholser</groupId>
+            <artifactId>junit-quickcheck-core</artifactId>
+            <version>0.7</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.pholser</groupId>
+            <artifactId>junit-quickcheck-generators</artifactId>
+            <version>0.7</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.2</version>
+        </dependency>
+
+        <dependency>
+          <groupId>dnsjava</groupId>
+          <artifactId>dnsjava</artifactId>
+          <version>2.1.9</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                  <archive>
+                    <manifest>
+                      <addClasspath>true</addClasspath>
+                    </manifest>
+                  </archive>
+                </configuration>
+            </plugin> -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <delimiters>
+                        <delimiter>@</delimiter>
+                    </delimiters>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                    <!-- needed for not corrupting fontawesome -->
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>woff</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+
+                    <!-- Enables the usage of the CLASSPATH env for the maven project -->
+                    <!-- https://maven.apache.org/shared/maven-archiver/examples/classpath.html -->
+                    <!-- <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive> -->
+
+                    <!-- https://maven.apache.org/plugins-archives/maven-surefire-plugin-2.12.4/examples/configuring-classpath.html -->
+                    <!-- <additionalClasspathElements>
+                        <additionalClasspathElement>/workspaces/Cybersecurity2022/rpki-validator-3/rpki-validator/target/classes</additionalClasspathElement>
+                        <additionalClasspathElement>/workspaces/Cybersecurity2022/rpki-validator-3/rpki-validator/target/test-classes</additionalClasspathElement>
+                        <additionalClasspathElement>$CODESPACE_VSCODE_FOLDER/rpki-validator-3/rpki-validator/src/test/java/net/ripe/rpki/validator3/rrdp</additionalClasspathElement>
+                    </additionalClasspathElements> -->
+
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>copy-generic-conf</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/generic-conf</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/packaging/generic/conf</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>copy-centos-conf</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/centos-conf</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/packaging/centos7/etc/rpki-validator-3</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>copy-deb-conf</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/deb-conf</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/packaging/deb/etc/rpki-validator-3</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.9.0</version>
+                <configuration>
+                    <strictCheck>true</strictCheck>
+                    <header>../LICENSE.txt</header>
+                    <excludes>
+                        <exclude>**/*.xd</exclude>
+                        <exclude>mvnw</exclude>
+                        <exclude>mvnw.cmd</exclude>
+                        <exclude>.mvn/**</exclude>
+                        <exclude>**/.ignore.me</exclude>
+                        <exclude>**/rpki-validator-3.service</exclude>
+                        <exclude>**/*.tal</exclude>
+                        <exclude>**/*.txt</exclude>
+                        <exclude>src/test/resources/**</exclude>
+                        <exclude>.idea/**</exclude>
+                        <exclude>.gitignore</exclude>
+                        <exclude>suppressions.xml</exclude>
+                        <exclude>README.md</exclude>
+                        <exclude>src/main/resources/static/**</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>rpm-maven-plugin</artifactId>
+                <version>2.2.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-rpm</id>
+                        <goals>
+                            <goal>rpm</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <license>BSD</license>
+                    <distribution>CentOS 7</distribution>
+                    <name>rpki-validator</name>
+                    <version>${build.version}</version>
+                    <release>${build.release}</release>
+                    <group>Applications/System</group>
+                    <packager>RIPE NCC</packager>
+                    <changelogFile>Changelog.txt</changelogFile>
+                    <summary>RIPE NCC RPKI Validator 3</summary>
+                    <description>See: https://github.com/RIPE-NCC/rpki-validator-3</description>
+                    <needarch>noarch</needarch>
+                    <targetOS>linux</targetOS>
+                    <defaultUsername>root</defaultUsername>
+                    <defaultGroupname>root</defaultGroupname>
+                    <mappings>
+                        <mapping>
+                            <directory>/usr/lib/</directory>
+                            <filemode>644</filemode>
+                            <directoryIncluded>false</directoryIncluded>
+                            <sources>
+                                <source>
+                                    <location>target/rpki-validator-${project.version}.jar</location>
+                                    <destination>rpki-validator-3.jar</destination>
+                                </source>
+                            </sources>
+                        </mapping>
+                        <mapping>
+                            <directory>/usr/bin/</directory>
+                            <filemode>755</filemode>
+                            <directoryIncluded>false</directoryIncluded>
+                            <sources>
+                                <source>
+                                    <location>src/main/resources/packaging/generic/bin/</location>
+                                    <includes>
+                                        <include>rpki-validator-3.sh</include>
+                                        <include>upload-tal.sh</include>
+                                    </includes>
+                                </source>
+                            </sources>
+                        </mapping>
+                        <mapping>
+                            <directory>/etc/rpki-validator-3/</directory>
+                            <dirmode>755</dirmode>
+                            <filemode>644</filemode>
+                            <configuration>true</configuration>
+                            <directoryIncluded>false</directoryIncluded>
+                            <sources>
+                                <source>
+                                    <location>target/centos-conf/</location>
+                                    <includes>
+                                        <include>application.properties</include>
+                                    </includes>
+                                </source>
+                            </sources>
+                        </mapping>
+                        <mapping>
+                            <directory>/etc/rpki-validator-3/</directory>
+                            <configuration>false</configuration>
+                            <filemode>444</filemode>
+                            <dirmode>755</dirmode>
+                            <directoryIncluded>false</directoryIncluded>
+                            <sources>
+                                <source>
+                                    <location>target/generic-conf/</location>
+                                    <includes>
+                                        <include>application-defaults.properties</include>
+                                    </includes>
+                                </source>
+                            </sources>
+                        </mapping>
+                        <mapping>
+                            <directory>/etc/systemd/system/</directory>
+                            <configuration>true</configuration>
+                            <filemode>644</filemode>
+                            <directoryIncluded>false</directoryIncluded>
+                            <sources>
+                                <source>
+                                    <location>src/main/resources/packaging/centos7/etc/systemd/system/</location>
+                                    <includes>
+                                        <include>rpki-validator-3.service</include>
+                                    </includes>
+                                </source>
+                            </sources>
+                        </mapping>
+                        <mapping>
+                            <directory>/var/lib/rpki-validator-3/</directory>
+                            <username>rpki</username>
+                            <groupname>rpki</groupname>
+                            <dirmode>700</dirmode>
+                            <configuration>true</configuration>
+                            <directoryIncluded>true</directoryIncluded>
+                            <recurseDirectories>true</recurseDirectories>
+                            <sources>
+                                <source>
+                                    <location>src/main/resources/packaging/generic/workdirs/</location>
+                                    <excludes>
+                                        <exclude>*/.ignore.me</exclude>
+                                    </excludes>
+                                </source>
+                            </sources>
+                        </mapping>
+                    </mappings>
+                    <preinstallScriptlet>
+                        <script>
+                            /usr/bin/getent group rpki > /dev/null || /usr/sbin/groupadd -r rpki
+                            /usr/bin/getent passwd rpki > /dev/null || /usr/sbin/useradd -r -d /var/lib/rpki-validator-3 -s /sbin/nologin -g rpki rpki
+                        </script>
+                    </preinstallScriptlet>
+
+                    <postinstallScriptlet>
+                        <script>
+                            /bin/systemctl daemon-reload
+                            /bin/systemctl try-restart rpki-validator-3
+                        </script>
+                    </postinstallScriptlet>
+                    <autoRequires>true</autoRequires>
+                    <requires>
+                        <require>java-1.8.0-openjdk-headless</require>
+                        <require>rsync</require>
+                    </requires>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <finalName>rpki-validator-${build.version}-${build.release}</finalName>
+                    <descriptors>
+                        <descriptor>src/main/resources/packaging/generic/assembly/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>jdeb</artifactId>
+                <groupId>org.vafer</groupId>
+                <version>1.8</version>
+                <configuration>
+                    <controlDir>${basedir}/src/main/resources/packaging/deb/control</controlDir>
+                    <deb>${basedir}/target/rpki-validator-${build.version}-${build.release}.deb</deb>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jdeb</goal>
+                        </goals>
+                        <configuration>
+                            <dataSet>
+                                <data>
+                                    <type>files</type>
+                                    <paths>
+                                        <path>${basedir}/src/main/resources/packaging/generic/bin/rpki-validator-3.sh</path>
+                                        <path>${basedir}/src/main/resources/packaging/generic/bin/upload-tal.sh</path>
+                                    </paths>
+                                    <dst>/usr/bin/</dst>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <filemode>755</filemode>
+                                    </mapper>
+                                </data>
+                                <data>
+                                    <src>${basedir}/target/rpki-validator-${project.version}.jar</src>
+                                    <dst>/usr/lib/rpki-validator-3.jar</dst>
+                                    <type>file</type>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <filemode>644</filemode>
+                                    </mapper>
+                                </data>
+                                <data>
+                                    <src>${basedir}/target/deb-conf/application.properties</src>
+                                    <type>file</type>
+                                    <conffile>true</conffile>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <prefix>/etc/rpki-validator-3/</prefix>
+                                        <filemode>644</filemode>
+                                    </mapper>
+                                </data>
+                                <data>
+                                    <src>${basedir}/target/generic-conf/application-defaults.properties</src>
+                                    <type>file</type>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <prefix>/etc/rpki-validator-3/</prefix>
+                                        <filemode>644</filemode>
+                                    </mapper>
+                                </data>
+                                <data>
+                                    <src>${basedir}/src/main/resources/packaging/deb/etc/systemd/system/rpki-validator-3.service</src>
+                                    <type>file</type>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <prefix>/etc/systemd/system/</prefix>
+                                        <filemode>644</filemode>
+                                    </mapper>
+                                </data>
+                                <data>
+                                    <type>directory</type>
+                                    <src>${basedir}/src/main/resources/packaging/generic/workdirs</src>
+                                    <includes/>
+                                    <excludes>**/.ignore.me</excludes>
+                                    <mapper>
+                                        <user>rpki</user>
+                                        <group>rpki</group>
+                                        <type>perm</type>
+                                        <prefix>/var/lib/rpki-validator</prefix>
+                                    </mapper>
+                                </data>
+                            </dataSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

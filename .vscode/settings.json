@@ -4,6 +4,16 @@
     },
     // "rust-analyzer.cargo.buildScripts.invocationLocation": "workspace",
     "rust-analyzer.linkedProjects": [
+        // "${workspaceFolder}/routinator/Cargo.toml",
         "${workspaceFolder}/krill/Cargo.toml",
-    ]
+        "${workspaceFolder}/rpki-rs/Cargo.toml",
+    ],
+    // "rust-analyzer.linkedProjects": [
+    //     {
+    //         "roots": "[${workspaceFolder}/krill", ],
+    //         // "crates": [
+    //         //     "rpki"
+    //         // ]
+    //     }
+    // ],
 }

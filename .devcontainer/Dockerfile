@@ -1,14 +1,13 @@
-FROM mcr.microsoft.com/devcontainers/rust:0-1-bullseye
+FROM mcr.microsoft.com/devcontainers/java:0-17
 
-RUN sudo apt update && \
-    sudo apt install -y \
-        ca-certificates curl gnupg lsb-release \
-        curl wget git gcc rsync build-essential \
-        bat mc
+# [Optional] Uncomment this section to install additional OS packages.
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends \
+        bat mc expect colorized-logs
 
-RUN rustup install nightly \
-    && rustup default nightly
-# RUN rustup default stable
+# https://github.com/CodeIntelligenceTesting/jazzer
+# https://docs.code-intelligence.com/cli-installation
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/CodeIntelligenceTesting/cifuzz/main/install.sh)"
 
-RUN cargo +nightly install cargo-fuzz afl
-# RUN cargo +nightly install -f cargo-libafl
+# [Optional] Uncomment this line to install global node packages.
+# RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
