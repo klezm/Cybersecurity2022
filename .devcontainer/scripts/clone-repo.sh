@@ -4,7 +4,7 @@ GIT_URL="https://github.com/RIPE-NCC/rpki-validator-3"
 REPO_NAME=$(basename $GIT_URL .git)
 # REPO_NAME=$(echo $GIT_URL | grep -oP '(?<=\/)[^\/]+(?=\.git$)')
 # REPO_NAME=${GIT_URL##*/}
-REPO_DIR="$CODESPACE_VSCODE_FOLDER/$REPO_NAME"
+REPO_DIR="$REPO_NAME" # REPO_DIR="$CODESPACE_VSCODE_FOLDER/$REPO_NAME"
 # REPO_DIR_TMP="$REPO_NAME-TMP"
 REPO_DIR_DIFF="$REPO_NAME-diff"
 
@@ -21,7 +21,7 @@ else
     echo "  ----- Repo already cloned -----"
 fi
 
-VALI_DIR="$CODESPACE_VSCODE_FOLDER/$REPO_NAME/rpki-validator"
+VALI_DIR="$REPO_NAME/rpki-validator" # VALI_DIR="$CODESPACE_VSCODE_FOLDER/$REPO_NAME/rpki-validator"
 
 FUZZ_DIR="$REPO_DIR"
 # FUZZ_DIR=$VALI_DIR
