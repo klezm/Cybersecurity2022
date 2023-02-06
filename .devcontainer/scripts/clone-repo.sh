@@ -4,10 +4,11 @@ GIT_URL="https://github.com/RIPE-NCC/rpki-validator-3"
 REPO_NAME=$(basename $GIT_URL .git)
 # REPO_NAME=$(echo $GIT_URL | grep -oP '(?<=\/)[^\/]+(?=\.git$)')
 # REPO_NAME=${GIT_URL##*/}
+REPO_DIR="$CODESPACE_VSCODE_FOLDER/$REPO_NAME"
 # REPO_DIR_TMP="$REPO_NAME-TMP"
 REPO_DIR_DIFF="$REPO_NAME-diff"
 
-# rm -rf $REPO_NAME
+# rm -rf $REPO_DIR
 
 # [ -d rpki-validator-3/.git ] || (mv rpki-validator-3 rpki-validator-3-TMP && git clone --depth 1 https://github.com/RIPE-NCC/rpki-validator-3 && cp -r rpki-validator-3-TMP/* rpki-validator-3 && rm -rf rpki-validator-3-TMP)
 if [ ! -d rpki-validator-3/.git ]; then
@@ -20,7 +21,6 @@ else
     echo "  ----- Repo already cloned -----"
 fi
 
-REPO_DIR="$CODESPACE_VSCODE_FOLDER/$REPO_NAME"
 VALI_DIR="$CODESPACE_VSCODE_FOLDER/$REPO_NAME/rpki-validator"
 
 FUZZ_DIR="$REPO_DIR"
@@ -31,11 +31,11 @@ cifuzz -v -C "$VALI_DIR/src/test/java/net/ripe/rpki/validator3/rrdp/" create jav
 # TODO: The following line breaks everything
 # cifuzz -v -C "$VALI_DIR/src/test/java/net/ripe/rpki/validator3/rrdp/" create java -o FuzzTest.java
 
-cp --verbose rfuz/pom.xml "$REPO_DIR/"
-cp --verbose rfuz/rpki-validator/pom.xml "$VALI_DIR/"
-cp --verbose rfuz/rpki-validator/src/test/java/net/ripe/rpki/validator3/rrdp/FuzzRrdp.java "$VALI_DIR/src/test/java/net/ripe/rpki/validator3/rrdp/"
+cp --verbose "$REPO_DIR_DIFF/pom.xml" "$REPO_DIR/"
+cp --verbose "$REPO_DIR_DIFF/rpki-validator/pom.xml" "$VALI_DIR/"
+cp --verbose "$REPO_DIR_DIFF/rpki-validator/src/test/java/net/ripe/rpki/validator3/rrdp/FuzzRrdp.java" "$VALI_DIR/src/test/java/net/ripe/rpki/validator3/rrdp/"
 # TODO: The following line breaks everything
-# cp --verbose rfuz/rpki-validator/src/test/java/net/ripe/rpki/validator3/rrdp/FuzzTest.java "$VALI_DIR/src/test/java/net/ripe/rpki/validator3/rrdp/"
+# cp --verbose "$REPO_DIR_DIFF/rpki-validator/src/test/java/net/ripe/rpki/validator3/rrdp/FuzzTest.java" "$VALI_DIR/src/test/java/net/ripe/rpki/validator3/rrdp/"
 
 (cd $REPO_DIR; git status)
 
