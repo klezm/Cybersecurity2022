@@ -1,0 +1,1 @@
+  * [`decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out)`](https://vscode.dev/github/RIPE-NCC/rpki-validator-3/blob/41f6fd719793ba2ded8b0dedd318d51b83ac9583/rpki-rtr-server/src/main/java/net/ripe/rpki/rtr/adapter/netty/PduCodec.java#L71)
