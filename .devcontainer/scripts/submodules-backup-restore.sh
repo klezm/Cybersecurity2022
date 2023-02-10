@@ -1,13 +1,15 @@
 #!/bin/bash
 
-# cd $CODESPACE_VSCODE_FOLDER
-
 BACKUP_RESTORE=${1:-"backup"}
 REPO_DIFF_SUFFIX="-diff"
 
-echo Copies changes from submodules to a diff folder named "<REPO_FOLDER>-diff".
+echo Performs $BACKUP_RESTORE of changes from submodules. the changes are stored in a folder named "<REPO_FOLDER>-diff".
 
-SUBMODULES=$(find . -mindepth 2 -maxdepth 2 -type d -name ".git" -exec dirname {} +)
+SUBMODULES=$(git submodule -q foreach pwd | xargs -n 1 basename)
+if [ -z "$SUBMODULES" ]; then
+    SUBMODULES=$(find . -mindepth 2 -maxdepth 2 -type d -name ".git" -exec dirname {} +)
+    # SUBMODULES=$(grep -oP "(?<=\[submodule \")[\w-]+(?=\"\])" .gitmodules)
+fi
 
 function backup_changes() {
     changes=$(git -C $subMod status --short --untracked-files | awk '{print $2}')

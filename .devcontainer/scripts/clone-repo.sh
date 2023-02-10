@@ -1,8 +1,18 @@
 #!/bin/bash
 
-cd $CODESPACE_VSCODE_FOLDER
+# https://git-scm.com/book/en/v2/Git-Tools-Submodules
+git submodule update --init # --recursive
+# git submodule update --remote --merge # pull latest changes from remote for all submodules
 
-GIT_URL=${1:-"https://github.com/RIPE-NCC/rpki-validator-3"} # Pass the repo URL as the first argument or use the given default
+# Clone the Repo including submodules https://stackoverflow.com/questions/2144406/how-to-make-shallow-git-submodules
+# git clone --depth 1 --recurse-submodules --shallow-submodules <REPO URL>
+# Omit --shallow-submodules if you set the option in the .gitmodules file
+# git config -f .gitmodules submodule.<name>.shallow true
+
+
+
+
+GIT_URL=${1:-"none"} # Pass the repo URL as the first argument or use the given default
 REPO_NAME=$(basename $GIT_URL .git)
 # REPO_NAME=$(echo $GIT_URL | grep -oP '(?<=\/)[^\/]+(?=\.git$)')
 # REPO_NAME=${GIT_URL##*/}
@@ -22,15 +32,6 @@ REPO_DIR_DIFF="$REPO_NAME-diff"
 # else
 #     echo "  ----- Repo already cloned -----"
 # fi
-
-# https://git-scm.com/book/en/v2/Git-Tools-Submodules
-git submodule update --init # --recursive
-# git submodule update --remote --merge # pull latest changes from remote for all submodules
-
-# Clone the Repo including submodules https://stackoverflow.com/questions/2144406/how-to-make-shallow-git-submodules
-# git clone --depth 1 --recurse-submodules --shallow-submodules <REPO URL>
-# Omit --shallow-submodules if you set the option in the .gitmodules file
-# git config -f .gitmodules submodule.<name>.shallow true
 
 
 if [ $REPO_NAME == "rpki-validator-3" ]; then
