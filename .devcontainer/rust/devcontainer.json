@@ -15,7 +15,8 @@
 				"GitHub.copilot",
 				"GitHub.copilot-labs",
 				"eamodio.gitlens",
-				"redhat.vscode-xml"
+				"redhat.vscode-xml",
+				"ms-vscode.live-server"
 			]
 		}
 	},
@@ -39,6 +40,10 @@
             "uid": "1000",
             "gid": "1000",
             "upgradePackages": "true"
+		},
+		"ghcr.io/devcontainers/features/python:1": {
+			// "optimize":	true,
+			// "installJupyterlab": true
 		}
 	},
 
@@ -48,9 +53,11 @@
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "rustc --version",
 	// "postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/scripts/install-dependencies.sh"
-	// "postCreateCommand": "[ -d routinator ] || git clone --depth 1 https://github.com/NLnetLabs/routinator"
 	// "postCreateCommand": "[ -d krill ] || git clone --depth 1 https://github.com/NLnetLabs/krill"
+	// "postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/scripts/clone-repo.sh https://github.com/NLnetLabs/krill",
+	// "postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/scripts/clone-repo.sh https://github.com/NLnetLabs/routinator",
 
+	"postStartCommand": "bash ${containerWorkspaceFolder}/.devcontainer/scripts/preserve-history.sh"
 
 	// Configure tool-specific properties.
 	// "customizations": {},

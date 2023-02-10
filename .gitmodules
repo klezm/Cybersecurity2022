@@ -1,0 +1,14 @@
+# https://git-scm.com/docs/gitmodules
+
+[submodule "rpki-validator-3"]
+	shallow = true
+	path = rpki-validator-3
+	url = https://github.com/RIPE-NCC/rpki-validator-3
+[submodule "krill"]
+	shallow = true
+	path = krill
+	url = https://github.com/NLnetLabs/krill
+[submodule "rpki-rs"]
+	shallow = true
+	path = rpki-rs
+	url = https://github.com/NLnetLabs/rpki-rs

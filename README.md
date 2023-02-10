@@ -30,6 +30,9 @@ As suggested from the stdout of the `cifuzz init` command: Add dependencies to t
 
 Now create and write a test e.g.: [FuzzRrdp.java](rpki-validator-3/rpki-validator/src/test/java/net/ripe/rpki/validator3/rrdp/FuzzRrdp.java), [FuzzTest.java](rpki-validator-3/rpki-validator/src/test/java/net/ripe/rpki/validator3/rrdp/FuzzTest.java)
 
+For some reason copying the `FuzzTest.java` from rpki-validator-3-diff does cause an error.
+Therefore, we skip it.
+
 ```sh
 cifuzz -v -C $CODESPACE_VSCODE_FOLDER/rpki-validator-3/rpki-validator/src/test/java/net/ripe/rpki/validator3/rrdp/ create -o FuzzRrdp.java
 ```
@@ -41,6 +44,35 @@ cifuzz -v -C $CODESPACE_VSCODE_FOLDER/rpki-validator-3/rpki-validator run FuzzRr
 ```
 
 So far the Fuzzer always threw errors as shown here: [stdout.html](stdout.html) (VSCode offers a HTML preview mode with the addon [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server))
+
+## Development
+
+### Submodules (Fuzzing Targets)
+
+The repositories we want to fuzz are included as submodules.
+To clone this repository with all submodules, use the following command:
+
+```sh
+git clone --depth 1 --recurse-submodules --shallow-submodules <REPO URL>
+```
+
+Since we ran `git config -f .gitmodules submodule.<REPO>.shallow true` for all submodules you can omit the `--shallow-submodules` flag.
+If you cloned the repository without the `--recurse-submodules` flag, you can initialize and update the submodules with the following commands:
+
+```sh
+# https://git-scm.com/book/en/v2/Git-Tools-Submodules
+git submodule update --init # --recursive
+```
+
+To Update all submodules to the latest commit on their respective default branch, use the following command:
+
+```sh
+git submodule update --remote --merge
+```
+
+### Devcontainer
+
+Two devcontainers are provided for fuzzing either Rust or Java code.
 
 ## Labs
 

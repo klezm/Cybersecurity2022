@@ -1,1 +1,66 @@
-rpki-validator-3
+# https://github.com/NLnetLabs/rpki-rs/blob/main/.gitignore
+/target
+**/*.rs.bk
+/Cargo.lock
+.cargo
+
+# https://github.com/NLnetLabs/krill/blob/main/.gitignore
+.DS_Store
+data
+krill.log
+target/
+tmp
+work
+
+# https://github.com/NLnetLabs/routinator/blob/main/.gitignore
+/target/
+/rpki-cache/repository
+/.cargo
+/doc/manual/build/
+
+
+
+# https://github.com/RIPE-NCC/rpki-validator-3/blob/master/.gitignore
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# other editors/IDEs
+# .vscode
+# .vscode/launch.json
+# .vscode/settings.json
+
+# H2 development database
+/*.mv.db
+/*.trace.db
+
+#npm
+node_modules/
+ui-validator/node
+ui-validator/npm-debug.log
+
+.DS_Store
+
+# generated content
+rpki-validator/src/main/resources/static/

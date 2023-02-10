@@ -1,0 +1,26 @@
+# For this file to be used, run:
+# git config --local include.path ../.gitconfig
+
+[core]
+    # excludesfile = ~/.gitignore
+    eol = lf
+# [user]
+#     name =
+#     email =
+# [filter "lfs"]
+#     clean = git-lfs clean -- %f
+#     smudge = git-lfs smudge -- %f
+#     required = true
+# [push]
+#     default = simple
+# [merge]
+#     tool = meld
+# [diff]
+#     tool = meld
+[alias]
+#     aa = add --all :/
+#     b = branch
+#     c = commit
+#     co = checkout
+#     s = status
+    l = log --pretty=format:'%C(yellow)%h%C(reset)%C(auto)%d%C(reset) %s %C(cyan)[%cn]%C(reset)' --decorate --date=short --graph

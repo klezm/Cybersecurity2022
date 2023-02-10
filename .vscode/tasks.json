@@ -5,8 +5,26 @@
       "label": "cifuzz coverage (current test)",
       "type": "shell",
       "command": "cifuzz",
-      "args": ["coverage", "--preset=vscode", "-r", "${fileBasename}"],
+      "args": [
+        "coverage",
+        "--preset=vscode",
+        "-r",
+        "${fileBasename}"
+      ],
       "problemMatcher": []
+    },
+    {
+      "label": "Run shell script",
+      "type": "shell",
+      "command": "${file}",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
     }
   ]
 }

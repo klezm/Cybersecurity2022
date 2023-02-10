@@ -1,13 +1,22 @@
-FROM mcr.microsoft.com/devcontainers/java:0-17
+FROM mcr.microsoft.com/devcontainers/rust:0-1-bullseye
 
-# [Optional] Uncomment this section to install additional OS packages.
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends \
+RUN sudo apt update && \
+    sudo apt install -y \
+        ca-certificates curl gnupg lsb-release \
+        curl wget git gcc rsync build-essential \
         bat mc expect colorized-logs
 
-# https://github.com/CodeIntelligenceTesting/jazzer
-# https://docs.code-intelligence.com/cli-installation
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/CodeIntelligenceTesting/cifuzz/main/install.sh)"
+RUN rustup install nightly \
+    && rustup default nightly
+# RUN rustup default stable
 
-# [Optional] Uncomment this line to install global node packages.
-# RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
+# Add sources of standard library for rust-analyzer extension in VSCode
+# RUN mkdir -p $(rustc --print sysroot)/lib/rustlib/src/rust \ && rustup component add rust-src
+RUN rustup component add rust-src rust-analyzer clippy rustfmt
+    # && cargo build --package slug
+    # cargo install slug
+    # && cargo metadata --format-version 1 --manifest-path /workspaces/Cybersecurity2022/krill/Cargo.toml --filter-platform x86_64-unknown-linux-gnu
+    # && cargo metadata --format-version 1 --manifest-path /workspaces/Cybersecurity2022/rpki-rs/Cargo.toml --filter-platform x86_64-unknown-linux-gnu
+
+RUN cargo +nightly install cargo-fuzz cargo-test-fuzz afl
+# RUN cargo +nightly install -f cargo-libafl
