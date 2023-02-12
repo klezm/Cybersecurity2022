@@ -87,6 +87,8 @@ details > pre {
 
 <body>
 
+<h2>Fuzzing rpki-validator-3</h2>
+
 With the following command run prior: <code>cifuzz -v -C $CODESPACE_VSCODE_FOLDER/rpki-validator-3/rpki-validator init</code>
 <br>
 <br>
@@ -3101,6 +3103,1088 @@ All required classes must be on the classpath specified via --cp.
 	</pre>
 </details>
 
+<h2>Fuzzing rpki-rs</h2>
+
+<details>
+	<summary>
+<pre>
+sudo su
+unbuffer cargo fuzz run --jobs 2 fuzz_target_1 $CODESPACE_VSCODE_FOLDER/corpus | tee -a ../stdout.txt
+</pre>
+	</summary>
+<pre>
+<b class="BOLD"></b><b class=HIG>   Compiling</b> rpki-fuzz v0.0.0 (/workspaces/Cybersecurity2022/rpki-rs/fuzz)
+<b class="BOLD"></b><b class=HIC>    Building</b> [=========================&gt; ] 34/35: fuzz_target_1(bin)                                                            &crarr;
+<b class="BOLD"></b><b class="BOLD" style="color:#ff5555;">error[E0432]</b><b class="BOLD">: unresolved import `rpki::ca`</b>
+	<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">--&gt; </b>fuzz_targets/fuzz_target_1.rs:27:13
+	<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">|</b>
+<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">27</b> <b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">|</b> use ::rpki::ca::idcert;
+	<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">| </b>            <b class="BOLD"></b><b class="BOLD" style="color:#ff5555;">^^</b> <b class="BOLD"></b><b class="BOLD" style="color:#ff5555;">help: a similar path exists: `self::rpki::ca`</b>
+
+<b class="BOLD"></b><b class=HIC>    Building</b> [=========================&gt; ] 34/35: fuzz_target_1(bin)                                                            &crarr;
+<b class="BOLD"></b><b class="BOLD" style="color:#ff5555;">error[E0433]</b><b class="BOLD">: failed to resolve: use of undeclared type `TbsIdCert`</b>
+	<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">--&gt; </b>fuzz_targets/fuzz_target_1.rs:36:13
+	<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">|</b>
+<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">36</b> <b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">|</b>     let _ = TbsIdCert::from_constructed(&amp;data);
+	<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">| </b>            <b class="BOLD"></b><b class="BOLD" style="color:#ff5555;">^^^^^^^^^</b> <b class="BOLD"></b><b class="BOLD" style="color:#ff5555;">use of undeclared type `TbsIdCert`</b>
+
+<b class="BOLD"></b><b class=HIC>    Building</b> [=========================&gt; ] 34/35: fuzz_target_1(bin)                                                            &crarr;
+<b class="BOLD">Some errors have detailed explanations: E0432, E0433.</b>
+<b class="BOLD">For more information about an error, try `rustc --explain E0432`.</b>
+<b class="BOLD"></b><b class=HIC>    Building</b> [=========================&gt; ] 34/35: fuzz_target_1(bin)                                                            &crarr;
+<b class="BOLD"></b><b class=HIR>error</b><b class="BOLD">:</b> could not compile `rpki-fuzz` due to 2 previous errors
+Error: failed to build fuzz script: ASAN_OPTIONS="detect_odr_violation=0" RUSTFLAGS="-Cpasses=sancov-module -Cllvm-args=-sanitizer-coverage-level=4 -Cllvm-args=-sanitizer-coverage-inline-8bit-counters -Cllvm-args=-sanitizer-coverage-pc-table -Cllvm-args=-sanitizer-coverage-trace-compares --cfg fuzzing -Clink-dead-code -Zsanitizer=address -Cllvm-args=-sanitizer-coverage-stack-depth -Cdebug-assertions -C codegen-units=1" "cargo" "build" "--manifest-path" "/workspaces/Cybersecurity2022/rpki-rs/fuzz/Cargo.toml" "--target" "x86_64-unknown-linux-gnu" "--release" "--bin" "fuzz_target_1"
+</pre>
+</details>
+
+
+<h2>Fuzzing krill</h2>
+
+<details>
+	<summary>
+<pre>
+sudo su
+unbuffer cargo fuzz run --jobs 2 fuzz_target_1 ../corpus | tee -a ../stdout.txt
+</pre>
+	</summary>
+<pre>
+<b class="BOLD"></b><b class=HIG>    Updating</b> crates.io index
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [                         ]   0.00%, 16.85KiB/s
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [&gt;                        ]   4.38%, 16.85KiB/s
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [==&gt;                      ]  12.15%, 16.85KiB/s
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [====&gt;                    ]  21.91%, 346.89KiB/s
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=====&gt;                   ]  25.29%, 346.89KiB/s
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=====&gt;                   ]  26.43%, 346.89KiB/s
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=====&gt;                   ]  26.43%, 3.69MiB/s
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======&gt;                  ]  28.02%, (124/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======&gt;                  ]  28.38%, (161/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [========&gt;                ]  37.03%, (1028/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [==========&gt;              ]  47.42%, (2069/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [============&gt;            ]  53.44%, (2672/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [============&gt;            ]  53.59%, (2687/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [============&gt;            ]  53.85%, (2713/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [============&gt;            ]  54.13%, (2741/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [============&gt;            ]  54.33%, (2761/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [============&gt;            ]  54.48%, (2777/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [============&gt;            ]  55.07%, (2836/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [============&gt;            ]  55.56%, (2885/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [============&gt;            ]  55.91%, (2920/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=============&gt;           ]  56.34%, (2963/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=============&gt;           ]  57.01%, (3030/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=============&gt;           ]  57.39%, (3068/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=============&gt;           ]  58.01%, (3130/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=============&gt;           ]  58.41%, (3170/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=============&gt;           ]  58.75%, (3205/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=============&gt;           ]  59.05%, (3235/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=============&gt;           ]  59.53%, (3283/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [==============&gt;          ]  60.04%, (3334/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [==============&gt;          ]  60.31%, (3361/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [==============&gt;          ]  60.89%, (3419/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [==============&gt;          ]  62.17%, (3547/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [==============&gt;          ]  63.85%, (3716/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [===============&gt;         ]  64.23%, (3754/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [===============&gt;         ]  64.47%, (3778/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [===============&gt;         ]  64.91%, (3822/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [===============&gt;         ]  65.05%, (3836/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [===============&gt;         ]  66.80%, (4011/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [===============&gt;         ]  67.30%, (4061/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [===============&gt;         ]  67.78%, (4110/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [================&gt;        ]  68.17%, (4149/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [================&gt;        ]  68.75%, (4207/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [================&gt;        ]  70.02%, (4334/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [================&gt;        ]  70.58%, (4390/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [================&gt;        ]  71.49%, (4481/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [================&gt;        ]  71.90%, (4523/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=================&gt;       ]  72.24%, (4557/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=================&gt;       ]  72.77%, (4610/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=================&gt;       ]  73.56%, (4689/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=================&gt;       ]  74.06%, (4739/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [==================&gt;      ]  77.94%, (5128/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [===================&gt;     ]  81.56%, (5491/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [===================&gt;     ]  83.66%, (5701/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [====================&gt;    ]  84.84%, (5820/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [====================&gt;    ]  85.31%, (5867/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=====================&gt;   ]  91.15%, (6452/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=====================&gt;   ]  91.83%, (6520/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======================&gt;  ]  92.60%, (6597/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======================&gt;  ]  93.04%, (6641/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======================&gt;  ]  93.43%, (6680/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======================&gt;  ]  93.48%, (6685/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======================&gt;  ]  93.53%, (6691/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======================&gt;  ]  93.77%, (6715/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======================&gt;  ]  94.02%, (6740/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======================&gt;  ]  94.32%, (6770/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======================&gt;  ]  94.65%, (6803/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======================&gt;  ]  94.86%, (6824/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======================&gt;  ]  95.06%, (6844/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======================&gt;  ]  95.36%, (6874/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======================&gt;  ]  95.52%, (6890/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [======================&gt;  ]  95.95%, (6933/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=======================&gt; ]  97.08%, (7046/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=======================&gt; ]  97.95%, (7134/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=======================&gt; ]  98.87%, (7226/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=======================&gt; ]  99.19%, (7258/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC>       Fetch</b> [=======================&gt; ]  99.61%, (7300/7339) resolving deltas
+<b class="BOLD"></b><b class=HIC> Downloading</b> 1 crate
+<b class="BOLD"></b><b class=HIC> Downloading</b> 2 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 3 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 4 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 5 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 6 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 7 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 8 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 9 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 10 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 11 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 12 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 13 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 14 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 15 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 16 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 17 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 18 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 19 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 20 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 21 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 22 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 23 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 24 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 25 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 26 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 27 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 28 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 29 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 30 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 31 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 32 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 33 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 34 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 35 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 36 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 37 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 38 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 39 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 40 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 41 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 42 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 43 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 44 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 45 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 46 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 47 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 48 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 49 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 50 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 51 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 52 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 53 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 54 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 55 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 56 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 57 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 58 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 59 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 60 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 61 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 62 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 63 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 64 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 65 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 66 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 67 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 68 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 69 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 70 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 71 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 72 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 73 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 74 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 75 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 76 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 77 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 78 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 79 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 80 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 81 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 82 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 83 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 84 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 85 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 86 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 87 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 88 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 89 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 90 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 91 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 92 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 93 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 94 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 95 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 96 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 97 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 98 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 99 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 100 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 101 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 102 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 103 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 104 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 105 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 106 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 107 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 108 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 109 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 110 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 111 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 112 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 113 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 114 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 115 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 116 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 117 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 118 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 119 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 120 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 121 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 122 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 123 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 124 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 125 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 126 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 127 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 128 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 129 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 130 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 131 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 132 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 133 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 134 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 135 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 136 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 137 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 138 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 139 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 140 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 141 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 142 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 143 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 144 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 145 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 146 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 147 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 148 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 149 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 150 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 151 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 152 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 153 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 154 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 155 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 156 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 157 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 158 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 159 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 160 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 161 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 162 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 163 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 164 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 165 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 166 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 167 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 168 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 169 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 170 crates
+<b class="BOLD"></b><b class=HIC> Downloading</b> 171 crates
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> itertools v0.10.5
+<b class="BOLD"></b><b class=HIC> Downloading</b> 170 crates
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> phf_shared v0.10.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 169 crates
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> ascii-canvas v3.0.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 168 crates, remaining bytes: 35.6 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> ordered-float v2.10.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 167 crates, remaining bytes: 11.9 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> libloading v0.7.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 166 crates, remaining bytes: 41.1 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> num-bigint v0.4.3
+<b class="BOLD"></b><b class=HIC> Downloading</b> 165 crates, remaining bytes: 11.4 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> rand_chacha v0.3.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 164 crates, remaining bytes: 186.2 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> digest v0.9.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 163 crates, remaining bytes: 367.8 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> new_debug_unreachable v1.0.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 162 crates, remaining bytes: 572.8 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tinyvec_macros v0.1.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 161 crates, remaining bytes: 579.6 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> darling_core v0.13.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 160 crates, remaining bytes: 5.6 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> futures-executor v0.3.26
+<b class="BOLD"></b><b class=HIC> Downloading</b> 159 crates, remaining bytes: 5.8 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> basic-cookies v0.1.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 158 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tower-service v0.3.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 157 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> fixedbitset v0.4.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 156 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> serde_with_macros v1.5.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 155 crates, remaining bytes: 6.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> sha2 v0.9.9
+<b class="BOLD"></b><b class=HIC> Downloading</b> 154 crates, remaining bytes: 6.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> serde_plain v1.0.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 153 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> futures-macro v0.3.26
+<b class="BOLD"></b><b class=HIC> Downloading</b> 152 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> http-body v0.4.5
+<b class="BOLD"></b><b class=HIC> Downloading</b> 151 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tokio-rustls v0.22.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 150 crates, remaining bytes: 6.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> serde-value v0.7.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 149 crates, remaining bytes: 6.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> pico-args v0.4.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 148 crates, remaining bytes: 5.9 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> fslock v0.2.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 147 crates, remaining bytes: 6.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> socket2 v0.4.7
+<b class="BOLD"></b><b class=HIC> Downloading</b> 146 crates, remaining bytes: 5.9 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> unicode-bidi v0.3.10
+<b class="BOLD"></b><b class=HIC> Downloading</b> 145 crates, remaining bytes: 5.8 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> jmespatch v0.3.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 144 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tinyvec v1.6.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 143 crates, remaining bytes: 6.4 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> crypto-mac v0.10.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 142 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> webpki v0.21.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 141 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> precomputed-hash v0.1.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 140 crates, remaining bytes: 6.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> url v2.3.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 139 crates, remaining bytes: 6.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> futures-core v0.3.26
+<b class="BOLD"></b><b class=HIC> Downloading</b> 138 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> darling_macro v0.13.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 137 crates, remaining bytes: 6.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> rustls v0.19.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 136 crates, remaining bytes: 6.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> serde_with v1.14.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 135 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> instant v0.1.12
+<b class="BOLD"></b><b class=HIC> Downloading</b> 134 crates, remaining bytes: 7.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> block-buffer v0.9.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 133 crates, remaining bytes: 7.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> derivative v2.2.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 132 crates, remaining bytes: 7.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> hyper-tls v0.5.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 131 crates, remaining bytes: 7.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tracing-serde v0.1.3
+<b class="BOLD"></b><b class=HIC> Downloading</b> 130 crates, remaining bytes: 7.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> pin-utils v0.1.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 129 crates, remaining bytes: 7.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> httpdate v1.0.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 128 crates, remaining bytes: 7.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> bit-vec v0.6.3
+<b class="BOLD"></b><b class=HIC> Downloading</b> 127 crates, remaining bytes: 6.9 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> foreign-types-shared v0.1.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 126 crates, remaining bytes: 6.8 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> diff v0.1.13
+<b class="BOLD"></b><b class=HIC> Downloading</b> 125 crates, remaining bytes: 6.7 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> httparse v1.8.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 124 crates, remaining bytes: 6.7 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> rand v0.8.5
+<b class="BOLD"></b><b class=HIC> Downloading</b> 123 crates, remaining bytes: 6.6 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> futures-channel v0.3.26
+<b class="BOLD"></b><b class=HIC> Downloading</b> 122 crates, remaining bytes: 6.5 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> ena v0.14.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 121 crates, remaining bytes: 6.4 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> base64 v0.21.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 120 crates, remaining bytes: 6.4 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> uuid v1.3.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 119 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> futures-sink v0.3.26
+<b class="BOLD"></b><b class=HIC> Downloading</b> 118 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tracing v0.1.37
+<b class="BOLD"></b><b class=HIC> Downloading</b> 117 crates, remaining bytes: 6.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> deunicode v0.4.3
+<b class="BOLD"></b><b class=HIC> Downloading</b> 116 crates, remaining bytes: 6.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> cryptoki v0.3.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 115 crates, remaining bytes: 7.5 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> error-chain v0.11.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 114 crates, remaining bytes: 7.4 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> sha2 v0.10.6
+<b class="BOLD"></b><b class=HIC> Downloading</b> 113 crates, remaining bytes: 7.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> reqwest v0.11.14
+<b class="BOLD"></b><b class=HIC> Downloading</b> 112 crates, remaining bytes: 7.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> lalrpop-util v0.19.8
+<b class="BOLD"></b><b class=HIC> Downloading</b> 111 crates, remaining bytes: 7.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> hyper v0.14.24
+<b class="BOLD"></b><b class=HIC> Downloading</b> 110 crates, remaining bytes: 7.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> opaque-debug v0.3.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 109 crates, remaining bytes: 7.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> hashbrown v0.12.3
+<b class="BOLD"></b><b class=HIC> Downloading</b> 108 crates, remaining bytes: 6.9 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> petgraph v0.6.3
+<b class="BOLD"></b><b class=HIC> Downloading</b> 107 crates, remaining bytes: 6.7 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tokio v1.25.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 106 crates, extracting tokio ...
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> try-lock v0.2.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 105 crates, remaining bytes: 6.4 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tokio-util v0.7.6
+<b class="BOLD"></b><b class=HIC> Downloading</b> 104 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> untrusted v0.7.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 103 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> want v0.3.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 102 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> regex-automata v0.1.10
+<b class="BOLD"></b><b class=HIC> Downloading</b> 101 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> openssl v0.10.45
+<b class="BOLD"></b><b class=HIC> Downloading</b> 100 crates, remaining bytes: 6.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> unicode-normalization v0.1.22
+<b class="BOLD"></b><b class=HIC> Downloading</b> 99 crates, remaining bytes: 6.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tracing-core v0.1.30
+<b class="BOLD"></b><b class=HIC> Downloading</b> 98 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> indexmap v1.9.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 97 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> lalrpop v0.19.8
+<b class="BOLD"></b><b class=HIC> Downloading</b> 96 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> serde_json v1.0.93
+<b class="BOLD"></b><b class=HIC> Downloading</b> 95 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> smallvec v1.10.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 94 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> rand_core v0.6.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 93 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> mime v0.3.16
+<b class="BOLD"></b><b class=HIC> Downloading</b> 92 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> getrandom v0.2.8
+<b class="BOLD"></b><b class=HIC> Downloading</b> 91 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tokio-native-tls v0.3.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 90 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> term v0.7.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 89 crates, remaining bytes: 6.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> bit-set v0.5.3
+<b class="BOLD"></b><b class=HIC> Downloading</b> 88 crates, remaining bytes: 6.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> rpassword v5.0.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 87 crates, remaining bytes: 6.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> adler32 v1.2.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 86 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> impl-trait-for-tuples v0.2.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 85 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> dirs-sys-next v0.1.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 84 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> idna v0.3.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 83 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> form_urlencoded v1.1.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 82 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> backoff v0.3.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 81 crates, remaining bytes: 6.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> lock_api v0.4.9
+<b class="BOLD"></b><b class=HIC> Downloading</b> 80 crates, remaining bytes: 5.9 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> futures v0.3.26
+<b class="BOLD"></b><b class=HIC> Downloading</b> 79 crates, remaining bytes: 5.9 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> openssl-probe v0.1.5
+<b class="BOLD"></b><b class=HIC> Downloading</b> 78 crates, remaining bytes: 7.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> openssl-macros v0.1.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 77 crates, remaining bytes: 7.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> subtle v2.4.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 76 crates, remaining bytes: 7.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> slug v0.1.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 75 crates, remaining bytes: 7.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> serde_bytes v0.11.9
+<b class="BOLD"></b><b class=HIC> Downloading</b> 74 crates, remaining bytes: 7.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> enum-display-derive v0.1.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 73 crates, remaining bytes: 7.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> mio v0.8.5
+<b class="BOLD"></b><b class=HIC> Downloading</b> 72 crates, remaining bytes: 7.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> foreign-types v0.3.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 71 crates, remaining bytes: 7.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> libflate_lz77 v1.1.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 70 crates, remaining bytes: 7.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> enum-flags v0.1.8
+<b class="BOLD"></b><b class=HIC> Downloading</b> 69 crates, remaining bytes: 7.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> dirs-next v2.0.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 68 crates, remaining bytes: 7.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> either v1.8.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 67 crates, remaining bytes: 7.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> cipher v0.2.5
+<b class="BOLD"></b><b class=HIC> Downloading</b> 66 crates, remaining bytes: 7.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> signal-hook-registry v1.4.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 65 crates, remaining bytes: 7.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> slab v0.4.7
+<b class="BOLD"></b><b class=HIC> Downloading</b> 64 crates, remaining bytes: 7.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> serde_path_to_error v0.1.9
+<b class="BOLD"></b><b class=HIC> Downloading</b> 63 crates, remaining bytes: 7.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tokio-macros v1.8.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 62 crates, remaining bytes: 7.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> thread_local v1.1.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 61 crates, remaining bytes: 7.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> r2d2 v0.8.10
+<b class="BOLD"></b><b class=HIC> Downloading</b> 60 crates, remaining bytes: 7.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> num_cpus v1.15.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 59 crates, remaining bytes: 7.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> native-tls v0.2.11
+<b class="BOLD"></b><b class=HIC> Downloading</b> 58 crates, remaining bytes: 7.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> siphasher v0.3.10
+<b class="BOLD"></b><b class=HIC> Downloading</b> 57 crates, remaining bytes: 6.9 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> hmac v0.10.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 56 crates, remaining bytes: 6.9 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> percent-encoding v2.2.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 55 crates, remaining bytes: 7.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> scrypt v0.6.5
+<b class="BOLD"></b><b class=HIC> Downloading</b> 54 crates, remaining bytes: 6.9 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> sct v0.6.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 53 crates, remaining bytes: 6.9 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> ppv-lite86 v0.2.17
+<b class="BOLD"></b><b class=HIC> Downloading</b> 52 crates, remaining bytes: 6.9 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> parking_lot_core v0.9.7
+<b class="BOLD"></b><b class=HIC> Downloading</b> 51 crates, remaining bytes: 6.8 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> cryptoki-sys v0.1.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 50 crates, remaining bytes: 6.8 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> futures-task v0.3.26
+<b class="BOLD"></b><b class=HIC> Downloading</b> 49 crates, remaining bytes: 6.8 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> pbkdf2 v0.7.5
+<b class="BOLD"></b><b class=HIC> Downloading</b> 48 crates, remaining bytes: 6.8 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> darling v0.13.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 47 crates, remaining bytes: 6.8 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> pkg-config v0.3.26
+<b class="BOLD"></b><b class=HIC> Downloading</b> 46 crates, remaining bytes: 6.8 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> futures-io v0.3.26
+<b class="BOLD"></b><b class=HIC> Downloading</b> 45 crates, remaining bytes: 6.7 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> crc32fast v1.3.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 44 crates, remaining bytes: 6.7 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> pin-project-lite v0.2.9
+<b class="BOLD"></b><b class=HIC> Downloading</b> 43 crates, remaining bytes: 6.7 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> spin v0.5.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 42 crates, remaining bytes: 6.7 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> priority-queue v1.3.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 41 crates, remaining bytes: 6.7 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> urlparse v0.7.3
+<b class="BOLD"></b><b class=HIC> Downloading</b> 40 crates, remaining bytes: 6.6 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> string_cache v0.8.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 39 crates, remaining bytes: 6.8 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> fern v0.5.9
+<b class="BOLD"></b><b class=HIC> Downloading</b> 38 crates, remaining bytes: 6.7 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> matchers v0.0.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 37 crates, remaining bytes: 6.7 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> ipnet v2.7.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 36 crates, remaining bytes: 6.7 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> bytes v1.4.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 35 crates, remaining bytes: 6.7 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> maplit v1.0.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 34 crates, remaining bytes: 6.6 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> parking_lot v0.12.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 33 crates, remaining bytes: 6.6 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> libflate v1.2.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 32 crates, remaining bytes: 6.6 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tiny-keccak v2.0.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 31 crates, remaining bytes: 6.6 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> target-lexicon v0.12.5
+<b class="BOLD"></b><b class=HIC> Downloading</b> 30 crates, remaining bytes: 6.6 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> salsa20 v0.7.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 29 crates, remaining bytes: 6.5 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> oso v0.12.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 28 crates, remaining bytes: 6.5 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> openssl-sys v0.9.80
+<b class="BOLD"></b><b class=HIC> Downloading</b> 27 crates, remaining bytes: 6.5 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> syslog v4.0.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 26 crates, remaining bytes: 6.5 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tracing-log v0.1.3
+<b class="BOLD"></b><b class=HIC> Downloading</b> 25 crates, remaining bytes: 6.5 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> scheduled-thread-pool v0.2.6
+<b class="BOLD"></b><b class=HIC> Downloading</b> 24 crates, remaining bytes: 6.5 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> rle-decode-fast v1.0.3
+<b class="BOLD"></b><b class=HIC> Downloading</b> 23 crates, remaining bytes: 6.5 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> trait-set v0.2.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 22 crates, remaining bytes: 6.4 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> serde_urlencoded v0.7.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 21 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> scopeguard v1.1.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 20 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> oauth2 v4.3.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 19 crates, remaining bytes: 6.3 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> sharded-slab v0.1.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 18 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tracing-attributes v0.1.23
+<b class="BOLD"></b><b class=HIC> Downloading</b> 17 crates, remaining bytes: 6.1 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> http v0.2.8
+<b class="BOLD"></b><b class=HIC> Downloading</b> 16 crates, remaining bytes: 6.0 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> tracing-subscriber v0.2.25
+<b class="BOLD"></b><b class=HIC> Downloading</b> 15 crates, remaining bytes: 5.6 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> h2 v0.3.15
+<b class="BOLD"></b><b class=HIC> Downloading</b> 14 crates, remaining bytes: 5.6 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> quick-xml v0.23.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 13 crates, remaining bytes: 5.5 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> futures-util v0.3.26
+<b class="BOLD"></b><b class=HIC> Downloading</b> 12 crates, remaining bytes: 5.4 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> polar-core v0.12.4
+<b class="BOLD"></b><b class=HIC> Downloading</b> 11 crates, remaining bytes: 5.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> encoding_rs v0.8.32
+<b class="BOLD"></b><b class=HIC> Downloading</b> 10 crates, extracting encoding_rs ...
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> openidconnect v2.5.0
+<b class="BOLD"></b><b class=HIC> Downloading</b> 9 crates, remaining bytes: 3.2 MB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> ring v0.16.20
+<b class="BOLD"></b><b class=HIC> Downloading</b> 8 crates, extracting ring ...
+<b class="BOLD"></b><b class=HIC> Downloading</b> 8 crates, remaining bytes: 54.9 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> crunchy v0.2.2
+<b class="BOLD"></b><b class=HIC> Downloading</b> 7 crates, remaining bytes: 57.5 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> intervaltree v0.2.7
+<b class="BOLD"></b><b class=HIC> Downloading</b> 6 crates, remaining bytes: 214.6 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> maybe-async v0.2.7
+<b class="BOLD"></b><b class=HIC> Downloading</b> 5 crates, remaining bytes: 887.7 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> bcder v0.7.1
+<b class="BOLD"></b><b class=HIC> Downloading</b> 4 crates, remaining bytes: 805.2 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> kmip-protocol v0.4.3
+<b class="BOLD"></b><b class=HIC> Downloading</b> 3 crates, remaining bytes: 703.8 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> libfuzzer-sys v0.4.6
+<b class="BOLD"></b><b class=HIC> Downloading</b> 2 crates, remaining bytes: 629.3 KB
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> kmip-ttlv v0.3.5
+<b class="BOLD"></b><b class=HIC> Downloading</b> 1 crate, remaining bytes: 624.5 KB
+<b class="BOLD"></b><b class=HIC> Downloading</b> 1 crate, remaining bytes: 517.7 KB
+<b class="BOLD"></b><b class=HIC> Downloading</b> 1 crate, remaining bytes: 369.5 KB
+<b class="BOLD"></b><b class=HIC> Downloading</b> 1 crate
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> rpki v0.15.9
+<b class="BOLD"></b><b class=HIC> Downloading</b> 0 crates, extracting rpki ...
+<b class="BOLD"></b><b class=HIG>  Downloaded</b> 171 crates (15.2 MB) in 2.20s (largest was `ring` at 5.1 MB)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> libc v0.2.139
+<b class="BOLD"></b><b class=HIG>   Compiling</b> autocfg v1.1.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [                           ] 0/351: libc(build.rs), autocfg
+<b class="BOLD"></b><b class=HIG>   Compiling</b> proc-macro2 v1.0.51
+<b class="BOLD"></b><b class=HIC>    Building</b> [                           ] 1/351: libc(build.rs), proc-macro2(build.rs)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> quote v1.0.23
+<b class="BOLD"></b><b class=HIC>    Building</b> [                           ] 2/351: quote(build.rs), proc-macro2(build.rs)
+<b class="BOLD"></b><b class=HIC>    Building</b> [                           ] 3/351: quote(build.rs), proc-macro2(build)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> unicode-ident v1.0.6
+<b class="BOLD"></b><b class=HIC>    Building</b> [                           ] 4/351: quote(build.rs), unicode-ident
+<b class="BOLD"></b><b class=HIC>    Building</b> [                           ] 5/351: quote(build.rs), proc-macro2
+<b class="BOLD"></b><b class=HIC>    Building</b> [                           ] 6/351: quote(build), proc-macro2
+<b class="BOLD"></b><b class=HIG>   Compiling</b> syn v1.0.107
+<b class="BOLD"></b><b class=HIC>    Building</b> [                           ] 7/351: syn(build.rs), proc-macro2
+<b class="BOLD"></b><b class=HIC>    Building</b> [                           ] 8/351: proc-macro2, syn(build)
+<b class="BOLD"></b><b class=HIC>    Building</b> [                           ] 9/351: proc-macro2, quote
+<b class="BOLD"></b><b class=HIC>    Building</b> [                          ] 10/351: syn, proc-macro2
+<b class="BOLD"></b><b class=HIC>    Building</b> [                          ] 11/351: syn, libc(build)
+<b class="BOLD"></b><b class=HIC>    Building</b> [                          ] 12/351: syn, libc
+<b class="BOLD"></b><b class=HIG>   Compiling</b> cfg-if v1.0.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [                          ] 13/351: syn, cfg-if
+<b class="BOLD"></b><b class=HIC>    Building</b> [&gt;                         ] 14/351: syn, libc(build)
+<b class="BOLD"></b><b class=HIC>    Building</b> [&gt;                         ] 15/351: syn, libc
+<b class="BOLD"></b><b class=HIG>   Compiling</b> memchr v2.5.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [&gt;                         ] 16/351: syn, memchr(build.rs)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> log v0.4.17
+<b class="BOLD"></b><b class=HIC>    Building</b> [&gt;                         ] 17/351: syn, log(build.rs)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> serde_derive v1.0.152
+<b class="BOLD"></b><b class=HIC>    Building</b> [&gt;                         ] 18/351: syn, serde_derive(build.rs)
+<b class="BOLD"></b><b class=HIC>    Building</b> [&gt;                         ] 19/351: syn, serde_derive(build)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> jobserver v0.1.25
+<b class="BOLD"></b><b class=HIC>    Building</b> [&gt;                         ] 20/351: syn, jobserver
+<b class="BOLD"></b><b class=HIG>   Compiling</b> serde v1.0.152
+<b class="BOLD"></b><b class=HIC>    Building</b> [&gt;                         ] 21/351: syn, serde(build.rs)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> cc v1.0.79
+<b class="BOLD"></b><b class=HIC>    Building</b> [&gt;                         ] 22/351: syn, cc
+<b class="BOLD"></b><b class=HIC>    Building</b> [&gt;                         ] 23/351: syn, memchr(build)
+<b class="BOLD"></b><b class=HIC>    Building</b> [&gt;                         ] 24/351: syn, memchr
+<b class="BOLD"></b><b class=HIC>    Building</b> [&gt;                         ] 25/351: serde_derive, memchr
+<b class="BOLD"></b><b class=HIC>    Building</b> [&gt;                         ] 26/351: serde_derive, serde(build)
+<b class="BOLD"></b><b class=HIC>    Building</b> [=&gt;                        ] 27/351: serde_derive, log(build)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> once_cell v1.17.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [=&gt;                        ] 28/351: serde_derive, once_cell
+<b class="BOLD"></b><b class=HIC>    Building</b> [=&gt;                        ] 29/351: serde_derive, log
+<b class="BOLD"></b><b class=HIC>    Building</b> [=&gt;                        ] 30/351: serde, log
+<b class="BOLD"></b><b class=HIG>   Compiling</b> indexmap v1.9.2
+<b class="BOLD"></b><b class=HIC>    Building</b> [=&gt;                        ] 31/351: serde, indexmap(build.rs)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> typenum v1.16.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [=&gt;                        ] 32/351: serde, typenum(build.rs)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> version_check v0.9.4
+<b class="BOLD"></b><b class=HIC>    Building</b> [=&gt;                        ] 33/351: serde, version_check
+<b class="BOLD"></b><b class=HIG>   Compiling</b> generic-array v0.14.6
+<b class="BOLD"></b><b class=HIC>    Building</b> [=&gt;                        ] 34/351: serde, generic-array(build.rs)
+<b class="BOLD"></b><b class=HIC>    Building</b> [=&gt;                        ] 35/351: serde, typenum(build)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> lock_api v0.4.9
+<b class="BOLD"></b><b class=HIC>    Building</b> [=&gt;                        ] 36/351: serde, lock_api(build.rs)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> parking_lot_core v0.9.7
+<b class="BOLD"></b><b class=HIC>    Building</b> [=&gt;                        ] 37/351: serde, parking_lot_core(build.rs)
+<b class="BOLD"></b><b class=HIC>    Building</b> [=&gt;                        ] 38/351: serde, typenum
+<b class="BOLD"></b><b class=HIC>    Building</b> [=&gt;                        ] 39/351: serde, generic-array(build)
+<b class="BOLD"></b><b class=HIC>    Building</b> [=&gt;                        ] 40/351: serde, cfg-if
+<b class="BOLD"></b><b class=HIC>    Building</b> [==&gt;                       ] 41/351: serde, generic-array
+<b class="BOLD"></b><b class=HIG>   Compiling</b> bytes v1.4.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [==&gt;                       ] 42/351: bytes, generic-array
+<b class="BOLD"></b><b class=HIG>   Compiling</b> pin-project-lite v0.2.9
+<b class="BOLD"></b><b class=HIC>    Building</b> [==&gt;                       ] 43/351: bytes, pin-project-lite
+<b class="BOLD"></b><b class=HIG>   Compiling</b> itoa v1.0.5
+<b class="BOLD"></b><b class=HIC>    Building</b> [==&gt;                       ] 44/351: bytes, itoa
+<b class="BOLD"></b><b class=HIG>   Compiling</b> num-traits v0.2.15
+<b class="BOLD"></b><b class=HIC>    Building</b> [==&gt;                       ] 45/351: bytes, num-traits(build.rs)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> serde_json v1.0.93
+<b class="BOLD"></b><b class=HIC>    Building</b> [==&gt;                       ] 46/351: bytes, serde_json(build.rs)
+<b class="BOLD"></b><b class=HIC>    Building</b> [==&gt;                       ] 47/351: bytes, num-traits(build)
+<b class="BOLD"></b><b class=HIC>    Building</b> [==&gt;                       ] 48/351: bytes, memchr(build)
+<b class="BOLD"></b><b class=HIC>    Building</b> [==&gt;                       ] 49/351: bytes, memchr
+<b class="BOLD"></b><b class=HIC>    Building</b> [==&gt;                       ] 50/351: bytes, num-traits
+<b class="BOLD"></b><b class=HIC>    Building</b> [==&gt;                       ] 51/351: parking_lot_core(build), num-traits
+<b class="BOLD"></b><b class=HIC>    Building</b> [==&gt;                       ] 52/351: num-traits, lock_api(build)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> dirs-sys-next v0.1.2
+<b class="BOLD"></b><b class=HIC>    Building</b> [==&gt;                       ] 53/351: num-traits, dirs-sys-next
+<b class="BOLD"></b><b class=HIG>   Compiling</b> pkg-config v0.3.26
+<b class="BOLD"></b><b class=HIC>    Building</b> [===&gt;                      ] 54/351: num-traits, pkg-config
+<b class="BOLD"></b><b class=HIG>   Compiling</b> smallvec v1.10.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [===&gt;                      ] 55/351: num-traits, smallvec
+<b class="BOLD"></b><b class=HIG>   Compiling</b> scopeguard v1.1.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [===&gt;                      ] 56/351: num-traits, scopeguard
+<b class="BOLD"></b><b class=HIG>   Compiling</b> crunchy v0.2.2
+<b class="BOLD"></b><b class=HIC>    Building</b> [===&gt;                      ] 57/351: crunchy(build.rs), num-traits
+<b class="BOLD"></b><b class=HIG>   Compiling</b> futures-core v0.3.26
+<b class="BOLD"></b><b class=HIC>    Building</b> [===&gt;                      ] 58/351: num-traits, futures-core(build.rs)
+<b class="BOLD"></b><b class=HIC>    Building</b> [===&gt;                      ] 59/351: num-traits, futures-core(build)
+<b class="BOLD"></b><b class=HIC>    Building</b> [===&gt;                      ] 60/351: num-traits, crunchy(build)
+<b class="BOLD"></b><b class=HIC>    Building</b> [===&gt;                      ] 61/351: num-traits, lock_api
+<b class="BOLD"></b><b class=HIC>    Building</b> [===&gt;                      ] 62/351: num-traits, parking_lot_core
+<b class="BOLD"></b><b class=HIG>   Compiling</b> openssl-sys v0.9.80
+<b class="BOLD"></b><b class=HIC>    Building</b> [===&gt;                      ] 63/351: num-traits, openssl-sys(build.rs)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> dirs-next v2.0.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [===&gt;                      ] 64/351: num-traits, dirs-next
+<b class="BOLD"></b><b class=HIG>   Compiling</b> aho-corasick v0.7.20
+<b class="BOLD"></b><b class=HIC>    Building</b> [===&gt;                      ] 65/351: num-traits, aho-corasick
+<b class="BOLD"></b><b class=HIC>    Building</b> [===&gt;                      ] 66/351: indexmap(build), aho-corasick
+<b class="BOLD"></b><b class=HIG>   Compiling</b> tracing-core v0.1.30
+<b class="BOLD"></b><b class=HIC>    Building</b> [===&gt;                      ] 67/351: tracing-core, aho-corasick
+<b class="BOLD"></b><b class=HIC>    Building</b> [====&gt;                     ] 68/351: tracing-core, log(build)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> num-integer v0.1.45
+<b class="BOLD"></b><b class=HIC>    Building</b> [====&gt;                     ] 69/351: tracing-core, num-integer(build.rs)
+<b class="BOLD"></b><b class=HIC>    Building</b> [====&gt;                     ] 70/351: tracing-core, smallvec
+<b class="BOLD"></b><b class=HIG>   Compiling</b> hashbrown v0.12.3
+<b class="BOLD"></b><b class=HIC>    Building</b> [====&gt;                     ] 71/351: tracing-core, hashbrown
+<b class="BOLD"></b><b class=HIG>   Compiling</b> regex-syntax v0.6.28
+<b class="BOLD"></b><b class=HIC>    Building</b> [====&gt;                     ] 72/351: tracing-core, regex-syntax
+<b class="BOLD"></b><b class=HIG>   Compiling</b> tiny-keccak v2.0.2
+<b class="BOLD"></b><b class=HIC>    Building</b> [====&gt;                     ] 73/351: regex-syntax, tiny-keccak(build.rs)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> siphasher v0.3.10
+<b class="BOLD"></b><b class=HIC>    Building</b> [====&gt;                     ] 74/351: regex-syntax, siphasher
+<b class="BOLD"></b><b class=HIG>   Compiling</b> phf_shared v0.10.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [====&gt;                     ] 75/351: regex-syntax, phf_shared
+<b class="BOLD"></b><b class=HIG>   Compiling</b> regex v1.7.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [====&gt;                     ] 76/351: regex-syntax, regex
+<b class="BOLD"></b><b class=HIC>    Building</b> [====&gt;                     ] 77/351: tiny-keccak(build), regex
+<b class="BOLD"></b><b class=HIC>    Building</b> [====&gt;                     ] 78/351: indexmap, regex
+<b class="BOLD"></b><b class=HIC>    Building</b> [====&gt;                     ] 79/351: num-integer(build), regex
+<b class="BOLD"></b><b class=HIC>    Building</b> [====&gt;                     ] 80/351: log, regex
+<b class="BOLD"></b><b class=HIG>   Compiling</b> term v0.7.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====&gt;                    ] 81/351: term, regex
+<b class="BOLD"></b><b class=HIG>   Compiling</b> ring v0.16.20
+<b class="BOLD"></b><b class=HIG>   Compiling</b> backtrace v0.3.67
+<b class="BOLD"></b><b class=HIC>    Building</b> [==============&gt;          ] 215/351: backtrace, ring
+<b class="BOLD"></b><b class=HIG>   Compiling</b> want v0.3.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [==============&gt;          ] 216/351: backtrace, want
+<b class="BOLD"></b><b class=HIG>   Compiling</b> native-tls v0.2.11
+<b class="BOLD"></b><b class=HIC>    Building</b> [==============&gt;          ] 217/351: native-tls, backtrace
+<b class="BOLD"></b><b class=HIG>   Compiling</b> slug v0.1.4
+<b class="BOLD"></b><b class=HIC>    Building</b> [==============&gt;          ] 218/351: slug, backtrace
+<b class="BOLD"></b><b class=HIG>   Compiling</b> lock_api v0.4.9
+<b class="BOLD"></b><b class=HIC>    Building</b> [==============&gt;          ] 219/351: backtrace, lock_api
+<b class="BOLD"></b><b class=HIG>   Compiling</b> serde_json v1.0.93
+<b class="BOLD"></b><b class=HIC>    Building</b> [==============&gt;          ] 220/351: backtrace, serde_json
+<b class="BOLD"></b><b class=HIG>   Compiling</b> thiserror v1.0.38
+<b class="BOLD"></b><b class=HIC>    Building</b> [==============&gt;          ] 221/351: backtrace, thiserror
+<b class="BOLD"></b><b class=HIG>   Compiling</b> parking_lot_core v0.9.7
+<b class="BOLD"></b><b class=HIC>    Building</b> [==============&gt;          ] 222/351: backtrace, parking_lot_core
+<b class="BOLD"></b><b class=HIG>   Compiling</b> digest v0.10.6
+<b class="BOLD"></b><b class=HIC>    Building</b> [==============&gt;          ] 223/351: backtrace, digest
+<b class="BOLD"></b><b class=HIG>   Compiling</b> h2 v0.3.15
+<b class="BOLD"></b><b class=HIC>    Building</b> [==============&gt;          ] 224/351: backtrace, h2
+<b class="BOLD"></b><b class=HIG>   Compiling</b> cryptoki-sys v0.1.4
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 225/351: cryptoki-sys(build.rs), h2
+<b class="BOLD"></b><b class=HIG>   Compiling</b> darling v0.13.4
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 226/351: h2, darling
+<b class="BOLD"></b><b class=HIG>   Compiling</b> rand v0.8.5
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 227/351: rand, h2
+<b class="BOLD"></b><b class=HIG>   Compiling</b> url v2.3.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 228/351: h2, url
+<b class="BOLD"></b><b class=HIG>   Compiling</b> h2 v0.3.15
+<b class="BOLD"></b><b class=HIG>   Compiling</b> url v2.3.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 227/351: h2, url
+<b class="BOLD"></b><b class=HIG>   Compiling</b> httparse v1.8.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 228/351: httparse, h2
+<b class="BOLD"></b><b class=HIG>   Compiling</b> crypto-mac v0.10.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 230/351: h2, crypto-mac
+<b class="BOLD"></b><b class=HIG>   Compiling</b> lalrpop-util v0.19.8
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 231/351: h2, lalrpop-util
+<b class="BOLD"></b><b class=HIG>   Compiling</b> kmip-ttlv v0.3.5
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 232/351: h2, kmip-ttlv(build.rs)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> http-body v0.4.5
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 233/351: http-body, h2
+<b class="BOLD"></b><b class=HIG>   Compiling</b> polar-core v0.12.4
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 234/351: h2, polar-core(build.rs)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> regex-automata v0.1.10
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 235/351: regex-automata, h2
+<b class="BOLD"></b><b class=HIG>   Compiling</b> digest v0.9.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 236/351: h2, digest
+<b class="BOLD"></b><b class=HIG>   Compiling</b> num-bigint v0.4.3
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 237/351: num-bigint(build.rs), h2
+<b class="BOLD"></b><b class=HIG>   Compiling</b> ansi_term v0.12.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [===============&gt;         ] 238/351: ansi_term, h2
+<b class="BOLD"></b><b class=HIG>   Compiling</b> httpdate v1.0.2
+<b class="BOLD"></b><b class=HIC>    Building</b> [================&gt;        ] 239/351: httpdate, h2
+<b class="BOLD"></b><b class=HIG>   Compiling</b> crc32fast v1.3.2
+<b class="BOLD"></b><b class=HIC>    Building</b> [================&gt;        ] 240/351: crc32fast(build.rs), httpdate
+<b class="BOLD"></b><b class=HIG>   Compiling</b> tower-service v0.3.2
+<b class="BOLD"></b><b class=HIC>    Building</b> [================&gt;        ] 241/351: crc32fast(build.rs), tower-service
+<b class="BOLD"></b><b class=HIG>   Compiling</b> hyper v0.14.24
+<b class="BOLD"></b><b class=HIC>    Building</b> [================&gt;        ] 242/351: crc32fast(build.rs), hyper
+<b class="BOLD"></b><b class=HIC>    Building</b> [================&gt;        ] 243/351: crc32fast(build), hyper
+<b class="BOLD"></b><b class=HIC>    Building</b> [================&gt;        ] 244/351: num-bigint(build), hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> matchers v0.0.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [================&gt;        ] 245/351: matchers, hyper
+<b class="BOLD"></b><b class=HIC>    Building</b> [================&gt;        ] 246/351: polar-core(build), hyper
+<b class="BOLD"></b><b class=HIC>    Building</b> [================&gt;        ] 247/351: kmip-ttlv(build), hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> cryptoki-sys v0.1.4
+<b class="BOLD"></b><b class=HIC>    Building</b> [================&gt;        ] 248/351: cryptoki-sys(build), hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> serde_with_macros v1.5.2
+<b class="BOLD"></b><b class=HIC>    Building</b> [================&gt;        ] 249/351: serde_with_macros, hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> parking_lot v0.12.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [================&gt;        ] 250/351: parking_lot, hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> sha2 v0.10.6
+<b class="BOLD"></b><b class=HIC>    Building</b> [================&gt;        ] 251/351: sha2, hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> tokio-native-tls v0.3.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [================&gt;        ] 252/351: tokio-native-tls, hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> error-chain v0.11.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [=================&gt;       ] 253/351: error-chain, hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> jmespatch v0.3.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [=================&gt;       ] 254/351: jmespatch(build.rs), hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> tracing-log v0.1.3
+<b class="BOLD"></b><b class=HIC>    Building</b> [=================&gt;       ] 255/351: tracing-log, hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> sharded-slab v0.1.4
+<b class="BOLD"></b><b class=HIC>    Building</b> [=================&gt;       ] 256/351: sharded-slab, hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> kmip-protocol v0.4.3
+<b class="BOLD"></b><b class=HIC>    Building</b> [=================&gt;       ] 257/351: kmip-protocol(build.rs), hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> sct v0.6.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [=================&gt;       ] 258/351: sct, hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> webpki v0.21.4
+<b class="BOLD"></b><b class=HIC>    Building</b> [=================&gt;       ] 259/351: webpki, hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> basic-cookies v0.1.4
+<b class="BOLD"></b><b class=HIC>    Building</b> [=================&gt;       ] 260/351: basic-cookies(build.rs), hyper
+<b class="BOLD"></b><b class=HIG>   Compiling</b> bcder v0.7.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [=================&gt;       ] 261/351: basic-cookies(build.rs), bcder
+<b class="BOLD"></b><b class=HIG>   Compiling</b> tracing-serde v0.1.3
+<b class="BOLD"></b><b class=HIC>    Building</b> [=================&gt;       ] 262/351: tracing-serde, bcder
+<b class="BOLD"></b><b class=HIG>   Compiling</b> ordered-float v2.10.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [=================&gt;       ] 263/351: ordered-float, bcder
+<b class="BOLD"></b><b class=HIG>   Compiling</b> block-buffer v0.9.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [=================&gt;       ] 264/351: block-buffer, bcder
+<b class="BOLD"></b><b class=HIG>   Compiling</b> cipher v0.2.5
+<b class="BOLD"></b><b class=HIC>    Building</b> [=================&gt;       ] 265/351: cipher, bcder
+<b class="BOLD"></b><b class=HIG>   Compiling</b> serde_path_to_error v0.1.9
+<b class="BOLD"></b><b class=HIC>    Building</b> [=================&gt;       ] 266/351: serde_path_to_error, bcder
+<b class="BOLD"></b><b class=HIG>   Compiling</b> thread_local v1.1.4
+<b class="BOLD"></b><b class=HIC>    Building</b> [==================&gt;      ] 267/351: thread_local, bcder
+<b class="BOLD"></b><b class=HIG>   Compiling</b> libloading v0.7.4
+<b class="BOLD"></b><b class=HIC>    Building</b> [==================&gt;      ] 268/351: thread_local, libloading
+<b class="BOLD"></b><b class=HIG>   Compiling</b> trait-set v0.2.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [==================&gt;      ] 269/351: libloading, trait-set
+<b class="BOLD"></b><b class=HIG>   Compiling</b> maybe-async v0.2.7
+<b class="BOLD"></b><b class=HIC>    Building</b> [==================&gt;      ] 270/351: maybe-async, trait-set
+<b class="BOLD"></b><b class=HIG>   Compiling</b> priority-queue v1.3.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [==================&gt;      ] 271/351: priority-queue(build.rs), maybe-async
+<b class="BOLD"></b><b class=HIG>   Compiling</b> either v1.8.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [==================&gt;      ] 272/351: either, maybe-async
+<b class="BOLD"></b><b class=HIG>   Compiling</b> opaque-debug v0.3.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [==================&gt;      ] 273/351: maybe-async, opaque-debug
+<b class="BOLD"></b><b class=HIG>   Compiling</b> rle-decode-fast v1.0.3
+<b class="BOLD"></b><b class=HIC>    Building</b> [==================&gt;      ] 274/351: rle-decode-fast, maybe-async
+<b class="BOLD"></b><b class=HIG>   Compiling</b> unicode-width v0.1.10
+<b class="BOLD"></b><b class=HIC>    Building</b> [==================&gt;      ] 275/351: maybe-async, unicode-width
+<b class="BOLD"></b><b class=HIG>   Compiling</b> hex v0.4.3
+<b class="BOLD"></b><b class=HIC>    Building</b> [==================&gt;      ] 276/351: hex, unicode-width
+<b class="BOLD"></b><b class=HIG>   Compiling</b> textwrap v0.11.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [==================&gt;      ] 277/351: hex, textwrap
+<b class="BOLD"></b><b class=HIC>    Building</b> [==================&gt;      ] 278/351: kmip-ttlv, textwrap
+<b class="BOLD"></b><b class=HIG>   Compiling</b> libflate_lz77 v1.1.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [==================&gt;      ] 279/351: kmip-ttlv, libflate_lz77
+<b class="BOLD"></b><b class=HIG>   Compiling</b> sha2 v0.9.9
+<b class="BOLD"></b><b class=HIC>    Building</b> [==================&gt;      ] 280/351: kmip-ttlv, sha2
+<b class="BOLD"></b><b class=HIG>   Compiling</b> itertools v0.10.5
+<b class="BOLD"></b><b class=HIC>    Building</b> [===================&gt;     ] 281/351: kmip-ttlv, itertools
+<b class="BOLD"></b><b class=HIC>    Building</b> [===================&gt;     ] 282/351: priority-queue(build), itertools
+<b class="BOLD"></b><b class=HIC>    Building</b> [===================&gt;     ] 283/351: itertools, cryptoki-sys
+<b class="BOLD"></b><b class=HIG>   Compiling</b> tracing-subscriber v0.2.25
+<b class="BOLD"></b><b class=HIC>    Building</b> [===================&gt;     ] 284/351: tracing-subscriber, itertools
+<b class="BOLD"></b><b class=HIG>   Compiling</b> oauth2 v4.3.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [===================&gt;     ] 285/351: tracing-subscriber, oauth2
+<b class="BOLD"></b><b class=HIG>   Compiling</b> salsa20 v0.7.2
+<b class="BOLD"></b><b class=HIC>    Building</b> [===================&gt;     ] 286/351: tracing-subscriber, salsa20
+<b class="BOLD"></b><b class=HIG>   Compiling</b> serde-value v0.7.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [===================&gt;     ] 287/351: tracing-subscriber, serde-value
+<b class="BOLD"></b><b class=HIC>    Building</b> [===================&gt;     ] 288/351: tracing-subscriber, basic-cookies(build)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> routecore v0.2.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [===================&gt;     ] 289/351: tracing-subscriber, routecore
+<b class="BOLD"></b><b class=HIG>   Compiling</b> rustls v0.19.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [===================&gt;     ] 290/351: tracing-subscriber, rustls
+<b class="BOLD"></b><b class=HIC>    Building</b> [===================&gt;     ] 291/351: kmip-protocol(build), rustls
+<b class="BOLD"></b><b class=HIC>    Building</b> [===================&gt;     ] 292/351: rustls, jmespatch(build)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> syslog v4.0.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [===================&gt;     ] 293/351: rustls, syslog
+<b class="BOLD"></b><b class=HIG>   Compiling</b> hyper-tls v0.5.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [===================&gt;     ] 294/351: rustls, hyper-tls
+<b class="BOLD"></b><b class=HIG>   Compiling</b> scheduled-thread-pool v0.2.6
+<b class="BOLD"></b><b class=HIC>    Building</b> [====================&gt;    ] 295/351: scheduled-thread-pool, rustls
+<b class="BOLD"></b><b class=HIG>   Compiling</b> serde_with v1.14.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [====================&gt;    ] 296/351: rustls, serde_with
+<b class="BOLD"></b><b class=HIC>    Building</b> [====================&gt;    ] 297/351: rustls, polar-core
+<b class="BOLD"></b><b class=HIC>    Building</b> [====================&gt;    ] 298/351: num-bigint, polar-core
+<b class="BOLD"></b><b class=HIC>    Building</b> [====================&gt;    ] 299/351: crc32fast, polar-core
+<b class="BOLD"></b><b class=HIG>   Compiling</b> hmac v0.10.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [====================&gt;    ] 300/351: hmac, polar-core
+<b class="BOLD"></b><b class=HIG>   Compiling</b> pbkdf2 v0.7.5
+<b class="BOLD"></b><b class=HIC>    Building</b> [====================&gt;    ] 301/351: pbkdf2, polar-core
+<b class="BOLD"></b><b class=HIG>   Compiling</b> serde_urlencoded v0.7.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [====================&gt;    ] 302/351: serde_urlencoded, polar-core
+<b class="BOLD"></b><b class=HIG>   Compiling</b> futures-executor v0.3.26
+<b class="BOLD"></b><b class=HIC>    Building</b> [====================&gt;    ] 303/351: polar-core, futures-executor
+<b class="BOLD"></b><b class=HIG>   Compiling</b> uuid v1.3.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [====================&gt;    ] 304/351: uuid, polar-core
+<b class="BOLD"></b><b class=HIG>   Compiling</b> serde_plain v1.0.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [====================&gt;    ] 305/351: serde_plain, polar-core
+<b class="BOLD"></b><b class=HIG>   Compiling</b> serde_bytes v0.11.9
+<b class="BOLD"></b><b class=HIC>    Building</b> [====================&gt;    ] 306/351: polar-core, serde_bytes
+<b class="BOLD"></b><b class=HIG>   Compiling</b> quick-xml v0.23.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [====================&gt;    ] 307/351: quick-xml, polar-core
+<b class="BOLD"></b><b class=HIG>   Compiling</b> libfuzzer-sys v0.4.6
+<b class="BOLD"></b><b class=HIC>    Building</b> [====================&gt;    ] 308/351: polar-core, libfuzzer-sys(build.rs)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> atty v0.2.14
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====================&gt;   ] 309/351: polar-core, atty
+<b class="BOLD"></b><b class=HIG>   Compiling</b> instant v0.1.12
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====================&gt;   ] 310/351: instant, polar-core
+<b class="BOLD"></b><b class=HIG>   Compiling</b> encoding_rs v0.8.32
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====================&gt;   ] 311/351: encoding_rs, polar-core
+<b class="BOLD"></b><b class=HIG>   Compiling</b> derivative v2.2.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====================&gt;   ] 312/351: polar-core, derivative
+<b class="BOLD"></b><b class=HIG>   Compiling</b> enum-flags v0.1.8
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====================&gt;   ] 313/351: enum-flags, polar-core
+<b class="BOLD"></b><b class=HIG>   Compiling</b> enum-display-derive v0.1.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====================&gt;   ] 314/351: polar-core, enum-display-derive
+<b class="BOLD"></b><b class=HIG>   Compiling</b> impl-trait-for-tuples v0.2.2
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====================&gt;   ] 315/351: impl-trait-for-tuples, polar-core
+<b class="BOLD"></b><b class=HIG>   Compiling</b> ipnet v2.7.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====================&gt;   ] 316/351: impl-trait-for-tuples, ipnet
+<b class="BOLD"></b><b class=HIG>   Compiling</b> adler32 v1.2.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====================&gt;   ] 317/351: ipnet, adler32
+<b class="BOLD"></b><b class=HIG>   Compiling</b> vec_map v0.8.2
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====================&gt;   ] 318/351: ipnet, vec_map
+<b class="BOLD"></b><b class=HIG>   Compiling</b> strsim v0.8.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====================&gt;   ] 319/351: ipnet, strsim
+<b class="BOLD"></b><b class=HIG>   Compiling</b> mime v0.3.16
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====================&gt;   ] 320/351: ipnet, mime
+<b class="BOLD"></b><b class=HIG>   Compiling</b> maplit v1.0.2
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====================&gt;   ] 321/351: maplit, ipnet
+<b class="BOLD"></b><b class=HIG>   Compiling</b> base64 v0.21.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [=====================&gt;   ] 322/351: base64, ipnet
+<b class="BOLD"></b><b class=HIG>   Compiling</b> oso v0.12.4
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 323/351: base64, oso
+<b class="BOLD"></b><b class=HIG>   Compiling</b> reqwest v0.11.14
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 324/351: reqwest, oso
+<b class="BOLD"></b><b class=HIG>   Compiling</b> clap v2.34.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 325/351: reqwest, clap
+<b class="BOLD"></b><b class=HIG>   Compiling</b> libflate v1.2.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 326/351: reqwest, libflate
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 327/351: kmip-protocol, reqwest
+<b class="BOLD"></b><b class=HIG>   Compiling</b> cryptoki v0.3.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 328/351: kmip-protocol, cryptoki
+<b class="BOLD"></b><b class=HIG>   Compiling</b> backoff v0.3.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 329/351: kmip-protocol, backoff
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 330/351: kmip-protocol, libfuzzer-sys(build)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> rpki v0.15.9
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 330/351: kmip-protocol, libfuzzer-sys(build), rpki
+<b class="BOLD"></b><b class=HIG>   Compiling</b> openidconnect v2.5.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 331/351: libfuzzer-sys(build), rpki, openidconnect
+<b class="BOLD"></b><b class=HIG>   Compiling</b> futures v0.3.26
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 332/351: futures, libfuzzer-sys(build), rpki
+<b class="BOLD"></b><b class=HIG>   Compiling</b> scrypt v0.6.5
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 333/351: libfuzzer-sys(build), rpki, scrypt
+<b class="BOLD"></b><b class=HIG>   Compiling</b> r2d2 v0.8.10
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 334/351: libfuzzer-sys(build), rpki, r2d2
+<b class="BOLD"></b><b class=HIG>   Compiling</b> fern v0.5.9
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 335/351: libfuzzer-sys(build), rpki, fern
+<b class="BOLD"></b><b class=HIC>    Building</b> [======================&gt;  ] 336/351: libfuzzer-sys(build), rpki, jmespatch
+<b class="BOLD"></b><b class=HIG>   Compiling</b> tokio-rustls v0.22.0
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 337/351: tokio-rustls, libfuzzer-sys(build), rpki
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 338/351: libfuzzer-sys(build), rpki, basic-cookies
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 339/351: libfuzzer-sys(build), rpki, priority-queue
+<b class="BOLD"></b><b class=HIG>   Compiling</b> intervaltree v0.2.7
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 340/351: libfuzzer-sys(build), rpki, intervaltree
+<b class="BOLD"></b><b class=HIG>   Compiling</b> toml v0.5.11
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 341/351: libfuzzer-sys(build), rpki, toml
+<b class="BOLD"></b><b class=HIG>   Compiling</b> rpassword v5.0.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 342/351: libfuzzer-sys(build), rpki, rpassword
+<b class="BOLD"></b><b class=HIG>   Compiling</b> fslock v0.2.1
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 343/351: libfuzzer-sys(build), rpki, fslock
+<b class="BOLD"></b><b class=HIG>   Compiling</b> urlparse v0.7.3
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 344/351: libfuzzer-sys(build), rpki, urlparse
+<b class="BOLD"></b><b class=HIG>   Compiling</b> arbitrary v1.2.3
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 345/351: libfuzzer-sys(build), rpki, arbitrary
+<b class="BOLD"></b><b class=HIG>   Compiling</b> krill v0.12.0 (/workspaces/Cybersecurity2022/krill)
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 346/351: libfuzzer-sys(build), rpki, krill
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 347/351: libfuzzer-sys(build), krill
+<b class="BOLD"></b><b class=HIY>warning</b><b class="BOLD">: use of deprecated associated function `chrono::TimeZone::timestamp`: use `timestamp_opt()` instead</b>
+	<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">--&gt; </b>/workspaces/Cybersecurity2022/krill/src/commons/api/ca.rs:1601:23
+		<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">|</b>
+<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">1601</b> <b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">|</b>         Time::new(Utc.timestamp(timestamp.0, 0))
+		<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">| </b>                      <b class="BOLD"></b><b class=HIY>^^^^^^^^^</b>
+		<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">|</b>
+		<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">= </b><b class="BOLD">note</b>: `#[warn(deprecated)]` on by default
+
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 347/351: libfuzzer-sys(build), krill
+<b class="BOLD"></b><b class=HIY>warning</b><b class="BOLD">: use of deprecated associated function `chrono::NaiveDateTime::from_timestamp`: use `from_timestamp_opt()` instead</b>
+	<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">--&gt; </b>/workspaces/Cybersecurity2022/krill/src/commons/api/history.rs:161:35
+	<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">|</b>
+<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">161</b> <b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">|</b>         let time = NaiveDateTime::from_timestamp(seconds, 0);
+	<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">| </b>                                  <b class="BOLD"></b><b class=HIY>^^^^^^^^^^^^^^</b>
+
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 347/351: libfuzzer-sys(build), krill
+<b class="BOLD"></b><b class=HIY>warning</b><b class="BOLD">:</b> `krill` (lib) generated 2 warnings
+<b class="BOLD"></b><b class=HIR>error</b><b class="BOLD">:</b> could not compile `krill`; 2 warnings emitted
+
+Caused by:
+	process didn't exit successfully: `rustc --crate-name krill --edition=2018 /workspaces/Cybersecurity2022/krill/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --diagnostic-width=148 --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C debuginfo=1 --cfg 'feature="backoff"' --cfg 'feature="basic-cookies"' --cfg 'feature="cryptoki"' --cfg 'feature="default"' --cfg 'feature="hsm"' --cfg 'feature="jmespatch"' --cfg 'feature="kmip"' --cfg 'feature="multi-user"' --cfg 'feature="once_cell"' --cfg 'feature="openidconnect"' --cfg 'feature="oso"' --cfg 'feature="r2d2"' --cfg 'feature="regex"' --cfg 'feature="rpassword"' --cfg 'feature="scrypt"' --cfg 'feature="unicode-normalization"' --cfg 'feature="urlparse"' -C metadata=b04ccae413e4bc68 -C extra-filename=-b04ccae413e4bc68 --out-dir /workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps --target x86_64-unknown-linux-gnu -L dependency=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps -L dependency=/workspaces/Cybersecurity2022/krill/fuzz/target/release/deps --extern backoff=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbackoff-664fcde91cfe1aaf.rmeta --extern base64=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbase64-cfb2103fd0e9557c.rmeta --extern basic_cookies=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbasic_cookies-2e30aa1a428d98dc.rmeta --extern bytes=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbytes-e77f0eb8b21c1960.rmeta --extern chrono=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libchrono-7e0865cccf034c3e.rmeta --extern clap=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libclap-6e15a6c1a3c468a9.rmeta --extern cryptoki=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libcryptoki-4347a1ce04518caa.rmeta --extern fern=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfern-e69ed5584b5751df.rmeta --extern fslock=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfslock-a03dbc221037eca3.rmeta --extern futures=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfutures-59e2426c68997b86.rmeta --extern futures_util=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfutures_util-523bba30fa12a3e9.rmeta --extern hex=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libhex-09da1baa621273da.rmeta --extern hyper=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libhyper-18732faf9f1ec383.rmeta --extern intervaltree=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libintervaltree-a6963201280c0543.rmeta --extern jmespatch=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libjmespatch-6615a0f28f8ca724.rmeta --extern kmip=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libkmip_protocol-83e5d782f674a1fb.rmeta --extern libc=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liblibc-3b148b426fcdc8ec.rmeta --extern libflate=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liblibflate-deee412097d06162.rmeta --extern log=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liblog-5630aa6517368052.rmeta --extern once_cell=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libonce_cell-527def2c46ec1e41.rmeta --extern openidconnect=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libopenidconnect-27aac1a1ec7af14b.rmeta --extern openssl=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libopenssl-1383e2729d18f724.rmeta --extern oso=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liboso-e75827311ef85edb.rmeta --extern priority_queue=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libpriority_queue-7b95cd1c1b7ba5b8.rmeta --extern r2d2=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libr2d2-913a8e9295b452db.rmeta --extern rand=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/librand-3453c2351cdff286.rmeta --extern regex=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libregex-2e339007ba095f69.rmeta --extern reqwest=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libreqwest-f265395fc0dd3979.rmeta --extern rpassword=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/librpassword-44ed692bb8054ec2.rmeta --extern rpki=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/librpki-c3c5d8dc3a6d9cd6.rmeta --extern scrypt=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libscrypt-3407985e710f333f.rmeta --extern serde=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libserde-a40a2b75f069f219.rmeta --extern serde_json=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libserde_json-ebef04b23a60cb67.rmeta --extern syslog=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libsyslog-893ff4f4ced88524.rmeta --extern tokio=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libtokio-f8b46301f16e326d.rmeta --extern tokio_rustls=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libtokio_rustls-0fed45182f0f6766.rmeta --extern toml=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libtoml-03d78020f365ee18.rmeta --extern unicode_normalization=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libunicode_normalization-d85672002e3bffb8.rmeta --extern urlparse=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liburlparse-95b350e78fe816e2.rmeta --extern uuid=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libuuid-a648548d5a339bc3.rmeta -Cpasses=sancov-module -Cllvm-args=-sanitizer-coverage-level=4 -Cllvm-args=-sanitizer-coverage-inline-8bit-counters -Cllvm-args=-sanitizer-coverage-pc-table -Cllvm-args=-sanitizer-coverage-trace-compares --cfg fuzzing -Clink-dead-code -Zsanitizer=address -Cllvm-args=-sanitizer-coverage-stack-depth -Cdebug-assertions -C codegen-units=1 -L native=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/build/ring-5e2384826292c7dc/out` (signal: 9, SIGKILL: kill)
+<b class="BOLD"></b><b class=HIY>warning</b><b class="BOLD">:</b> build failed, waiting for other jobs to finish...
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 348/351: libfuzzer-sys(build)
+Error: failed to build fuzz script: ASAN_OPTIONS="detect_odr_violation=0" RUSTFLAGS="-Cpasses=sancov-module -Cllvm-args=-sanitizer-coverage-level=4 -Cllvm-args=-sanitizer-coverage-inline-8bit-counters -Cllvm-args=-sanitizer-coverage-pc-table -Cllvm-args=-sanitizer-coverage-trace-compares --cfg fuzzing -Clink-dead-code -Zsanitizer=address -Cllvm-args=-sanitizer-coverage-stack-depth -Cdebug-assertions -C codegen-units=1" "cargo" "build" "--manifest-path" "/workspaces/Cybersecurity2022/krill/fuzz/Cargo.toml" "--target" "x86_64-unknown-linux-gnu" "--release" "--bin" "fuzz_target_1"
+</pre>
+</details>
+
+<details>
+	<summary>
+<pre>
+# Rerun
+sudo su
+unbuffer cargo fuzz run --jobs 2 fuzz_target_1 ../corpus | tee -a ../stdout.txt
+</pre>
+	</summary>
+<pre>
+<b class="BOLD"></b><b class=HIG>   Compiling</b> krill v0.12.0 (/workspaces/Cybersecurity2022/krill)
+<b class="BOLD"></b><b class=HIG>   Compiling</b> libfuzzer-sys v0.4.6
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 348/351: krill, libfuzzer-sys                                                          &crarr;
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 349/351: krill                                                                         &crarr;
+<b class="BOLD"></b><b class=HIY>warning</b><b class="BOLD">: use of deprecated associated function `chrono::TimeZone::timestamp`: use `timestamp_opt()` instead</b>
+	<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">--&gt; </b>/workspaces/Cybersecurity2022/krill/src/commons/api/ca.rs:1601:23
+		<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">|</b>
+<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">1601</b> <b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">|</b>         Time::new(Utc.timestamp(timestamp.0, 0))
+		<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">| </b>                      <b class="BOLD"></b><b class=HIY>^^^^^^^^^</b>
+		<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">|</b>
+		<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">= </b><b class="BOLD">note</b>: `#[warn(deprecated)]` on by default
+
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 349/351: krill                                                                         &crarr;
+<b class="BOLD"></b><b class=HIY>warning</b><b class="BOLD">: use of deprecated associated function `chrono::NaiveDateTime::from_timestamp`: use `from_timestamp_opt()` instead</b>
+	<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">--&gt; </b>/workspaces/Cybersecurity2022/krill/src/commons/api/history.rs:161:35
+	<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">|</b>
+<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">161</b> <b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">|</b>         let time = NaiveDateTime::from_timestamp(seconds, 0);
+	<b class="BOLD"></b><b class="BOLD" style="color:#5555ff;">| </b>                                  <b class="BOLD"></b><b class=HIY>^^^^^^^^^^^^^^</b>
+
+<b class="BOLD"></b><b class=HIC>    Building</b> [=======================&gt; ] 349/351: krill                                                                         &crarr;
+<b class="BOLD"></b><b class=HIY>warning</b><b class="BOLD">:</b> `krill` (lib) generated 2 warnings
+<b class="BOLD"></b><b class=HIR>error</b><b class="BOLD">:</b> could not compile `krill`; 2 warnings emitted
+
+Caused by:
+	process didn't exit successfully: `rustc --crate-name krill --edition=2018 /workspaces/Cybersecurity2022/krill/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --diagnostic-width=130 --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C debuginfo=1 --cfg 'feature="backoff"' --cfg 'feature="basic-cookies"' --cfg 'feature="cryptoki"' --cfg 'feature="default"' --cfg 'feature="hsm"' --cfg 'feature="jmespatch"' --cfg 'feature="kmip"' --cfg 'feature="multi-user"' --cfg 'feature="once_cell"' --cfg 'feature="openidconnect"' --cfg 'feature="oso"' --cfg 'feature="r2d2"' --cfg 'feature="regex"' --cfg 'feature="rpassword"' --cfg 'feature="scrypt"' --cfg 'feature="unicode-normalization"' --cfg 'feature="urlparse"' -C metadata=b04ccae413e4bc68 -C extra-filename=-b04ccae413e4bc68 --out-dir /workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps --target x86_64-unknown-linux-gnu -L dependency=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps -L dependency=/workspaces/Cybersecurity2022/krill/fuzz/target/release/deps --extern backoff=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbackoff-664fcde91cfe1aaf.rmeta --extern base64=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbase64-cfb2103fd0e9557c.rmeta --extern basic_cookies=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbasic_cookies-2e30aa1a428d98dc.rmeta --extern bytes=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbytes-e77f0eb8b21c1960.rmeta --extern chrono=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libchrono-7e0865cccf034c3e.rmeta --extern clap=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libclap-6e15a6c1a3c468a9.rmeta --extern cryptoki=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libcryptoki-4347a1ce04518caa.rmeta --extern fern=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfern-e69ed5584b5751df.rmeta --extern fslock=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfslock-a03dbc221037eca3.rmeta --extern futures=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfutures-59e2426c68997b86.rmeta --extern futures_util=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfutures_util-523bba30fa12a3e9.rmeta --extern hex=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libhex-09da1baa621273da.rmeta --extern hyper=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libhyper-18732faf9f1ec383.rmeta --extern intervaltree=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libintervaltree-a6963201280c0543.rmeta --extern jmespatch=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libjmespatch-6615a0f28f8ca724.rmeta --extern kmip=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libkmip_protocol-83e5d782f674a1fb.rmeta --extern libc=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liblibc-3b148b426fcdc8ec.rmeta --extern libflate=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liblibflate-deee412097d06162.rmeta --extern log=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liblog-5630aa6517368052.rmeta --extern once_cell=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libonce_cell-527def2c46ec1e41.rmeta --extern openidconnect=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libopenidconnect-27aac1a1ec7af14b.rmeta --extern openssl=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libopenssl-1383e2729d18f724.rmeta --extern oso=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liboso-e75827311ef85edb.rmeta --extern priority_queue=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libpriority_queue-7b95cd1c1b7ba5b8.rmeta --extern r2d2=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libr2d2-913a8e9295b452db.rmeta --extern rand=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/librand-3453c2351cdff286.rmeta --extern regex=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libregex-2e339007ba095f69.rmeta --extern reqwest=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libreqwest-f265395fc0dd3979.rmeta --extern rpassword=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/librpassword-44ed692bb8054ec2.rmeta --extern rpki=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/librpki-c3c5d8dc3a6d9cd6.rmeta --extern scrypt=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libscrypt-3407985e710f333f.rmeta --extern serde=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libserde-a40a2b75f069f219.rmeta --extern serde_json=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libserde_json-ebef04b23a60cb67.rmeta --extern syslog=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libsyslog-893ff4f4ced88524.rmeta --extern tokio=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libtokio-f8b46301f16e326d.rmeta --extern tokio_rustls=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libtokio_rustls-0fed45182f0f6766.rmeta --extern toml=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libtoml-03d78020f365ee18.rmeta --extern unicode_normalization=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libunicode_normalization-d85672002e3bffb8.rmeta --extern urlparse=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liburlparse-95b350e78fe816e2.rmeta --extern uuid=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libuuid-a648548d5a339bc3.rmeta -Cpasses=sancov-module -Cllvm-args=-sanitizer-coverage-level=4 -Cllvm-args=-sanitizer-coverage-inline-8bit-counters -Cllvm-args=-sanitizer-coverage-pc-table -Cllvm-args=-sanitizer-coverage-trace-compares --cfg fuzzing -Clink-dead-code -Zsanitizer=address -Cllvm-args=-sanitizer-coverage-stack-depth -Cdebug-assertions -C codegen-units=1 -L native=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/build/ring-5e2384826292c7dc/out` (signal: 9, SIGKILL: kill)
+Error: failed to build fuzz script: ASAN_OPTIONS="detect_odr_violation=0" RUSTFLAGS="-Cpasses=sancov-module -Cllvm-args=-sanitizer-coverage-level=4 -Cllvm-args=-sanitizer-coverage-inline-8bit-counters -Cllvm-args=-sanitizer-coverage-pc-table -Cllvm-args=-sanitizer-coverage-trace-compares --cfg fuzzing -Clink-dead-code -Zsanitizer=address -Cllvm-args=-sanitizer-coverage-stack-depth -Cdebug-assertions -C codegen-units=1" "cargo" "build" "--manifest-path" "/workspaces/Cybersecurity2022/krill/fuzz/Cargo.toml" "--target" "x86_64-unknown-linux-gnu" "--release" "--bin" "fuzz_target_1"
+</pre>
+</details>
 
 </body>
 </html>

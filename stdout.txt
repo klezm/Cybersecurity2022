@@ -3001,3 +3001,1052 @@ All required classes must be on the classpath specified via --cp.
 [2mruntime.goexit[0m
 [2m	/opt/hostedtoolcache/go/1.19.5/x64/src/runtime/asm_amd64.s:1594[0m
 [2m[0m[0m
+
+
+######################################################################################################
+
+unbuffer cargo fuzz run --jobs 2 fuzz_target_1 $CODESPACE_VSCODE_FOLDER/corpus | tee -a ../stdout.txt
+
+######################################################################################################
+
+[0m[0m[1m[32m    Updating[0m crates.io index
+[0m[0m[1m[36m       Fetch[0m [                         ]   0.00%, 16.85KiB/s
+[0m[0m[1m[36m       Fetch[0m [>                        ]   4.38%, 16.85KiB/s
+[0m[0m[1m[36m       Fetch[0m [==>                      ]  12.15%, 16.85KiB/s
+[0m[0m[1m[36m       Fetch[0m [====>                    ]  21.91%, 346.89KiB/s
+[0m[0m[1m[36m       Fetch[0m [=====>                   ]  25.29%, 346.89KiB/s
+[0m[0m[1m[36m       Fetch[0m [=====>                   ]  26.43%, 346.89KiB/s
+[0m[0m[1m[36m       Fetch[0m [=====>                   ]  26.43%, 3.69MiB/s
+[0m[0m[1m[36m       Fetch[0m [======>                  ]  28.02%, (124/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======>                  ]  28.38%, (161/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [========>                ]  37.03%, (1028/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [==========>              ]  47.42%, (2069/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [============>            ]  53.44%, (2672/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [============>            ]  53.59%, (2687/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [============>            ]  53.85%, (2713/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [============>            ]  54.13%, (2741/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [============>            ]  54.33%, (2761/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [============>            ]  54.48%, (2777/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [============>            ]  55.07%, (2836/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [============>            ]  55.56%, (2885/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [============>            ]  55.91%, (2920/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=============>           ]  56.34%, (2963/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=============>           ]  57.01%, (3030/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=============>           ]  57.39%, (3068/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=============>           ]  58.01%, (3130/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=============>           ]  58.41%, (3170/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=============>           ]  58.75%, (3205/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=============>           ]  59.05%, (3235/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=============>           ]  59.53%, (3283/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [==============>          ]  60.04%, (3334/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [==============>          ]  60.31%, (3361/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [==============>          ]  60.89%, (3419/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [==============>          ]  62.17%, (3547/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [==============>          ]  63.85%, (3716/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [===============>         ]  64.23%, (3754/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [===============>         ]  64.47%, (3778/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [===============>         ]  64.91%, (3822/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [===============>         ]  65.05%, (3836/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [===============>         ]  66.80%, (4011/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [===============>         ]  67.30%, (4061/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [===============>         ]  67.78%, (4110/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [================>        ]  68.17%, (4149/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [================>        ]  68.75%, (4207/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [================>        ]  70.02%, (4334/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [================>        ]  70.58%, (4390/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [================>        ]  71.49%, (4481/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [================>        ]  71.90%, (4523/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=================>       ]  72.24%, (4557/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=================>       ]  72.77%, (4610/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=================>       ]  73.56%, (4689/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=================>       ]  74.06%, (4739/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [==================>      ]  77.94%, (5128/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [===================>     ]  81.56%, (5491/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [===================>     ]  83.66%, (5701/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [====================>    ]  84.84%, (5820/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [====================>    ]  85.31%, (5867/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=====================>   ]  91.15%, (6452/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=====================>   ]  91.83%, (6520/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======================>  ]  92.60%, (6597/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======================>  ]  93.04%, (6641/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======================>  ]  93.43%, (6680/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======================>  ]  93.48%, (6685/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======================>  ]  93.53%, (6691/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======================>  ]  93.77%, (6715/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======================>  ]  94.02%, (6740/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======================>  ]  94.32%, (6770/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======================>  ]  94.65%, (6803/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======================>  ]  94.86%, (6824/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======================>  ]  95.06%, (6844/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======================>  ]  95.36%, (6874/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======================>  ]  95.52%, (6890/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [======================>  ]  95.95%, (6933/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=======================> ]  97.08%, (7046/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=======================> ]  97.95%, (7134/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=======================> ]  98.87%, (7226/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=======================> ]  99.19%, (7258/7339) resolving deltas
+[0m[0m[1m[36m       Fetch[0m [=======================> ]  99.61%, (7300/7339) resolving deltas
+[K[0m[0m[1m[36m Downloading[0m 1 crate
+[0m[0m[1m[36m Downloading[0m 2 crates
+[0m[0m[1m[36m Downloading[0m 3 crates
+[0m[0m[1m[36m Downloading[0m 4 crates
+[0m[0m[1m[36m Downloading[0m 5 crates
+[0m[0m[1m[36m Downloading[0m 6 crates
+[0m[0m[1m[36m Downloading[0m 7 crates
+[0m[0m[1m[36m Downloading[0m 8 crates
+[0m[0m[1m[36m Downloading[0m 9 crates
+[0m[0m[1m[36m Downloading[0m 10 crates
+[0m[0m[1m[36m Downloading[0m 11 crates
+[0m[0m[1m[36m Downloading[0m 12 crates
+[0m[0m[1m[36m Downloading[0m 13 crates
+[0m[0m[1m[36m Downloading[0m 14 crates
+[0m[0m[1m[36m Downloading[0m 15 crates
+[0m[0m[1m[36m Downloading[0m 16 crates
+[0m[0m[1m[36m Downloading[0m 17 crates
+[0m[0m[1m[36m Downloading[0m 18 crates
+[0m[0m[1m[36m Downloading[0m 19 crates
+[0m[0m[1m[36m Downloading[0m 20 crates
+[0m[0m[1m[36m Downloading[0m 21 crates
+[0m[0m[1m[36m Downloading[0m 22 crates
+[0m[0m[1m[36m Downloading[0m 23 crates
+[0m[0m[1m[36m Downloading[0m 24 crates
+[0m[0m[1m[36m Downloading[0m 25 crates
+[0m[0m[1m[36m Downloading[0m 26 crates
+[0m[0m[1m[36m Downloading[0m 27 crates
+[0m[0m[1m[36m Downloading[0m 28 crates
+[0m[0m[1m[36m Downloading[0m 29 crates
+[0m[0m[1m[36m Downloading[0m 30 crates
+[0m[0m[1m[36m Downloading[0m 31 crates
+[0m[0m[1m[36m Downloading[0m 32 crates
+[0m[0m[1m[36m Downloading[0m 33 crates
+[0m[0m[1m[36m Downloading[0m 34 crates
+[0m[0m[1m[36m Downloading[0m 35 crates
+[0m[0m[1m[36m Downloading[0m 36 crates
+[0m[0m[1m[36m Downloading[0m 37 crates
+[0m[0m[1m[36m Downloading[0m 38 crates
+[0m[0m[1m[36m Downloading[0m 39 crates
+[0m[0m[1m[36m Downloading[0m 40 crates
+[0m[0m[1m[36m Downloading[0m 41 crates
+[0m[0m[1m[36m Downloading[0m 42 crates
+[0m[0m[1m[36m Downloading[0m 43 crates
+[0m[0m[1m[36m Downloading[0m 44 crates
+[0m[0m[1m[36m Downloading[0m 45 crates
+[0m[0m[1m[36m Downloading[0m 46 crates
+[0m[0m[1m[36m Downloading[0m 47 crates
+[0m[0m[1m[36m Downloading[0m 48 crates
+[0m[0m[1m[36m Downloading[0m 49 crates
+[0m[0m[1m[36m Downloading[0m 50 crates
+[0m[0m[1m[36m Downloading[0m 51 crates
+[0m[0m[1m[36m Downloading[0m 52 crates
+[0m[0m[1m[36m Downloading[0m 53 crates
+[0m[0m[1m[36m Downloading[0m 54 crates
+[0m[0m[1m[36m Downloading[0m 55 crates
+[0m[0m[1m[36m Downloading[0m 56 crates
+[0m[0m[1m[36m Downloading[0m 57 crates
+[0m[0m[1m[36m Downloading[0m 58 crates
+[0m[0m[1m[36m Downloading[0m 59 crates
+[0m[0m[1m[36m Downloading[0m 60 crates
+[0m[0m[1m[36m Downloading[0m 61 crates
+[0m[0m[1m[36m Downloading[0m 62 crates
+[0m[0m[1m[36m Downloading[0m 63 crates
+[0m[0m[1m[36m Downloading[0m 64 crates
+[0m[0m[1m[36m Downloading[0m 65 crates
+[0m[0m[1m[36m Downloading[0m 66 crates
+[0m[0m[1m[36m Downloading[0m 67 crates
+[0m[0m[1m[36m Downloading[0m 68 crates
+[0m[0m[1m[36m Downloading[0m 69 crates
+[0m[0m[1m[36m Downloading[0m 70 crates
+[0m[0m[1m[36m Downloading[0m 71 crates
+[0m[0m[1m[36m Downloading[0m 72 crates
+[0m[0m[1m[36m Downloading[0m 73 crates
+[0m[0m[1m[36m Downloading[0m 74 crates
+[0m[0m[1m[36m Downloading[0m 75 crates
+[0m[0m[1m[36m Downloading[0m 76 crates
+[0m[0m[1m[36m Downloading[0m 77 crates
+[0m[0m[1m[36m Downloading[0m 78 crates
+[0m[0m[1m[36m Downloading[0m 79 crates
+[0m[0m[1m[36m Downloading[0m 80 crates
+[0m[0m[1m[36m Downloading[0m 81 crates
+[0m[0m[1m[36m Downloading[0m 82 crates
+[0m[0m[1m[36m Downloading[0m 83 crates
+[0m[0m[1m[36m Downloading[0m 84 crates
+[0m[0m[1m[36m Downloading[0m 85 crates
+[0m[0m[1m[36m Downloading[0m 86 crates
+[0m[0m[1m[36m Downloading[0m 87 crates
+[0m[0m[1m[36m Downloading[0m 88 crates
+[0m[0m[1m[36m Downloading[0m 89 crates
+[0m[0m[1m[36m Downloading[0m 90 crates
+[0m[0m[1m[36m Downloading[0m 91 crates
+[0m[0m[1m[36m Downloading[0m 92 crates
+[0m[0m[1m[36m Downloading[0m 93 crates
+[0m[0m[1m[36m Downloading[0m 94 crates
+[0m[0m[1m[36m Downloading[0m 95 crates
+[0m[0m[1m[36m Downloading[0m 96 crates
+[0m[0m[1m[36m Downloading[0m 97 crates
+[0m[0m[1m[36m Downloading[0m 98 crates
+[0m[0m[1m[36m Downloading[0m 99 crates
+[0m[0m[1m[36m Downloading[0m 100 crates
+[0m[0m[1m[36m Downloading[0m 101 crates
+[0m[0m[1m[36m Downloading[0m 102 crates
+[0m[0m[1m[36m Downloading[0m 103 crates
+[0m[0m[1m[36m Downloading[0m 104 crates
+[0m[0m[1m[36m Downloading[0m 105 crates
+[0m[0m[1m[36m Downloading[0m 106 crates
+[0m[0m[1m[36m Downloading[0m 107 crates
+[0m[0m[1m[36m Downloading[0m 108 crates
+[0m[0m[1m[36m Downloading[0m 109 crates
+[0m[0m[1m[36m Downloading[0m 110 crates
+[0m[0m[1m[36m Downloading[0m 111 crates
+[0m[0m[1m[36m Downloading[0m 112 crates
+[0m[0m[1m[36m Downloading[0m 113 crates
+[0m[0m[1m[36m Downloading[0m 114 crates
+[0m[0m[1m[36m Downloading[0m 115 crates
+[0m[0m[1m[36m Downloading[0m 116 crates
+[0m[0m[1m[36m Downloading[0m 117 crates
+[0m[0m[1m[36m Downloading[0m 118 crates
+[0m[0m[1m[36m Downloading[0m 119 crates
+[0m[0m[1m[36m Downloading[0m 120 crates
+[0m[0m[1m[36m Downloading[0m 121 crates
+[0m[0m[1m[36m Downloading[0m 122 crates
+[0m[0m[1m[36m Downloading[0m 123 crates
+[0m[0m[1m[36m Downloading[0m 124 crates
+[0m[0m[1m[36m Downloading[0m 125 crates
+[0m[0m[1m[36m Downloading[0m 126 crates
+[0m[0m[1m[36m Downloading[0m 127 crates
+[0m[0m[1m[36m Downloading[0m 128 crates
+[0m[0m[1m[36m Downloading[0m 129 crates
+[0m[0m[1m[36m Downloading[0m 130 crates
+[0m[0m[1m[36m Downloading[0m 131 crates
+[0m[0m[1m[36m Downloading[0m 132 crates
+[0m[0m[1m[36m Downloading[0m 133 crates
+[0m[0m[1m[36m Downloading[0m 134 crates
+[0m[0m[1m[36m Downloading[0m 135 crates
+[0m[0m[1m[36m Downloading[0m 136 crates
+[0m[0m[1m[36m Downloading[0m 137 crates
+[0m[0m[1m[36m Downloading[0m 138 crates
+[0m[0m[1m[36m Downloading[0m 139 crates
+[0m[0m[1m[36m Downloading[0m 140 crates
+[0m[0m[1m[36m Downloading[0m 141 crates
+[0m[0m[1m[36m Downloading[0m 142 crates
+[0m[0m[1m[36m Downloading[0m 143 crates
+[0m[0m[1m[36m Downloading[0m 144 crates
+[0m[0m[1m[36m Downloading[0m 145 crates
+[0m[0m[1m[36m Downloading[0m 146 crates
+[0m[0m[1m[36m Downloading[0m 147 crates
+[0m[0m[1m[36m Downloading[0m 148 crates
+[0m[0m[1m[36m Downloading[0m 149 crates
+[0m[0m[1m[36m Downloading[0m 150 crates
+[0m[0m[1m[36m Downloading[0m 151 crates
+[0m[0m[1m[36m Downloading[0m 152 crates
+[0m[0m[1m[36m Downloading[0m 153 crates
+[0m[0m[1m[36m Downloading[0m 154 crates
+[0m[0m[1m[36m Downloading[0m 155 crates
+[0m[0m[1m[36m Downloading[0m 156 crates
+[0m[0m[1m[36m Downloading[0m 157 crates
+[0m[0m[1m[36m Downloading[0m 158 crates
+[0m[0m[1m[36m Downloading[0m 159 crates
+[0m[0m[1m[36m Downloading[0m 160 crates
+[0m[0m[1m[36m Downloading[0m 161 crates
+[0m[0m[1m[36m Downloading[0m 162 crates
+[0m[0m[1m[36m Downloading[0m 163 crates
+[0m[0m[1m[36m Downloading[0m 164 crates
+[0m[0m[1m[36m Downloading[0m 165 crates
+[0m[0m[1m[36m Downloading[0m 166 crates
+[0m[0m[1m[36m Downloading[0m 167 crates
+[0m[0m[1m[36m Downloading[0m 168 crates
+[0m[0m[1m[36m Downloading[0m 169 crates
+[0m[0m[1m[36m Downloading[0m 170 crates
+[0m[0m[1m[36m Downloading[0m 171 crates
+[K[0m[0m[1m[32m  Downloaded[0m itertools v0.10.5
+[0m[0m[1m[36m Downloading[0m 170 crates
+[K[0m[0m[1m[32m  Downloaded[0m phf_shared v0.10.0
+[0m[0m[1m[36m Downloading[0m 169 crates
+[K[0m[0m[1m[32m  Downloaded[0m ascii-canvas v3.0.0
+[0m[0m[1m[36m Downloading[0m 168 crates, remaining bytes: 35.6 KB
+[K[0m[0m[1m[32m  Downloaded[0m ordered-float v2.10.0
+[0m[0m[1m[36m Downloading[0m 167 crates, remaining bytes: 11.9 KB
+[K[0m[0m[1m[32m  Downloaded[0m libloading v0.7.4
+[0m[0m[1m[36m Downloading[0m 166 crates, remaining bytes: 41.1 KB
+[K[0m[0m[1m[32m  Downloaded[0m num-bigint v0.4.3
+[0m[0m[1m[36m Downloading[0m 165 crates, remaining bytes: 11.4 KB
+[K[0m[0m[1m[32m  Downloaded[0m rand_chacha v0.3.1
+[0m[0m[1m[36m Downloading[0m 164 crates, remaining bytes: 186.2 KB
+[K[0m[0m[1m[32m  Downloaded[0m digest v0.9.0
+[0m[0m[1m[36m Downloading[0m 163 crates, remaining bytes: 367.8 KB
+[K[0m[0m[1m[32m  Downloaded[0m new_debug_unreachable v1.0.4
+[0m[0m[1m[36m Downloading[0m 162 crates, remaining bytes: 572.8 KB
+[K[0m[0m[1m[32m  Downloaded[0m tinyvec_macros v0.1.1
+[0m[0m[1m[36m Downloading[0m 161 crates, remaining bytes: 579.6 KB
+[K[0m[0m[1m[32m  Downloaded[0m darling_core v0.13.4
+[0m[0m[1m[36m Downloading[0m 160 crates, remaining bytes: 5.6 MB
+[K[0m[0m[1m[32m  Downloaded[0m futures-executor v0.3.26
+[0m[0m[1m[36m Downloading[0m 159 crates, remaining bytes: 5.8 MB
+[K[0m[0m[1m[32m  Downloaded[0m basic-cookies v0.1.4
+[0m[0m[1m[36m Downloading[0m 158 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m tower-service v0.3.2
+[0m[0m[1m[36m Downloading[0m 157 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m fixedbitset v0.4.2
+[0m[0m[1m[36m Downloading[0m 156 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m serde_with_macros v1.5.2
+[0m[0m[1m[36m Downloading[0m 155 crates, remaining bytes: 6.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m sha2 v0.9.9
+[0m[0m[1m[36m Downloading[0m 154 crates, remaining bytes: 6.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m serde_plain v1.0.1
+[0m[0m[1m[36m Downloading[0m 153 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m futures-macro v0.3.26
+[0m[0m[1m[36m Downloading[0m 152 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m http-body v0.4.5
+[0m[0m[1m[36m Downloading[0m 151 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m tokio-rustls v0.22.0
+[0m[0m[1m[36m Downloading[0m 150 crates, remaining bytes: 6.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m serde-value v0.7.0
+[0m[0m[1m[36m Downloading[0m 149 crates, remaining bytes: 6.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m pico-args v0.4.2
+[0m[0m[1m[36m Downloading[0m 148 crates, remaining bytes: 5.9 MB
+[K[0m[0m[1m[32m  Downloaded[0m fslock v0.2.1
+[0m[0m[1m[36m Downloading[0m 147 crates, remaining bytes: 6.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m socket2 v0.4.7
+[0m[0m[1m[36m Downloading[0m 146 crates, remaining bytes: 5.9 MB
+[K[0m[0m[1m[32m  Downloaded[0m unicode-bidi v0.3.10
+[0m[0m[1m[36m Downloading[0m 145 crates, remaining bytes: 5.8 MB
+[K[0m[0m[1m[32m  Downloaded[0m jmespatch v0.3.0
+[0m[0m[1m[36m Downloading[0m 144 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m tinyvec v1.6.0
+[0m[0m[1m[36m Downloading[0m 143 crates, remaining bytes: 6.4 MB
+[K[0m[0m[1m[32m  Downloaded[0m crypto-mac v0.10.1
+[0m[0m[1m[36m Downloading[0m 142 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m webpki v0.21.4
+[0m[0m[1m[36m Downloading[0m 141 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m precomputed-hash v0.1.1
+[0m[0m[1m[36m Downloading[0m 140 crates, remaining bytes: 6.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m url v2.3.1
+[0m[0m[1m[36m Downloading[0m 139 crates, remaining bytes: 6.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m futures-core v0.3.26
+[0m[0m[1m[36m Downloading[0m 138 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m darling_macro v0.13.4
+[0m[0m[1m[36m Downloading[0m 137 crates, remaining bytes: 6.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m rustls v0.19.1
+[0m[0m[1m[36m Downloading[0m 136 crates, remaining bytes: 6.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m serde_with v1.14.0
+[0m[0m[1m[36m Downloading[0m 135 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m instant v0.1.12
+[0m[0m[1m[36m Downloading[0m 134 crates, remaining bytes: 7.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m block-buffer v0.9.0
+[0m[0m[1m[36m Downloading[0m 133 crates, remaining bytes: 7.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m derivative v2.2.0
+[0m[0m[1m[36m Downloading[0m 132 crates, remaining bytes: 7.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m hyper-tls v0.5.0
+[0m[0m[1m[36m Downloading[0m 131 crates, remaining bytes: 7.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m tracing-serde v0.1.3
+[0m[0m[1m[36m Downloading[0m 130 crates, remaining bytes: 7.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m pin-utils v0.1.0
+[0m[0m[1m[36m Downloading[0m 129 crates, remaining bytes: 7.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m httpdate v1.0.2
+[0m[0m[1m[36m Downloading[0m 128 crates, remaining bytes: 7.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m bit-vec v0.6.3
+[0m[0m[1m[36m Downloading[0m 127 crates, remaining bytes: 6.9 MB
+[K[0m[0m[1m[32m  Downloaded[0m foreign-types-shared v0.1.1
+[0m[0m[1m[36m Downloading[0m 126 crates, remaining bytes: 6.8 MB
+[K[0m[0m[1m[32m  Downloaded[0m diff v0.1.13
+[0m[0m[1m[36m Downloading[0m 125 crates, remaining bytes: 6.7 MB
+[K[0m[0m[1m[32m  Downloaded[0m httparse v1.8.0
+[0m[0m[1m[36m Downloading[0m 124 crates, remaining bytes: 6.7 MB
+[K[0m[0m[1m[32m  Downloaded[0m rand v0.8.5
+[0m[0m[1m[36m Downloading[0m 123 crates, remaining bytes: 6.6 MB
+[K[0m[0m[1m[32m  Downloaded[0m futures-channel v0.3.26
+[0m[0m[1m[36m Downloading[0m 122 crates, remaining bytes: 6.5 MB
+[K[0m[0m[1m[32m  Downloaded[0m ena v0.14.0
+[0m[0m[1m[36m Downloading[0m 121 crates, remaining bytes: 6.4 MB
+[K[0m[0m[1m[32m  Downloaded[0m base64 v0.21.0
+[0m[0m[1m[36m Downloading[0m 120 crates, remaining bytes: 6.4 MB
+[K[0m[0m[1m[32m  Downloaded[0m uuid v1.3.0
+[0m[0m[1m[36m Downloading[0m 119 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m futures-sink v0.3.26
+[0m[0m[1m[36m Downloading[0m 118 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m tracing v0.1.37
+[0m[0m[1m[36m Downloading[0m 117 crates, remaining bytes: 6.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m deunicode v0.4.3
+[0m[0m[1m[36m Downloading[0m 116 crates, remaining bytes: 6.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m cryptoki v0.3.0
+[0m[0m[1m[36m Downloading[0m 115 crates, remaining bytes: 7.5 MB
+[K[0m[0m[1m[32m  Downloaded[0m error-chain v0.11.0
+[0m[0m[1m[36m Downloading[0m 114 crates, remaining bytes: 7.4 MB
+[K[0m[0m[1m[32m  Downloaded[0m sha2 v0.10.6
+[0m[0m[1m[36m Downloading[0m 113 crates, remaining bytes: 7.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m reqwest v0.11.14
+[0m[0m[1m[36m Downloading[0m 112 crates, remaining bytes: 7.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m lalrpop-util v0.19.8
+[0m[0m[1m[36m Downloading[0m 111 crates, remaining bytes: 7.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m hyper v0.14.24
+[0m[0m[1m[36m Downloading[0m 110 crates, remaining bytes: 7.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m opaque-debug v0.3.0
+[0m[0m[1m[36m Downloading[0m 109 crates, remaining bytes: 7.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m hashbrown v0.12.3
+[0m[0m[1m[36m Downloading[0m 108 crates, remaining bytes: 6.9 MB
+[K[0m[0m[1m[32m  Downloaded[0m petgraph v0.6.3
+[0m[0m[1m[36m Downloading[0m 107 crates, remaining bytes: 6.7 MB
+[K[0m[0m[1m[32m  Downloaded[0m tokio v1.25.0
+[0m[0m[1m[36m Downloading[0m 106 crates, extracting tokio ...
+[K[0m[0m[1m[32m  Downloaded[0m try-lock v0.2.4
+[0m[0m[1m[36m Downloading[0m 105 crates, remaining bytes: 6.4 MB
+[K[0m[0m[1m[32m  Downloaded[0m tokio-util v0.7.6
+[0m[0m[1m[36m Downloading[0m 104 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m untrusted v0.7.1
+[0m[0m[1m[36m Downloading[0m 103 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m want v0.3.0
+[0m[0m[1m[36m Downloading[0m 102 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m regex-automata v0.1.10
+[0m[0m[1m[36m Downloading[0m 101 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m openssl v0.10.45
+[0m[0m[1m[36m Downloading[0m 100 crates, remaining bytes: 6.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m unicode-normalization v0.1.22
+[0m[0m[1m[36m Downloading[0m 99 crates, remaining bytes: 6.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m tracing-core v0.1.30
+[0m[0m[1m[36m Downloading[0m 98 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m indexmap v1.9.2
+[0m[0m[1m[36m Downloading[0m 97 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m lalrpop v0.19.8
+[0m[0m[1m[36m Downloading[0m 96 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m serde_json v1.0.93
+[0m[0m[1m[36m Downloading[0m 95 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m smallvec v1.10.0
+[0m[0m[1m[36m Downloading[0m 94 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m rand_core v0.6.4
+[0m[0m[1m[36m Downloading[0m 93 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m mime v0.3.16
+[0m[0m[1m[36m Downloading[0m 92 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m getrandom v0.2.8
+[0m[0m[1m[36m Downloading[0m 91 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m tokio-native-tls v0.3.1
+[0m[0m[1m[36m Downloading[0m 90 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m term v0.7.0
+[0m[0m[1m[36m Downloading[0m 89 crates, remaining bytes: 6.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m bit-set v0.5.3
+[0m[0m[1m[36m Downloading[0m 88 crates, remaining bytes: 6.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m rpassword v5.0.1
+[0m[0m[1m[36m Downloading[0m 87 crates, remaining bytes: 6.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m adler32 v1.2.0
+[0m[0m[1m[36m Downloading[0m 86 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m impl-trait-for-tuples v0.2.2
+[0m[0m[1m[36m Downloading[0m 85 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m dirs-sys-next v0.1.2
+[0m[0m[1m[36m Downloading[0m 84 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m idna v0.3.0
+[0m[0m[1m[36m Downloading[0m 83 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m form_urlencoded v1.1.0
+[0m[0m[1m[36m Downloading[0m 82 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m backoff v0.3.0
+[0m[0m[1m[36m Downloading[0m 81 crates, remaining bytes: 6.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m lock_api v0.4.9
+[0m[0m[1m[36m Downloading[0m 80 crates, remaining bytes: 5.9 MB
+[K[0m[0m[1m[32m  Downloaded[0m futures v0.3.26
+[0m[0m[1m[36m Downloading[0m 79 crates, remaining bytes: 5.9 MB
+[K[0m[0m[1m[32m  Downloaded[0m openssl-probe v0.1.5
+[0m[0m[1m[36m Downloading[0m 78 crates, remaining bytes: 7.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m openssl-macros v0.1.0
+[0m[0m[1m[36m Downloading[0m 77 crates, remaining bytes: 7.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m subtle v2.4.1
+[0m[0m[1m[36m Downloading[0m 76 crates, remaining bytes: 7.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m slug v0.1.4
+[0m[0m[1m[36m Downloading[0m 75 crates, remaining bytes: 7.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m serde_bytes v0.11.9
+[0m[0m[1m[36m Downloading[0m 74 crates, remaining bytes: 7.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m enum-display-derive v0.1.1
+[0m[0m[1m[36m Downloading[0m 73 crates, remaining bytes: 7.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m mio v0.8.5
+[0m[0m[1m[36m Downloading[0m 72 crates, remaining bytes: 7.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m foreign-types v0.3.2
+[0m[0m[1m[36m Downloading[0m 71 crates, remaining bytes: 7.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m libflate_lz77 v1.1.0
+[0m[0m[1m[36m Downloading[0m 70 crates, remaining bytes: 7.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m enum-flags v0.1.8
+[0m[0m[1m[36m Downloading[0m 69 crates, remaining bytes: 7.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m dirs-next v2.0.0
+[0m[0m[1m[36m Downloading[0m 68 crates, remaining bytes: 7.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m either v1.8.1
+[0m[0m[1m[36m Downloading[0m 67 crates, remaining bytes: 7.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m cipher v0.2.5
+[0m[0m[1m[36m Downloading[0m 66 crates, remaining bytes: 7.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m signal-hook-registry v1.4.0
+[0m[0m[1m[36m Downloading[0m 65 crates, remaining bytes: 7.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m slab v0.4.7
+[0m[0m[1m[36m Downloading[0m 64 crates, remaining bytes: 7.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m serde_path_to_error v0.1.9
+[0m[0m[1m[36m Downloading[0m 63 crates, remaining bytes: 7.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m tokio-macros v1.8.2
+[0m[0m[1m[36m Downloading[0m 62 crates, remaining bytes: 7.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m thread_local v1.1.4
+[0m[0m[1m[36m Downloading[0m 61 crates, remaining bytes: 7.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m r2d2 v0.8.10
+[0m[0m[1m[36m Downloading[0m 60 crates, remaining bytes: 7.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m num_cpus v1.15.0
+[0m[0m[1m[36m Downloading[0m 59 crates, remaining bytes: 7.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m native-tls v0.2.11
+[0m[0m[1m[36m Downloading[0m 58 crates, remaining bytes: 7.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m siphasher v0.3.10
+[0m[0m[1m[36m Downloading[0m 57 crates, remaining bytes: 6.9 MB
+[K[0m[0m[1m[32m  Downloaded[0m hmac v0.10.1
+[0m[0m[1m[36m Downloading[0m 56 crates, remaining bytes: 6.9 MB
+[K[0m[0m[1m[32m  Downloaded[0m percent-encoding v2.2.0
+[0m[0m[1m[36m Downloading[0m 55 crates, remaining bytes: 7.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m scrypt v0.6.5
+[0m[0m[1m[36m Downloading[0m 54 crates, remaining bytes: 6.9 MB
+[K[0m[0m[1m[32m  Downloaded[0m sct v0.6.1
+[0m[0m[1m[36m Downloading[0m 53 crates, remaining bytes: 6.9 MB
+[K[0m[0m[1m[32m  Downloaded[0m ppv-lite86 v0.2.17
+[0m[0m[1m[36m Downloading[0m 52 crates, remaining bytes: 6.9 MB
+[K[0m[0m[1m[32m  Downloaded[0m parking_lot_core v0.9.7
+[0m[0m[1m[36m Downloading[0m 51 crates, remaining bytes: 6.8 MB
+[K[0m[0m[1m[32m  Downloaded[0m cryptoki-sys v0.1.4
+[0m[0m[1m[36m Downloading[0m 50 crates, remaining bytes: 6.8 MB
+[K[0m[0m[1m[32m  Downloaded[0m futures-task v0.3.26
+[0m[0m[1m[36m Downloading[0m 49 crates, remaining bytes: 6.8 MB
+[K[0m[0m[1m[32m  Downloaded[0m pbkdf2 v0.7.5
+[0m[0m[1m[36m Downloading[0m 48 crates, remaining bytes: 6.8 MB
+[K[0m[0m[1m[32m  Downloaded[0m darling v0.13.4
+[0m[0m[1m[36m Downloading[0m 47 crates, remaining bytes: 6.8 MB
+[K[0m[0m[1m[32m  Downloaded[0m pkg-config v0.3.26
+[0m[0m[1m[36m Downloading[0m 46 crates, remaining bytes: 6.8 MB
+[K[0m[0m[1m[32m  Downloaded[0m futures-io v0.3.26
+[0m[0m[1m[36m Downloading[0m 45 crates, remaining bytes: 6.7 MB
+[K[0m[0m[1m[32m  Downloaded[0m crc32fast v1.3.2
+[0m[0m[1m[36m Downloading[0m 44 crates, remaining bytes: 6.7 MB
+[K[0m[0m[1m[32m  Downloaded[0m pin-project-lite v0.2.9
+[0m[0m[1m[36m Downloading[0m 43 crates, remaining bytes: 6.7 MB
+[K[0m[0m[1m[32m  Downloaded[0m spin v0.5.2
+[0m[0m[1m[36m Downloading[0m 42 crates, remaining bytes: 6.7 MB
+[K[0m[0m[1m[32m  Downloaded[0m priority-queue v1.3.1
+[0m[0m[1m[36m Downloading[0m 41 crates, remaining bytes: 6.7 MB
+[K[0m[0m[1m[32m  Downloaded[0m urlparse v0.7.3
+[0m[0m[1m[36m Downloading[0m 40 crates, remaining bytes: 6.6 MB
+[K[0m[0m[1m[32m  Downloaded[0m string_cache v0.8.4
+[0m[0m[1m[36m Downloading[0m 39 crates, remaining bytes: 6.8 MB
+[K[0m[0m[1m[32m  Downloaded[0m fern v0.5.9
+[0m[0m[1m[36m Downloading[0m 38 crates, remaining bytes: 6.7 MB
+[K[0m[0m[1m[32m  Downloaded[0m matchers v0.0.1
+[0m[0m[1m[36m Downloading[0m 37 crates, remaining bytes: 6.7 MB
+[K[0m[0m[1m[32m  Downloaded[0m ipnet v2.7.1
+[0m[0m[1m[36m Downloading[0m 36 crates, remaining bytes: 6.7 MB
+[K[0m[0m[1m[32m  Downloaded[0m bytes v1.4.0
+[0m[0m[1m[36m Downloading[0m 35 crates, remaining bytes: 6.7 MB
+[K[0m[0m[1m[32m  Downloaded[0m maplit v1.0.2
+[0m[0m[1m[36m Downloading[0m 34 crates, remaining bytes: 6.6 MB
+[K[0m[0m[1m[32m  Downloaded[0m parking_lot v0.12.1
+[0m[0m[1m[36m Downloading[0m 33 crates, remaining bytes: 6.6 MB
+[K[0m[0m[1m[32m  Downloaded[0m libflate v1.2.0
+[0m[0m[1m[36m Downloading[0m 32 crates, remaining bytes: 6.6 MB
+[K[0m[0m[1m[32m  Downloaded[0m tiny-keccak v2.0.2
+[0m[0m[1m[36m Downloading[0m 31 crates, remaining bytes: 6.6 MB
+[K[0m[0m[1m[32m  Downloaded[0m target-lexicon v0.12.5
+[0m[0m[1m[36m Downloading[0m 30 crates, remaining bytes: 6.6 MB
+[K[0m[0m[1m[32m  Downloaded[0m salsa20 v0.7.2
+[0m[0m[1m[36m Downloading[0m 29 crates, remaining bytes: 6.5 MB
+[K[0m[0m[1m[32m  Downloaded[0m oso v0.12.4
+[0m[0m[1m[36m Downloading[0m 28 crates, remaining bytes: 6.5 MB
+[K[0m[0m[1m[32m  Downloaded[0m openssl-sys v0.9.80
+[0m[0m[1m[36m Downloading[0m 27 crates, remaining bytes: 6.5 MB
+[K[0m[0m[1m[32m  Downloaded[0m syslog v4.0.1
+[0m[0m[1m[36m Downloading[0m 26 crates, remaining bytes: 6.5 MB
+[K[0m[0m[1m[32m  Downloaded[0m tracing-log v0.1.3
+[0m[0m[1m[36m Downloading[0m 25 crates, remaining bytes: 6.5 MB
+[K[0m[0m[1m[32m  Downloaded[0m scheduled-thread-pool v0.2.6
+[0m[0m[1m[36m Downloading[0m 24 crates, remaining bytes: 6.5 MB
+[K[0m[0m[1m[32m  Downloaded[0m rle-decode-fast v1.0.3
+[0m[0m[1m[36m Downloading[0m 23 crates, remaining bytes: 6.5 MB
+[K[0m[0m[1m[32m  Downloaded[0m trait-set v0.2.0
+[0m[0m[1m[36m Downloading[0m 22 crates, remaining bytes: 6.4 MB
+[K[0m[0m[1m[32m  Downloaded[0m serde_urlencoded v0.7.1
+[0m[0m[1m[36m Downloading[0m 21 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m scopeguard v1.1.0
+[0m[0m[1m[36m Downloading[0m 20 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m oauth2 v4.3.0
+[0m[0m[1m[36m Downloading[0m 19 crates, remaining bytes: 6.3 MB
+[K[0m[0m[1m[32m  Downloaded[0m sharded-slab v0.1.4
+[0m[0m[1m[36m Downloading[0m 18 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m tracing-attributes v0.1.23
+[0m[0m[1m[36m Downloading[0m 17 crates, remaining bytes: 6.1 MB
+[K[0m[0m[1m[32m  Downloaded[0m http v0.2.8
+[0m[0m[1m[36m Downloading[0m 16 crates, remaining bytes: 6.0 MB
+[K[0m[0m[1m[32m  Downloaded[0m tracing-subscriber v0.2.25
+[0m[0m[1m[36m Downloading[0m 15 crates, remaining bytes: 5.6 MB
+[K[0m[0m[1m[32m  Downloaded[0m h2 v0.3.15
+[0m[0m[1m[36m Downloading[0m 14 crates, remaining bytes: 5.6 MB
+[K[0m[0m[1m[32m  Downloaded[0m quick-xml v0.23.1
+[0m[0m[1m[36m Downloading[0m 13 crates, remaining bytes: 5.5 MB
+[K[0m[0m[1m[32m  Downloaded[0m futures-util v0.3.26
+[0m[0m[1m[36m Downloading[0m 12 crates, remaining bytes: 5.4 MB
+[K[0m[0m[1m[32m  Downloaded[0m polar-core v0.12.4
+[0m[0m[1m[36m Downloading[0m 11 crates, remaining bytes: 5.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m encoding_rs v0.8.32
+[0m[0m[1m[36m Downloading[0m 10 crates, extracting encoding_rs ...
+[K[0m[0m[1m[32m  Downloaded[0m openidconnect v2.5.0
+[0m[0m[1m[36m Downloading[0m 9 crates, remaining bytes: 3.2 MB
+[K[0m[0m[1m[32m  Downloaded[0m ring v0.16.20
+[0m[0m[1m[36m Downloading[0m 8 crates, extracting ring ...
+[0m[0m[1m[36m Downloading[0m 8 crates, remaining bytes: 54.9 KB
+[K[0m[0m[1m[32m  Downloaded[0m crunchy v0.2.2
+[0m[0m[1m[36m Downloading[0m 7 crates, remaining bytes: 57.5 KB
+[K[0m[0m[1m[32m  Downloaded[0m intervaltree v0.2.7
+[0m[0m[1m[36m Downloading[0m 6 crates, remaining bytes: 214.6 KB
+[K[0m[0m[1m[32m  Downloaded[0m maybe-async v0.2.7
+[0m[0m[1m[36m Downloading[0m 5 crates, remaining bytes: 887.7 KB
+[K[0m[0m[1m[32m  Downloaded[0m bcder v0.7.1
+[0m[0m[1m[36m Downloading[0m 4 crates, remaining bytes: 805.2 KB
+[K[0m[0m[1m[32m  Downloaded[0m kmip-protocol v0.4.3
+[0m[0m[1m[36m Downloading[0m 3 crates, remaining bytes: 703.8 KB
+[K[0m[0m[1m[32m  Downloaded[0m libfuzzer-sys v0.4.6
+[0m[0m[1m[36m Downloading[0m 2 crates, remaining bytes: 629.3 KB
+[K[0m[0m[1m[32m  Downloaded[0m kmip-ttlv v0.3.5
+[0m[0m[1m[36m Downloading[0m 1 crate, remaining bytes: 624.5 KB
+[0m[0m[1m[36m Downloading[0m 1 crate, remaining bytes: 517.7 KB
+[0m[0m[1m[36m Downloading[0m 1 crate, remaining bytes: 369.5 KB
+[0m[0m[1m[36m Downloading[0m 1 crate
+[K[0m[0m[1m[32m  Downloaded[0m rpki v0.15.9
+[0m[0m[1m[36m Downloading[0m 0 crates, extracting rpki ...
+[K[0m[0m[1m[32m  Downloaded[0m 171 crates (15.2 MB) in 2.20s (largest was `ring` at 5.1 MB)
+[0m[0m[1m[32m   Compiling[0m libc v0.2.139
+[0m[0m[1m[32m   Compiling[0m autocfg v1.1.0
+[0m[0m[1m[36m    Building[0m [                           ] 0/351: libc(build.rs), autocfg
+[K[0m[0m[1m[32m   Compiling[0m proc-macro2 v1.0.51
+[0m[0m[1m[36m    Building[0m [                           ] 1/351: libc(build.rs), proc-macro2(build.rs)
+[K[0m[0m[1m[32m   Compiling[0m quote v1.0.23
+[0m[0m[1m[36m    Building[0m [                           ] 2/351: quote(build.rs), proc-macro2(build.rs)
+[0m[0m[1m[36m    Building[0m [                           ] 3/351: quote(build.rs), proc-macro2(build)
+[K[0m[0m[1m[32m   Compiling[0m unicode-ident v1.0.6
+[0m[0m[1m[36m    Building[0m [                           ] 4/351: quote(build.rs), unicode-ident
+[0m[0m[1m[36m    Building[0m [                           ] 5/351: quote(build.rs), proc-macro2
+[0m[0m[1m[36m    Building[0m [                           ] 6/351: quote(build), proc-macro2
+[K[0m[0m[1m[32m   Compiling[0m syn v1.0.107
+[0m[0m[1m[36m    Building[0m [                           ] 7/351: syn(build.rs), proc-macro2
+[0m[0m[1m[36m    Building[0m [                           ] 8/351: proc-macro2, syn(build)
+[0m[0m[1m[36m    Building[0m [                           ] 9/351: proc-macro2, quote
+[0m[0m[1m[36m    Building[0m [                          ] 10/351: syn, proc-macro2
+[0m[0m[1m[36m    Building[0m [                          ] 11/351: syn, libc(build)
+[0m[0m[1m[36m    Building[0m [                          ] 12/351: syn, libc
+[K[0m[0m[1m[32m   Compiling[0m cfg-if v1.0.0
+[0m[0m[1m[36m    Building[0m [                          ] 13/351: syn, cfg-if
+[0m[0m[1m[36m    Building[0m [>                         ] 14/351: syn, libc(build)
+[0m[0m[1m[36m    Building[0m [>                         ] 15/351: syn, libc
+[K[0m[0m[1m[32m   Compiling[0m memchr v2.5.0
+[0m[0m[1m[36m    Building[0m [>                         ] 16/351: syn, memchr(build.rs)
+[K[0m[0m[1m[32m   Compiling[0m log v0.4.17
+[0m[0m[1m[36m    Building[0m [>                         ] 17/351: syn, log(build.rs)
+[K[0m[0m[1m[32m   Compiling[0m serde_derive v1.0.152
+[0m[0m[1m[36m    Building[0m [>                         ] 18/351: syn, serde_derive(build.rs)
+[0m[0m[1m[36m    Building[0m [>                         ] 19/351: syn, serde_derive(build)
+[K[0m[0m[1m[32m   Compiling[0m jobserver v0.1.25
+[0m[0m[1m[36m    Building[0m [>                         ] 20/351: syn, jobserver
+[K[0m[0m[1m[32m   Compiling[0m serde v1.0.152
+[0m[0m[1m[36m    Building[0m [>                         ] 21/351: syn, serde(build.rs)
+[K[0m[0m[1m[32m   Compiling[0m cc v1.0.79
+[0m[0m[1m[36m    Building[0m [>                         ] 22/351: syn, cc
+[0m[0m[1m[36m    Building[0m [>                         ] 23/351: syn, memchr(build)
+[0m[0m[1m[36m    Building[0m [>                         ] 24/351: syn, memchr
+[0m[0m[1m[36m    Building[0m [>                         ] 25/351: serde_derive, memchr
+[0m[0m[1m[36m    Building[0m [>                         ] 26/351: serde_derive, serde(build)
+[0m[0m[1m[36m    Building[0m [=>                        ] 27/351: serde_derive, log(build)
+[K[0m[0m[1m[32m   Compiling[0m once_cell v1.17.0
+[0m[0m[1m[36m    Building[0m [=>                        ] 28/351: serde_derive, once_cell
+[0m[0m[1m[36m    Building[0m [=>                        ] 29/351: serde_derive, log
+[0m[0m[1m[36m    Building[0m [=>                        ] 30/351: serde, log
+[K[0m[0m[1m[32m   Compiling[0m indexmap v1.9.2
+[0m[0m[1m[36m    Building[0m [=>                        ] 31/351: serde, indexmap(build.rs)
+[K[0m[0m[1m[32m   Compiling[0m typenum v1.16.0
+[0m[0m[1m[36m    Building[0m [=>                        ] 32/351: serde, typenum(build.rs)
+[K[0m[0m[1m[32m   Compiling[0m version_check v0.9.4
+[0m[0m[1m[36m    Building[0m [=>                        ] 33/351: serde, version_check
+[K[0m[0m[1m[32m   Compiling[0m generic-array v0.14.6
+[0m[0m[1m[36m    Building[0m [=>                        ] 34/351: serde, generic-array(build.rs)
+[0m[0m[1m[36m    Building[0m [=>                        ] 35/351: serde, typenum(build)
+[K[0m[0m[1m[32m   Compiling[0m lock_api v0.4.9
+[0m[0m[1m[36m    Building[0m [=>                        ] 36/351: serde, lock_api(build.rs)
+[K[0m[0m[1m[32m   Compiling[0m parking_lot_core v0.9.7
+[0m[0m[1m[36m    Building[0m [=>                        ] 37/351: serde, parking_lot_core(build.rs)
+[0m[0m[1m[36m    Building[0m [=>                        ] 38/351: serde, typenum
+[0m[0m[1m[36m    Building[0m [=>                        ] 39/351: serde, generic-array(build)
+[0m[0m[1m[36m    Building[0m [=>                        ] 40/351: serde, cfg-if
+[0m[0m[1m[36m    Building[0m [==>                       ] 41/351: serde, generic-array
+[K[0m[0m[1m[32m   Compiling[0m bytes v1.4.0
+[0m[0m[1m[36m    Building[0m [==>                       ] 42/351: bytes, generic-array
+[K[0m[0m[1m[32m   Compiling[0m pin-project-lite v0.2.9
+[0m[0m[1m[36m    Building[0m [==>                       ] 43/351: bytes, pin-project-lite
+[K[0m[0m[1m[32m   Compiling[0m itoa v1.0.5
+[0m[0m[1m[36m    Building[0m [==>                       ] 44/351: bytes, itoa
+[K[0m[0m[1m[32m   Compiling[0m num-traits v0.2.15
+[0m[0m[1m[36m    Building[0m [==>                       ] 45/351: bytes, num-traits(build.rs)
+[K[0m[0m[1m[32m   Compiling[0m serde_json v1.0.93
+[0m[0m[1m[36m    Building[0m [==>                       ] 46/351: bytes, serde_json(build.rs)
+[0m[0m[1m[36m    Building[0m [==>                       ] 47/351: bytes, num-traits(build)
+[0m[0m[1m[36m    Building[0m [==>                       ] 48/351: bytes, memchr(build)
+[0m[0m[1m[36m    Building[0m [==>                       ] 49/351: bytes, memchr
+[0m[0m[1m[36m    Building[0m [==>                       ] 50/351: bytes, num-traits
+[0m[0m[1m[36m    Building[0m [==>                       ] 51/351: parking_lot_core(build), num-traits
+[0m[0m[1m[36m    Building[0m [==>                       ] 52/351: num-traits, lock_api(build)
+[K[0m[0m[1m[32m   Compiling[0m dirs-sys-next v0.1.2
+[0m[0m[1m[36m    Building[0m [==>                       ] 53/351: num-traits, dirs-sys-next
+[K[0m[0m[1m[32m   Compiling[0m pkg-config v0.3.26
+[0m[0m[1m[36m    Building[0m [===>                      ] 54/351: num-traits, pkg-config
+[K[0m[0m[1m[32m   Compiling[0m smallvec v1.10.0
+[0m[0m[1m[36m    Building[0m [===>                      ] 55/351: num-traits, smallvec
+[K[0m[0m[1m[32m   Compiling[0m scopeguard v1.1.0
+[0m[0m[1m[36m    Building[0m [===>                      ] 56/351: num-traits, scopeguard
+[K[0m[0m[1m[32m   Compiling[0m crunchy v0.2.2
+[0m[0m[1m[36m    Building[0m [===>                      ] 57/351: crunchy(build.rs), num-traits
+[K[0m[0m[1m[32m   Compiling[0m futures-core v0.3.26
+[0m[0m[1m[36m    Building[0m [===>                      ] 58/351: num-traits, futures-core(build.rs)
+[0m[0m[1m[36m    Building[0m [===>                      ] 59/351: num-traits, futures-core(build)
+[0m[0m[1m[36m    Building[0m [===>                      ] 60/351: num-traits, crunchy(build)
+[0m[0m[1m[36m    Building[0m [===>                      ] 61/351: num-traits, lock_api
+[0m[0m[1m[36m    Building[0m [===>                      ] 62/351: num-traits, parking_lot_core
+[K[0m[0m[1m[32m   Compiling[0m openssl-sys v0.9.80
+[0m[0m[1m[36m    Building[0m [===>                      ] 63/351: num-traits, openssl-sys(build.rs)
+[K[0m[0m[1m[32m   Compiling[0m dirs-next v2.0.0
+[0m[0m[1m[36m    Building[0m [===>                      ] 64/351: num-traits, dirs-next
+[K[0m[0m[1m[32m   Compiling[0m aho-corasick v0.7.20
+[0m[0m[1m[36m    Building[0m [===>                      ] 65/351: num-traits, aho-corasick
+[0m[0m[1m[36m    Building[0m [===>                      ] 66/351: indexmap(build), aho-corasick
+[K[0m[0m[1m[32m   Compiling[0m tracing-core v0.1.30
+[0m[0m[1m[36m    Building[0m [===>                      ] 67/351: tracing-core, aho-corasick
+[0m[0m[1m[36m    Building[0m [====>                     ] 68/351: tracing-core, log(build)
+[K[0m[0m[1m[32m   Compiling[0m num-integer v0.1.45
+[0m[0m[1m[36m    Building[0m [====>                     ] 69/351: tracing-core, num-integer(build.rs)
+[0m[0m[1m[36m    Building[0m [====>                     ] 70/351: tracing-core, smallvec
+[K[0m[0m[1m[32m   Compiling[0m hashbrown v0.12.3
+[0m[0m[1m[36m    Building[0m [====>                     ] 71/351: tracing-core, hashbrown
+[K[0m[0m[1m[32m   Compiling[0m regex-syntax v0.6.28
+[0m[0m[1m[36m    Building[0m [====>                     ] 72/351: tracing-core, regex-syntax
+[K[0m[0m[1m[32m   Compiling[0m tiny-keccak v2.0.2
+[0m[0m[1m[36m    Building[0m [====>                     ] 73/351: regex-syntax, tiny-keccak(build.rs)
+[K[0m[0m[1m[32m   Compiling[0m siphasher v0.3.10
+[0m[0m[1m[36m    Building[0m [====>                     ] 74/351: regex-syntax, siphasher
+[K[0m[0m[1m[32m   Compiling[0m phf_shared v0.10.0
+[0m[0m[1m[36m    Building[0m [====>                     ] 75/351: regex-syntax, phf_shared
+[K[0m[0m[1m[32m   Compiling[0m regex v1.7.1
+[0m[0m[1m[36m    Building[0m [====>                     ] 76/351: regex-syntax, regex
+[0m[0m[1m[36m    Building[0m [====>                     ] 77/351: tiny-keccak(build), regex
+[0m[0m[1m[36m    Building[0m [====>                     ] 78/351: indexmap, regex
+[0m[0m[1m[36m    Building[0m [====>                     ] 79/351: num-integer(build), regex
+[0m[0m[1m[36m    Building[0m [====>                     ] 80/351: log, regex
+[K[0m[0m[1m[32m   Compiling[0m term v0.7.0
+[0m[0m[1m[36m    Building[0m [=====>                    ] 81/351: term, regex
+[0m[0m[1m[32m   Compiling[0m ring v0.16.20
+[0m[0m[1m[32m   Compiling[0m backtrace v0.3.67
+[0m[0m[1m[36m    Building[0m [==============>          ] 215/351: backtrace, ring
+[K[0m[0m[1m[32m   Compiling[0m want v0.3.0
+[0m[0m[1m[36m    Building[0m [==============>          ] 216/351: backtrace, want
+[K[0m[0m[1m[32m   Compiling[0m native-tls v0.2.11
+[0m[0m[1m[36m    Building[0m [==============>          ] 217/351: native-tls, backtrace
+[K[0m[0m[1m[32m   Compiling[0m slug v0.1.4
+[0m[0m[1m[36m    Building[0m [==============>          ] 218/351: slug, backtrace
+[K[0m[0m[1m[32m   Compiling[0m lock_api v0.4.9
+[0m[0m[1m[36m    Building[0m [==============>          ] 219/351: backtrace, lock_api
+[K[0m[0m[1m[32m   Compiling[0m serde_json v1.0.93
+[0m[0m[1m[36m    Building[0m [==============>          ] 220/351: backtrace, serde_json
+[K[0m[0m[1m[32m   Compiling[0m thiserror v1.0.38
+[0m[0m[1m[36m    Building[0m [==============>          ] 221/351: backtrace, thiserror
+[K[0m[0m[1m[32m   Compiling[0m parking_lot_core v0.9.7
+[0m[0m[1m[36m    Building[0m [==============>          ] 222/351: backtrace, parking_lot_core
+[K[0m[0m[1m[32m   Compiling[0m digest v0.10.6
+[0m[0m[1m[36m    Building[0m [==============>          ] 223/351: backtrace, digest
+[K[0m[0m[1m[32m   Compiling[0m h2 v0.3.15
+[0m[0m[1m[36m    Building[0m [==============>          ] 224/351: backtrace, h2
+[K[0m[0m[1m[32m   Compiling[0m cryptoki-sys v0.1.4
+[0m[0m[1m[36m    Building[0m [===============>         ] 225/351: cryptoki-sys(build.rs), h2
+[K[0m[0m[1m[32m   Compiling[0m darling v0.13.4
+[0m[0m[1m[36m    Building[0m [===============>         ] 226/351: h2, darling
+[K[0m[0m[1m[32m   Compiling[0m rand v0.8.5
+[0m[0m[1m[36m    Building[0m [===============>         ] 227/351: rand, h2
+[K[0m[0m[1m[32m   Compiling[0m url v2.3.1
+[0m[0m[1m[36m    Building[0m [===============>         ] 228/351: h2, url
+[0m[0m[1m[32m   Compiling[0m h2 v0.3.15
+[0m[0m[1m[32m   Compiling[0m url v2.3.1
+[0m[0m[1m[36m    Building[0m [===============>         ] 227/351: h2, url
+[K[0m[0m[1m[32m   Compiling[0m httparse v1.8.0
+[0m[0m[1m[36m    Building[0m [===============>         ] 228/351: httparse, h2
+[K[0m[0m[1m[32m   Compiling[0m crypto-mac v0.10.1
+[0m[0m[1m[36m    Building[0m [===============>         ] 230/351: h2, crypto-mac
+[K[0m[0m[1m[32m   Compiling[0m lalrpop-util v0.19.8
+[0m[0m[1m[36m    Building[0m [===============>         ] 231/351: h2, lalrpop-util
+[K[0m[0m[1m[32m   Compiling[0m kmip-ttlv v0.3.5
+[0m[0m[1m[36m    Building[0m [===============>         ] 232/351: h2, kmip-ttlv(build.rs)
+[K[0m[0m[1m[32m   Compiling[0m http-body v0.4.5
+[0m[0m[1m[36m    Building[0m [===============>         ] 233/351: http-body, h2
+[K[0m[0m[1m[32m   Compiling[0m polar-core v0.12.4
+[0m[0m[1m[36m    Building[0m [===============>         ] 234/351: h2, polar-core(build.rs)
+[K[0m[0m[1m[32m   Compiling[0m regex-automata v0.1.10
+[0m[0m[1m[36m    Building[0m [===============>         ] 235/351: regex-automata, h2
+[K[0m[0m[1m[32m   Compiling[0m digest v0.9.0
+[0m[0m[1m[36m    Building[0m [===============>         ] 236/351: h2, digest
+[K[0m[0m[1m[32m   Compiling[0m num-bigint v0.4.3
+[0m[0m[1m[36m    Building[0m [===============>         ] 237/351: num-bigint(build.rs), h2
+[K[0m[0m[1m[32m   Compiling[0m ansi_term v0.12.1
+[0m[0m[1m[36m    Building[0m [===============>         ] 238/351: ansi_term, h2
+[K[0m[0m[1m[32m   Compiling[0m httpdate v1.0.2
+[0m[0m[1m[36m    Building[0m [================>        ] 239/351: httpdate, h2
+[K[0m[0m[1m[32m   Compiling[0m crc32fast v1.3.2
+[0m[0m[1m[36m    Building[0m [================>        ] 240/351: crc32fast(build.rs), httpdate
+[K[0m[0m[1m[32m   Compiling[0m tower-service v0.3.2
+[0m[0m[1m[36m    Building[0m [================>        ] 241/351: crc32fast(build.rs), tower-service
+[K[0m[0m[1m[32m   Compiling[0m hyper v0.14.24
+[0m[0m[1m[36m    Building[0m [================>        ] 242/351: crc32fast(build.rs), hyper
+[0m[0m[1m[36m    Building[0m [================>        ] 243/351: crc32fast(build), hyper
+[0m[0m[1m[36m    Building[0m [================>        ] 244/351: num-bigint(build), hyper
+[K[0m[0m[1m[32m   Compiling[0m matchers v0.0.1
+[0m[0m[1m[36m    Building[0m [================>        ] 245/351: matchers, hyper
+[0m[0m[1m[36m    Building[0m [================>        ] 246/351: polar-core(build), hyper
+[0m[0m[1m[36m    Building[0m [================>        ] 247/351: kmip-ttlv(build), hyper
+[K[0m[0m[1m[32m   Compiling[0m cryptoki-sys v0.1.4
+[0m[0m[1m[36m    Building[0m [================>        ] 248/351: cryptoki-sys(build), hyper
+[K[0m[0m[1m[32m   Compiling[0m serde_with_macros v1.5.2
+[0m[0m[1m[36m    Building[0m [================>        ] 249/351: serde_with_macros, hyper
+[K[0m[0m[1m[32m   Compiling[0m parking_lot v0.12.1
+[0m[0m[1m[36m    Building[0m [================>        ] 250/351: parking_lot, hyper
+[K[0m[0m[1m[32m   Compiling[0m sha2 v0.10.6
+[0m[0m[1m[36m    Building[0m [================>        ] 251/351: sha2, hyper
+[K[0m[0m[1m[32m   Compiling[0m tokio-native-tls v0.3.1
+[0m[0m[1m[36m    Building[0m [================>        ] 252/351: tokio-native-tls, hyper
+[K[0m[0m[1m[32m   Compiling[0m error-chain v0.11.0
+[0m[0m[1m[36m    Building[0m [=================>       ] 253/351: error-chain, hyper
+[K[0m[0m[1m[32m   Compiling[0m jmespatch v0.3.0
+[0m[0m[1m[36m    Building[0m [=================>       ] 254/351: jmespatch(build.rs), hyper
+[K[0m[0m[1m[32m   Compiling[0m tracing-log v0.1.3
+[0m[0m[1m[36m    Building[0m [=================>       ] 255/351: tracing-log, hyper
+[K[0m[0m[1m[32m   Compiling[0m sharded-slab v0.1.4
+[0m[0m[1m[36m    Building[0m [=================>       ] 256/351: sharded-slab, hyper
+[K[0m[0m[1m[32m   Compiling[0m kmip-protocol v0.4.3
+[0m[0m[1m[36m    Building[0m [=================>       ] 257/351: kmip-protocol(build.rs), hyper
+[K[0m[0m[1m[32m   Compiling[0m sct v0.6.1
+[0m[0m[1m[36m    Building[0m [=================>       ] 258/351: sct, hyper
+[K[0m[0m[1m[32m   Compiling[0m webpki v0.21.4
+[0m[0m[1m[36m    Building[0m [=================>       ] 259/351: webpki, hyper
+[K[0m[0m[1m[32m   Compiling[0m basic-cookies v0.1.4
+[0m[0m[1m[36m    Building[0m [=================>       ] 260/351: basic-cookies(build.rs), hyper
+[K[0m[0m[1m[32m   Compiling[0m bcder v0.7.1
+[0m[0m[1m[36m    Building[0m [=================>       ] 261/351: basic-cookies(build.rs), bcder
+[K[0m[0m[1m[32m   Compiling[0m tracing-serde v0.1.3
+[0m[0m[1m[36m    Building[0m [=================>       ] 262/351: tracing-serde, bcder
+[K[0m[0m[1m[32m   Compiling[0m ordered-float v2.10.0
+[0m[0m[1m[36m    Building[0m [=================>       ] 263/351: ordered-float, bcder
+[K[0m[0m[1m[32m   Compiling[0m block-buffer v0.9.0
+[0m[0m[1m[36m    Building[0m [=================>       ] 264/351: block-buffer, bcder
+[K[0m[0m[1m[32m   Compiling[0m cipher v0.2.5
+[0m[0m[1m[36m    Building[0m [=================>       ] 265/351: cipher, bcder
+[K[0m[0m[1m[32m   Compiling[0m serde_path_to_error v0.1.9
+[0m[0m[1m[36m    Building[0m [=================>       ] 266/351: serde_path_to_error, bcder
+[K[0m[0m[1m[32m   Compiling[0m thread_local v1.1.4
+[0m[0m[1m[36m    Building[0m [==================>      ] 267/351: thread_local, bcder
+[K[0m[0m[1m[32m   Compiling[0m libloading v0.7.4
+[0m[0m[1m[36m    Building[0m [==================>      ] 268/351: thread_local, libloading
+[K[0m[0m[1m[32m   Compiling[0m trait-set v0.2.0
+[0m[0m[1m[36m    Building[0m [==================>      ] 269/351: libloading, trait-set
+[K[0m[0m[1m[32m   Compiling[0m maybe-async v0.2.7
+[0m[0m[1m[36m    Building[0m [==================>      ] 270/351: maybe-async, trait-set
+[K[0m[0m[1m[32m   Compiling[0m priority-queue v1.3.1
+[0m[0m[1m[36m    Building[0m [==================>      ] 271/351: priority-queue(build.rs), maybe-async
+[K[0m[0m[1m[32m   Compiling[0m either v1.8.1
+[0m[0m[1m[36m    Building[0m [==================>      ] 272/351: either, maybe-async
+[K[0m[0m[1m[32m   Compiling[0m opaque-debug v0.3.0
+[0m[0m[1m[36m    Building[0m [==================>      ] 273/351: maybe-async, opaque-debug
+[K[0m[0m[1m[32m   Compiling[0m rle-decode-fast v1.0.3
+[0m[0m[1m[36m    Building[0m [==================>      ] 274/351: rle-decode-fast, maybe-async
+[K[0m[0m[1m[32m   Compiling[0m unicode-width v0.1.10
+[0m[0m[1m[36m    Building[0m [==================>      ] 275/351: maybe-async, unicode-width
+[K[0m[0m[1m[32m   Compiling[0m hex v0.4.3
+[0m[0m[1m[36m    Building[0m [==================>      ] 276/351: hex, unicode-width
+[K[0m[0m[1m[32m   Compiling[0m textwrap v0.11.0
+[0m[0m[1m[36m    Building[0m [==================>      ] 277/351: hex, textwrap
+[0m[0m[1m[36m    Building[0m [==================>      ] 278/351: kmip-ttlv, textwrap
+[K[0m[0m[1m[32m   Compiling[0m libflate_lz77 v1.1.0
+[0m[0m[1m[36m    Building[0m [==================>      ] 279/351: kmip-ttlv, libflate_lz77
+[K[0m[0m[1m[32m   Compiling[0m sha2 v0.9.9
+[0m[0m[1m[36m    Building[0m [==================>      ] 280/351: kmip-ttlv, sha2
+[K[0m[0m[1m[32m   Compiling[0m itertools v0.10.5
+[0m[0m[1m[36m    Building[0m [===================>     ] 281/351: kmip-ttlv, itertools
+[0m[0m[1m[36m    Building[0m [===================>     ] 282/351: priority-queue(build), itertools
+[0m[0m[1m[36m    Building[0m [===================>     ] 283/351: itertools, cryptoki-sys
+[K[0m[0m[1m[32m   Compiling[0m tracing-subscriber v0.2.25
+[0m[0m[1m[36m    Building[0m [===================>     ] 284/351: tracing-subscriber, itertools
+[K[0m[0m[1m[32m   Compiling[0m oauth2 v4.3.0
+[0m[0m[1m[36m    Building[0m [===================>     ] 285/351: tracing-subscriber, oauth2
+[K[0m[0m[1m[32m   Compiling[0m salsa20 v0.7.2
+[0m[0m[1m[36m    Building[0m [===================>     ] 286/351: tracing-subscriber, salsa20
+[K[0m[0m[1m[32m   Compiling[0m serde-value v0.7.0
+[0m[0m[1m[36m    Building[0m [===================>     ] 287/351: tracing-subscriber, serde-value
+[0m[0m[1m[36m    Building[0m [===================>     ] 288/351: tracing-subscriber, basic-cookies(build)
+[K[0m[0m[1m[32m   Compiling[0m routecore v0.2.0
+[0m[0m[1m[36m    Building[0m [===================>     ] 289/351: tracing-subscriber, routecore
+[K[0m[0m[1m[32m   Compiling[0m rustls v0.19.1
+[0m[0m[1m[36m    Building[0m [===================>     ] 290/351: tracing-subscriber, rustls
+[0m[0m[1m[36m    Building[0m [===================>     ] 291/351: kmip-protocol(build), rustls
+[0m[0m[1m[36m    Building[0m [===================>     ] 292/351: rustls, jmespatch(build)
+[K[0m[0m[1m[32m   Compiling[0m syslog v4.0.1
+[0m[0m[1m[36m    Building[0m [===================>     ] 293/351: rustls, syslog
+[K[0m[0m[1m[32m   Compiling[0m hyper-tls v0.5.0
+[0m[0m[1m[36m    Building[0m [===================>     ] 294/351: rustls, hyper-tls
+[K[0m[0m[1m[32m   Compiling[0m scheduled-thread-pool v0.2.6
+[0m[0m[1m[36m    Building[0m [====================>    ] 295/351: scheduled-thread-pool, rustls
+[K[0m[0m[1m[32m   Compiling[0m serde_with v1.14.0
+[0m[0m[1m[36m    Building[0m [====================>    ] 296/351: rustls, serde_with
+[0m[0m[1m[36m    Building[0m [====================>    ] 297/351: rustls, polar-core
+[0m[0m[1m[36m    Building[0m [====================>    ] 298/351: num-bigint, polar-core
+[0m[0m[1m[36m    Building[0m [====================>    ] 299/351: crc32fast, polar-core
+[K[0m[0m[1m[32m   Compiling[0m hmac v0.10.1
+[0m[0m[1m[36m    Building[0m [====================>    ] 300/351: hmac, polar-core
+[K[0m[0m[1m[32m   Compiling[0m pbkdf2 v0.7.5
+[0m[0m[1m[36m    Building[0m [====================>    ] 301/351: pbkdf2, polar-core
+[K[0m[0m[1m[32m   Compiling[0m serde_urlencoded v0.7.1
+[0m[0m[1m[36m    Building[0m [====================>    ] 302/351: serde_urlencoded, polar-core
+[K[0m[0m[1m[32m   Compiling[0m futures-executor v0.3.26
+[0m[0m[1m[36m    Building[0m [====================>    ] 303/351: polar-core, futures-executor
+[K[0m[0m[1m[32m   Compiling[0m uuid v1.3.0
+[0m[0m[1m[36m    Building[0m [====================>    ] 304/351: uuid, polar-core
+[K[0m[0m[1m[32m   Compiling[0m serde_plain v1.0.1
+[0m[0m[1m[36m    Building[0m [====================>    ] 305/351: serde_plain, polar-core
+[K[0m[0m[1m[32m   Compiling[0m serde_bytes v0.11.9
+[0m[0m[1m[36m    Building[0m [====================>    ] 306/351: polar-core, serde_bytes
+[K[0m[0m[1m[32m   Compiling[0m quick-xml v0.23.1
+[0m[0m[1m[36m    Building[0m [====================>    ] 307/351: quick-xml, polar-core
+[K[0m[0m[1m[32m   Compiling[0m libfuzzer-sys v0.4.6
+[0m[0m[1m[36m    Building[0m [====================>    ] 308/351: polar-core, libfuzzer-sys(build.rs)
+[K[0m[0m[1m[32m   Compiling[0m atty v0.2.14
+[0m[0m[1m[36m    Building[0m [=====================>   ] 309/351: polar-core, atty
+[K[0m[0m[1m[32m   Compiling[0m instant v0.1.12
+[0m[0m[1m[36m    Building[0m [=====================>   ] 310/351: instant, polar-core
+[K[0m[0m[1m[32m   Compiling[0m encoding_rs v0.8.32
+[0m[0m[1m[36m    Building[0m [=====================>   ] 311/351: encoding_rs, polar-core
+[K[0m[0m[1m[32m   Compiling[0m derivative v2.2.0
+[0m[0m[1m[36m    Building[0m [=====================>   ] 312/351: polar-core, derivative
+[K[0m[0m[1m[32m   Compiling[0m enum-flags v0.1.8
+[0m[0m[1m[36m    Building[0m [=====================>   ] 313/351: enum-flags, polar-core
+[K[0m[0m[1m[32m   Compiling[0m enum-display-derive v0.1.1
+[0m[0m[1m[36m    Building[0m [=====================>   ] 314/351: polar-core, enum-display-derive
+[K[0m[0m[1m[32m   Compiling[0m impl-trait-for-tuples v0.2.2
+[0m[0m[1m[36m    Building[0m [=====================>   ] 315/351: impl-trait-for-tuples, polar-core
+[K[0m[0m[1m[32m   Compiling[0m ipnet v2.7.1
+[0m[0m[1m[36m    Building[0m [=====================>   ] 316/351: impl-trait-for-tuples, ipnet
+[K[0m[0m[1m[32m   Compiling[0m adler32 v1.2.0
+[0m[0m[1m[36m    Building[0m [=====================>   ] 317/351: ipnet, adler32
+[K[0m[0m[1m[32m   Compiling[0m vec_map v0.8.2
+[0m[0m[1m[36m    Building[0m [=====================>   ] 318/351: ipnet, vec_map
+[K[0m[0m[1m[32m   Compiling[0m strsim v0.8.0
+[0m[0m[1m[36m    Building[0m [=====================>   ] 319/351: ipnet, strsim
+[K[0m[0m[1m[32m   Compiling[0m mime v0.3.16
+[0m[0m[1m[36m    Building[0m [=====================>   ] 320/351: ipnet, mime
+[K[0m[0m[1m[32m   Compiling[0m maplit v1.0.2
+[0m[0m[1m[36m    Building[0m [=====================>   ] 321/351: maplit, ipnet
+[K[0m[0m[1m[32m   Compiling[0m base64 v0.21.0
+[0m[0m[1m[36m    Building[0m [=====================>   ] 322/351: base64, ipnet
+[K[0m[0m[1m[32m   Compiling[0m oso v0.12.4
+[0m[0m[1m[36m    Building[0m [======================>  ] 323/351: base64, oso
+[K[0m[0m[1m[32m   Compiling[0m reqwest v0.11.14
+[0m[0m[1m[36m    Building[0m [======================>  ] 324/351: reqwest, oso
+[K[0m[0m[1m[32m   Compiling[0m clap v2.34.0
+[0m[0m[1m[36m    Building[0m [======================>  ] 325/351: reqwest, clap
+[K[0m[0m[1m[32m   Compiling[0m libflate v1.2.0
+[0m[0m[1m[36m    Building[0m [======================>  ] 326/351: reqwest, libflate
+[0m[0m[1m[36m    Building[0m [======================>  ] 327/351: kmip-protocol, reqwest
+[K[0m[0m[1m[32m   Compiling[0m cryptoki v0.3.0
+[0m[0m[1m[36m    Building[0m [======================>  ] 328/351: kmip-protocol, cryptoki
+[K[0m[0m[1m[32m   Compiling[0m backoff v0.3.0
+[0m[0m[1m[36m    Building[0m [======================>  ] 329/351: kmip-protocol, backoff
+[0m[0m[1m[36m    Building[0m [======================>  ] 330/351: kmip-protocol, libfuzzer-sys(build)
+[K[0m[0m[1m[32m   Compiling[0m rpki v0.15.9
+[0m[0m[1m[36m    Building[0m [======================>  ] 330/351: kmip-protocol, libfuzzer-sys(build), rpki
+[K[0m[0m[1m[32m   Compiling[0m openidconnect v2.5.0
+[0m[0m[1m[36m    Building[0m [======================>  ] 331/351: libfuzzer-sys(build), rpki, openidconnect
+[K[0m[0m[1m[32m   Compiling[0m futures v0.3.26
+[0m[0m[1m[36m    Building[0m [======================>  ] 332/351: futures, libfuzzer-sys(build), rpki
+[K[0m[0m[1m[32m   Compiling[0m scrypt v0.6.5
+[0m[0m[1m[36m    Building[0m [======================>  ] 333/351: libfuzzer-sys(build), rpki, scrypt
+[K[0m[0m[1m[32m   Compiling[0m r2d2 v0.8.10
+[0m[0m[1m[36m    Building[0m [======================>  ] 334/351: libfuzzer-sys(build), rpki, r2d2
+[K[0m[0m[1m[32m   Compiling[0m fern v0.5.9
+[0m[0m[1m[36m    Building[0m [======================>  ] 335/351: libfuzzer-sys(build), rpki, fern
+[0m[0m[1m[36m    Building[0m [======================>  ] 336/351: libfuzzer-sys(build), rpki, jmespatch
+[K[0m[0m[1m[32m   Compiling[0m tokio-rustls v0.22.0
+[0m[0m[1m[36m    Building[0m [=======================> ] 337/351: tokio-rustls, libfuzzer-sys(build), rpki
+[0m[0m[1m[36m    Building[0m [=======================> ] 338/351: libfuzzer-sys(build), rpki, basic-cookies
+[0m[0m[1m[36m    Building[0m [=======================> ] 339/351: libfuzzer-sys(build), rpki, priority-queue
+[K[0m[0m[1m[32m   Compiling[0m intervaltree v0.2.7
+[0m[0m[1m[36m    Building[0m [=======================> ] 340/351: libfuzzer-sys(build), rpki, intervaltree
+[K[0m[0m[1m[32m   Compiling[0m toml v0.5.11
+[0m[0m[1m[36m    Building[0m [=======================> ] 341/351: libfuzzer-sys(build), rpki, toml
+[K[0m[0m[1m[32m   Compiling[0m rpassword v5.0.1
+[0m[0m[1m[36m    Building[0m [=======================> ] 342/351: libfuzzer-sys(build), rpki, rpassword
+[K[0m[0m[1m[32m   Compiling[0m fslock v0.2.1
+[0m[0m[1m[36m    Building[0m [=======================> ] 343/351: libfuzzer-sys(build), rpki, fslock
+[K[0m[0m[1m[32m   Compiling[0m urlparse v0.7.3
+[0m[0m[1m[36m    Building[0m [=======================> ] 344/351: libfuzzer-sys(build), rpki, urlparse
+[K[0m[0m[1m[32m   Compiling[0m arbitrary v1.2.3
+[0m[0m[1m[36m    Building[0m [=======================> ] 345/351: libfuzzer-sys(build), rpki, arbitrary
+[K[0m[0m[1m[32m   Compiling[0m krill v0.12.0 (/workspaces/Cybersecurity2022/krill)
+[0m[0m[1m[36m    Building[0m [=======================> ] 346/351: libfuzzer-sys(build), rpki, krill
+[0m[0m[1m[36m    Building[0m [=======================> ] 347/351: libfuzzer-sys(build), krill
+[K[0m[1m[33mwarning[0m[0m[1m: use of deprecated associated function `chrono::TimeZone::timestamp`: use `timestamp_opt()` instead[0m
+[0m    [0m[0m[1m[38;5;12m--> [0m[0m/workspaces/Cybersecurity2022/krill/src/commons/api/ca.rs:1601:23[0m
+[0m     [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m1601[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Time::new(Utc.timestamp(timestamp.0, 0))[0m
+[0m     [0m[0m[1m[38;5;12m| [0m[0m                      [0m[0m[1m[33m^^^^^^^^^[0m
+[0m     [0m[0m[1m[38;5;12m|[0m
+[0m     [0m[0m[1m[38;5;12m= [0m[0m[1mnote[0m[0m: `#[warn(deprecated)]` on by default[0m
+
+[0m[0m[1m[36m    Building[0m [=======================> ] 347/351: libfuzzer-sys(build), krill
+[K[0m[1m[33mwarning[0m[0m[1m: use of deprecated associated function `chrono::NaiveDateTime::from_timestamp`: use `from_timestamp_opt()` instead[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0m/workspaces/Cybersecurity2022/krill/src/commons/api/history.rs:161:35[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m161[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        let time = NaiveDateTime::from_timestamp(seconds, 0);[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                  [0m[0m[1m[33m^^^^^^^^^^^^^^[0m
+
+[0m[0m[1m[36m    Building[0m [=======================> ] 347/351: libfuzzer-sys(build), krill
+[K[0m[0m[1m[33mwarning[0m[1m:[0m `krill` (lib) generated 2 warnings
+[0m[0m[1m[31merror[0m[1m:[0m could not compile `krill`; 2 warnings emitted
+
+Caused by:
+  process didn't exit successfully: `rustc --crate-name krill --edition=2018 /workspaces/Cybersecurity2022/krill/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --diagnostic-width=148 --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C debuginfo=1 --cfg 'feature="backoff"' --cfg 'feature="basic-cookies"' --cfg 'feature="cryptoki"' --cfg 'feature="default"' --cfg 'feature="hsm"' --cfg 'feature="jmespatch"' --cfg 'feature="kmip"' --cfg 'feature="multi-user"' --cfg 'feature="once_cell"' --cfg 'feature="openidconnect"' --cfg 'feature="oso"' --cfg 'feature="r2d2"' --cfg 'feature="regex"' --cfg 'feature="rpassword"' --cfg 'feature="scrypt"' --cfg 'feature="unicode-normalization"' --cfg 'feature="urlparse"' -C metadata=b04ccae413e4bc68 -C extra-filename=-b04ccae413e4bc68 --out-dir /workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps --target x86_64-unknown-linux-gnu -L dependency=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps -L dependency=/workspaces/Cybersecurity2022/krill/fuzz/target/release/deps --extern backoff=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbackoff-664fcde91cfe1aaf.rmeta --extern base64=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbase64-cfb2103fd0e9557c.rmeta --extern basic_cookies=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbasic_cookies-2e30aa1a428d98dc.rmeta --extern bytes=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbytes-e77f0eb8b21c1960.rmeta --extern chrono=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libchrono-7e0865cccf034c3e.rmeta --extern clap=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libclap-6e15a6c1a3c468a9.rmeta --extern cryptoki=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libcryptoki-4347a1ce04518caa.rmeta --extern fern=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfern-e69ed5584b5751df.rmeta --extern fslock=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfslock-a03dbc221037eca3.rmeta --extern futures=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfutures-59e2426c68997b86.rmeta --extern futures_util=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfutures_util-523bba30fa12a3e9.rmeta --extern hex=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libhex-09da1baa621273da.rmeta --extern hyper=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libhyper-18732faf9f1ec383.rmeta --extern intervaltree=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libintervaltree-a6963201280c0543.rmeta --extern jmespatch=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libjmespatch-6615a0f28f8ca724.rmeta --extern kmip=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libkmip_protocol-83e5d782f674a1fb.rmeta --extern libc=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liblibc-3b148b426fcdc8ec.rmeta --extern libflate=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liblibflate-deee412097d06162.rmeta --extern log=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liblog-5630aa6517368052.rmeta --extern once_cell=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libonce_cell-527def2c46ec1e41.rmeta --extern openidconnect=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libopenidconnect-27aac1a1ec7af14b.rmeta --extern openssl=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libopenssl-1383e2729d18f724.rmeta --extern oso=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liboso-e75827311ef85edb.rmeta --extern priority_queue=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libpriority_queue-7b95cd1c1b7ba5b8.rmeta --extern r2d2=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libr2d2-913a8e9295b452db.rmeta --extern rand=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/librand-3453c2351cdff286.rmeta --extern regex=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libregex-2e339007ba095f69.rmeta --extern reqwest=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libreqwest-f265395fc0dd3979.rmeta --extern rpassword=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/librpassword-44ed692bb8054ec2.rmeta --extern rpki=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/librpki-c3c5d8dc3a6d9cd6.rmeta --extern scrypt=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libscrypt-3407985e710f333f.rmeta --extern serde=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libserde-a40a2b75f069f219.rmeta --extern serde_json=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libserde_json-ebef04b23a60cb67.rmeta --extern syslog=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libsyslog-893ff4f4ced88524.rmeta --extern tokio=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libtokio-f8b46301f16e326d.rmeta --extern tokio_rustls=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libtokio_rustls-0fed45182f0f6766.rmeta --extern toml=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libtoml-03d78020f365ee18.rmeta --extern unicode_normalization=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libunicode_normalization-d85672002e3bffb8.rmeta --extern urlparse=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liburlparse-95b350e78fe816e2.rmeta --extern uuid=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libuuid-a648548d5a339bc3.rmeta -Cpasses=sancov-module -Cllvm-args=-sanitizer-coverage-level=4 -Cllvm-args=-sanitizer-coverage-inline-8bit-counters -Cllvm-args=-sanitizer-coverage-pc-table -Cllvm-args=-sanitizer-coverage-trace-compares --cfg fuzzing -Clink-dead-code -Zsanitizer=address -Cllvm-args=-sanitizer-coverage-stack-depth -Cdebug-assertions -C codegen-units=1 -L native=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/build/ring-5e2384826292c7dc/out` (signal: 9, SIGKILL: kill)
+[0m[0m[1m[33mwarning[0m[1m:[0m build failed, waiting for other jobs to finish...
+[0m[0m[1m[36m    Building[0m [=======================> ] 348/351: libfuzzer-sys(build)
+[KError: failed to build fuzz script: ASAN_OPTIONS="detect_odr_violation=0" RUSTFLAGS="-Cpasses=sancov-module -Cllvm-args=-sanitizer-coverage-level=4 -Cllvm-args=-sanitizer-coverage-inline-8bit-counters -Cllvm-args=-sanitizer-coverage-pc-table -Cllvm-args=-sanitizer-coverage-trace-compares --cfg fuzzing -Clink-dead-code -Zsanitizer=address -Cllvm-args=-sanitizer-coverage-stack-depth -Cdebug-assertions -C codegen-units=1" "cargo" "build" "--manifest-path" "/workspaces/Cybersecurity2022/krill/fuzz/Cargo.toml" "--target" "x86_64-unknown-linux-gnu" "--release" "--bin" "fuzz_target_1"
+
+
+
+######################################################################################################
+
+Rerun
+
+######################################################################################################
+
+
+
+
+[0m[0m[1m[32m   Compiling[0m krill v0.12.0 (/workspaces/Cybersecurity2022/krill)
+[0m[0m[1m[32m   Compiling[0m libfuzzer-sys v0.4.6
+[0m[0m[1m[36m    Building[0m [=======================> ] 348/351: krill, libfuzzer-sys
+[0m[0m[1m[36m    Building[0m [=======================> ] 349/351: krill
+[K[0m[1m[33mwarning[0m[0m[1m: use of deprecated associated function `chrono::TimeZone::timestamp`: use `timestamp_opt()` instead[0m
+[0m    [0m[0m[1m[38;5;12m--> [0m[0m/workspaces/Cybersecurity2022/krill/src/commons/api/ca.rs:1601:23[0m
+[0m     [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m1601[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Time::new(Utc.timestamp(timestamp.0, 0))[0m
+[0m     [0m[0m[1m[38;5;12m| [0m[0m                      [0m[0m[1m[33m^^^^^^^^^[0m
+[0m     [0m[0m[1m[38;5;12m|[0m
+[0m     [0m[0m[1m[38;5;12m= [0m[0m[1mnote[0m[0m: `#[warn(deprecated)]` on by default[0m
+
+[0m[0m[1m[36m    Building[0m [=======================> ] 349/351: krill
+[K[0m[1m[33mwarning[0m[0m[1m: use of deprecated associated function `chrono::NaiveDateTime::from_timestamp`: use `from_timestamp_opt()` instead[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0m/workspaces/Cybersecurity2022/krill/src/commons/api/history.rs:161:35[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m161[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        let time = NaiveDateTime::from_timestamp(seconds, 0);[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                  [0m[0m[1m[33m^^^^^^^^^^^^^^[0m
+
+[0m[0m[1m[36m    Building[0m [=======================> ] 349/351: krill
+[K[0m[0m[1m[33mwarning[0m[1m:[0m `krill` (lib) generated 2 warnings
+[0m[0m[1m[31merror[0m[1m:[0m could not compile `krill`; 2 warnings emitted
+
+Caused by:
+  process didn't exit successfully: `rustc --crate-name krill --edition=2018 /workspaces/Cybersecurity2022/krill/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --diagnostic-width=130 --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C debuginfo=1 --cfg 'feature="backoff"' --cfg 'feature="basic-cookies"' --cfg 'feature="cryptoki"' --cfg 'feature="default"' --cfg 'feature="hsm"' --cfg 'feature="jmespatch"' --cfg 'feature="kmip"' --cfg 'feature="multi-user"' --cfg 'feature="once_cell"' --cfg 'feature="openidconnect"' --cfg 'feature="oso"' --cfg 'feature="r2d2"' --cfg 'feature="regex"' --cfg 'feature="rpassword"' --cfg 'feature="scrypt"' --cfg 'feature="unicode-normalization"' --cfg 'feature="urlparse"' -C metadata=b04ccae413e4bc68 -C extra-filename=-b04ccae413e4bc68 --out-dir /workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps --target x86_64-unknown-linux-gnu -L dependency=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps -L dependency=/workspaces/Cybersecurity2022/krill/fuzz/target/release/deps --extern backoff=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbackoff-664fcde91cfe1aaf.rmeta --extern base64=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbase64-cfb2103fd0e9557c.rmeta --extern basic_cookies=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbasic_cookies-2e30aa1a428d98dc.rmeta --extern bytes=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libbytes-e77f0eb8b21c1960.rmeta --extern chrono=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libchrono-7e0865cccf034c3e.rmeta --extern clap=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libclap-6e15a6c1a3c468a9.rmeta --extern cryptoki=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libcryptoki-4347a1ce04518caa.rmeta --extern fern=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfern-e69ed5584b5751df.rmeta --extern fslock=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfslock-a03dbc221037eca3.rmeta --extern futures=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfutures-59e2426c68997b86.rmeta --extern futures_util=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libfutures_util-523bba30fa12a3e9.rmeta --extern hex=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libhex-09da1baa621273da.rmeta --extern hyper=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libhyper-18732faf9f1ec383.rmeta --extern intervaltree=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libintervaltree-a6963201280c0543.rmeta --extern jmespatch=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libjmespatch-6615a0f28f8ca724.rmeta --extern kmip=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libkmip_protocol-83e5d782f674a1fb.rmeta --extern libc=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liblibc-3b148b426fcdc8ec.rmeta --extern libflate=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liblibflate-deee412097d06162.rmeta --extern log=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liblog-5630aa6517368052.rmeta --extern once_cell=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libonce_cell-527def2c46ec1e41.rmeta --extern openidconnect=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libopenidconnect-27aac1a1ec7af14b.rmeta --extern openssl=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libopenssl-1383e2729d18f724.rmeta --extern oso=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liboso-e75827311ef85edb.rmeta --extern priority_queue=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libpriority_queue-7b95cd1c1b7ba5b8.rmeta --extern r2d2=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libr2d2-913a8e9295b452db.rmeta --extern rand=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/librand-3453c2351cdff286.rmeta --extern regex=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libregex-2e339007ba095f69.rmeta --extern reqwest=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libreqwest-f265395fc0dd3979.rmeta --extern rpassword=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/librpassword-44ed692bb8054ec2.rmeta --extern rpki=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/librpki-c3c5d8dc3a6d9cd6.rmeta --extern scrypt=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libscrypt-3407985e710f333f.rmeta --extern serde=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libserde-a40a2b75f069f219.rmeta --extern serde_json=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libserde_json-ebef04b23a60cb67.rmeta --extern syslog=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libsyslog-893ff4f4ced88524.rmeta --extern tokio=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libtokio-f8b46301f16e326d.rmeta --extern tokio_rustls=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libtokio_rustls-0fed45182f0f6766.rmeta --extern toml=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libtoml-03d78020f365ee18.rmeta --extern unicode_normalization=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libunicode_normalization-d85672002e3bffb8.rmeta --extern urlparse=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/liburlparse-95b350e78fe816e2.rmeta --extern uuid=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/deps/libuuid-a648548d5a339bc3.rmeta -Cpasses=sancov-module -Cllvm-args=-sanitizer-coverage-level=4 -Cllvm-args=-sanitizer-coverage-inline-8bit-counters -Cllvm-args=-sanitizer-coverage-pc-table -Cllvm-args=-sanitizer-coverage-trace-compares --cfg fuzzing -Clink-dead-code -Zsanitizer=address -Cllvm-args=-sanitizer-coverage-stack-depth -Cdebug-assertions -C codegen-units=1 -L native=/workspaces/Cybersecurity2022/krill/fuzz/target/x86_64-unknown-linux-gnu/release/build/ring-5e2384826292c7dc/out` (signal: 9, SIGKILL: kill)
+Error: failed to build fuzz script: ASAN_OPTIONS="detect_odr_violation=0" RUSTFLAGS="-Cpasses=sancov-module -Cllvm-args=-sanitizer-coverage-level=4 -Cllvm-args=-sanitizer-coverage-inline-8bit-counters -Cllvm-args=-sanitizer-coverage-pc-table -Cllvm-args=-sanitizer-coverage-trace-compares --cfg fuzzing -Clink-dead-code -Zsanitizer=address -Cllvm-args=-sanitizer-coverage-stack-depth -Cdebug-assertions -C codegen-units=1" "cargo" "build" "--manifest-path" "/workspaces/Cybersecurity2022/krill/fuzz/Cargo.toml" "--target" "x86_64-unknown-linux-gnu" "--release" "--bin" "fuzz_target_1"
+
+
+######################################################################################################
+
+######################################################################################################
+
