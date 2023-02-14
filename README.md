@@ -43,7 +43,7 @@ Run the Fuzzer with e.g.
 cifuzz -v -C $CODESPACE_VSCODE_FOLDER/rpki-validator-3/rpki-validator run FuzzRrdp --use-sandbox=false
 ```
 
-So far the Fuzzer always threw errors as shown here: [stdout.html](stdout.html) (VSCode offers a HTML preview mode with the addon [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server))
+So far the Fuzzer always threw errors as shown here: [docs/stdout.html](docs/stdout.html) (VSCode offers a HTML preview mode with the addon [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server))
 
 ## Development
 
