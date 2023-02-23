@@ -9,7 +9,7 @@ cargo-fuzz = true
 
 [dependencies]
 libfuzzer-sys = "0.4"
-bytes           = "1.0"
+bytes         = "1.0"
 
 [dependencies.rpki]
 path = ".."
@@ -38,5 +38,17 @@ debug = 1
 [[bin]]
 name = "fuzz_target_1"
 path = "fuzz_targets/fuzz_target_1.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "fuzz_target_rrdp"
+path = "fuzz_targets/fuzz_target_rrdp.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "fuzz_target_idcert"
+path = "fuzz_targets/fuzz_target_idcert.rs"
 test = false
 doc = false

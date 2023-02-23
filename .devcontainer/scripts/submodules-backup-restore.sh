@@ -27,7 +27,7 @@ function backup_changes() {
         else
             diffDir=$(dirname $change)
             mkdir -p $subModDiffDir/$diffDir
-            if [ -n "$(git diff --no-index $changePath $subModDiffDir/$change)" ]; then
+            if [ ! -d $subModDiffDir/$change ] || [ -n "$(git diff --no-index $changePath $subModDiffDir/$change)" ]; then
                 echo -e "\tcp ...$change \t ->  $subModDiffDir/$diffDir/"
                 cp $changePath $subModDiffDir/$diffDir/
             fi
