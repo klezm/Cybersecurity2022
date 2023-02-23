@@ -25,6 +25,17 @@
         "showReuseMessage": true,
         "clear": false
       }
+    },
+    {
+      "label": "Backup Submodules",
+      "type": "shell",
+      "command": "${workspaceFolder}/.devcontainer/scripts/submodules-backup-restore.sh",
+      "problemMatcher": []
+    },
+    {
+      "label": "Cargo Clean all Crates",
+      "type": "shell",
+      "command": "find . -name Cargo.toml -not -path \"*-diff/*\" -type f -exec dirname {} \\; | xargs -t -I % cargo +nightly -C % clean",
     }
   ]
 }

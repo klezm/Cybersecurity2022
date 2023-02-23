@@ -52,7 +52,8 @@
 	// "postCreateCommand": "[ -d rpki-validator-3 ] || git clone --depth 1 https://github.com/RIPE-NCC/rpki-validator-3",
 	// "postCreateCommand": "[ -d rpki-validator-3/.git ] || (mv rpki-validator-3 rpki-validator-3-TMP && git clone --depth 1 https://github.com/RIPE-NCC/rpki-validator-3 && cp -r rpki-validator-3-TMP/* rpki-validator-3 && rm -rf rpki-validator-3-TMP)",
 	// "postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/scripts/clone-repo.sh",
-	"postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/scripts/submodules-backup-restore.sh restore",
+	"postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/scripts/clone-repo.sh https://github.com/RIPE-NCC/rpki-validator-3",
+	// "postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/scripts/clone-repo.sh https://github.com/RIPE-NCC/rpki-validator-3 && bash ${containerWorkspaceFolder}/.devcontainer/scripts/submodules-backup-restore.sh restore",
 	// copy .zsh_history from repositroy to container if no history file exists in container
 	// "postStartCommand": "([ -f ~/.zsh_history ] && [ 0 -lt $(wc -l <~/.zsh_history) ]) && echo -e \"\\n$(git diff --no-index .zsh_history ~/.zsh_history | grep -oP '(?<=^\\+):.*$')\" >> .zsh_history || cp .zsh_history ~/.zsh_history"
 	"postStartCommand": "bash ${containerWorkspaceFolder}/.devcontainer/scripts/preserve-history.sh"

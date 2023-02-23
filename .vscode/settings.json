@@ -2,18 +2,36 @@
     "[rust]": {
         "editor.defaultFormatter": "rust-lang.rust-analyzer"
     },
-    // "rust-analyzer.cargo.buildScripts.invocationLocation": "workspace",
+    // https://rust-analyzer.github.io/manual.html
+    "rust-analyzer.cargo.extraEnv": {"RUSTUP_TOOLCHAIN": "stable"},
+    // "rust-analyzer.cargo.target": null,
     "rust-analyzer.linkedProjects": [
         // "${workspaceFolder}/routinator/Cargo.toml",
-        "${workspaceFolder}/krill/Cargo.toml",
+        // "${workspaceFolder}/krill/Cargo.toml",
+        // "${workspaceFolder}/krill/fuzz/Cargo.toml",
         "${workspaceFolder}/rpki-rs/Cargo.toml",
+        "${workspaceFolder}/rpki-rs/fuzz/Cargo.toml"
+        // {
+        //     "roots": [
+        //         "${workspaceFolder}/rpki-rs/Cargo.toml",
+        //     ],
+        //     // "crates": ["rpki"]
+        // }
     ],
-    // "rust-analyzer.linkedProjects": [
-    //     {
-    //         "roots": "[${workspaceFolder}/krill", ],
-    //         // "crates": [
-    //         //     "rpki"
-    //         // ]
-    //     }
-    // ],
+    // "rust-analyzer.cargo.buildScripts.invocationLocation": "workspace",
+    "rust-analyzer.cargo.features": "all",
+    "rust-analyzer.files.excludeDirs": [
+        "routinator",
+        "krill",
+        // "rpki-rs",
+        "routinator-diff", "rpki-rs-diff", "krill-diff"
+    ],
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/*/**": true,
+        "**/.hg/store/**": true,
+
+        "*-diff/**": true,
+    },
 }

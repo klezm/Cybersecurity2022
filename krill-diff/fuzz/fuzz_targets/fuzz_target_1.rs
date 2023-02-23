@@ -2,6 +2,8 @@
 
 use libfuzzer_sys::fuzz_target;
 
+// use krill::cli::options::Options;
+
 fuzz_target!(|data: &[u8]| {
-    // fuzzed code goes here
+    // let _ = Options::parse_my_ca(data)
 });

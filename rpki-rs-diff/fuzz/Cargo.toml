@@ -9,13 +9,28 @@ cargo-fuzz = true
 
 [dependencies]
 libfuzzer-sys = "0.4"
+bytes           = "1.0"
 
 [dependencies.rpki]
 path = ".."
+# https://doc.rust-lang.org/cargo/reference/features.html
+# https://dev.to/rimutaka/cargo-features-explained-with-examples-194g
+default-features = false
+features = [
+    "ca",
+    # "crypto",
+    # "repository",
+    # "rrdp",
+    # "rtr",
+    # "slurm",
+    ]
 
 # Prevent this from interfering with workspaces
 [workspace]
-members = ["."]
+members = [
+    ".",
+    # ".."
+    ]
 
 [profile.release]
 debug = 1

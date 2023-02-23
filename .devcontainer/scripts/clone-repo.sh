@@ -9,7 +9,11 @@ git submodule update --init # --recursive
 # Omit --shallow-submodules if you set the option in the .gitmodules file
 # git config -f .gitmodules submodule.<name>.shallow true
 
-
+# Get specific tag of krill repo
+git -C krill fetch
+git -C krill stash
+git -C krill checkout -b v0.12.1 v0.12.1
+git -C krill stash pop
 
 
 GIT_URL=${1:-"none"} # Pass the repo URL as the first argument or use the given default

@@ -16,7 +16,8 @@
 				"GitHub.copilot-labs",
 				"eamodio.gitlens",
 				"redhat.vscode-xml",
-				"ms-vscode.live-server"
+				"ms-vscode.live-server",
+				"foxundermoon.shell-format"
 			]
 		}
 	},
@@ -44,8 +45,17 @@
 		"ghcr.io/devcontainers/features/python:1": {
 			// "optimize":	true,
 			// "installJupyterlab": true
-		}
+		},
+		"ghcr.io/devcontainers/features/sshd:1": {} // Prerequisit for using codespaces in JetBrains IDEs
+
+		// "ghcr.io/akhildevelops/devcontainer-features/apt:0": {},
+		// "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {},
+		// "ghcr.io/devcontainers-contrib/features/bash-command:1": {"command": "env | sort; whoami"},
+		// "ghcr.io/eliises/devcontainer-features/bash-profile:1": {},
+		// "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {},
+		// "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {},
 	},
+	"overrideFeatureInstallOrder": ["ghcr.io/devcontainers/features/common-utils"],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
@@ -58,11 +68,16 @@
 	// "postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/scripts/clone-repo.sh https://github.com/NLnetLabs/krill",
 	// "postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/scripts/clone-repo.sh https://github.com/NLnetLabs/routinator",
 
-	"postStartCommand": "bash ${containerWorkspaceFolder}/.devcontainer/scripts/preserve-history.sh"
+	// "postStartCommand": "chsh -s /bin/zsh && bash ${containerWorkspaceFolder}/.devcontainer/scripts/preserve-history.sh",
+	// "postStartCommand": "sudo chsh -s /bin/zsh && bash ${containerWorkspaceFolder}/.devcontainer/scripts/preserve-history.sh",
+	// "postStartCommand": "env | sort && usermod -s /bin/zsh $USERNAME && ${containerWorkspaceFolder}/.devcontainer/scripts/preserve-history.sh",
+	"postStartCommand": "${containerWorkspaceFolder}/.devcontainer/scripts/preserve-history.sh",
 
 	// Configure tool-specific properties.
 	// "customizations": {},
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+	// needed for rust-analyzer extension in vscode
+	"remoteUser": "root"
+	// "remoteUser": "vscode"
 }

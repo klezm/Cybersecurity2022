@@ -12,6 +12,25 @@ libfuzzer-sys = "0.4"
 
 [dependencies.krill]
 path = ".."
+default-features = false
+features = [
+    # "multi-user",
+    # "hsm"
+    ## multi-user = [
+    # "basic-cookies",
+    # "jmespatch/sync",
+    # "regex",
+    # "oso",
+    # "openidconnect",
+    # "rpassword",
+    # "scrypt",
+    # "unicode-normalization",
+    # "urlparse"
+    ## ]
+    ]
+
+# [patch.crates-io.rpki]
+# path = "../../rpki-rs"
 
 # Prevent this from interfering with workspaces
 [workspace]
