@@ -13,7 +13,8 @@ on:
         type: string
         description: 'Fuzz-arg: Fuzzing target'
         required: false
-        default: 'fuzz_target_1'
+        # default: 'fuzz_target_1'
+        default: 'fuzz_target_rrdp'
       max_total_time:
         type: string
         # https://docs.github.com/en/actions/learn-github-actions/usage-limits-billing-and-administration
@@ -79,14 +80,19 @@ jobs:
       uses: actions/checkout@v1
       with:
         submodules: true
+    - name: Restore submodules
+      working-directory: .
+      run: |
+        # echo "pwd: $(pwd)"
+        # ls -lha
+        .devcontainer/scripts/submodules-backup-restore.sh restore
     - name: playground
       # if: ${{ github.event.inputs.submodule == 'rpki-rs' }}
       # if: ${{ github.event.inputs.verbose == 'true' }}
       run: |
         echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
-        echo "github.event.inputs..."
-        # echo "${{ github.event.inputs.submodule }} - ${{ github.event.inputs.fuzz }} - ${{ github.event.inputs.max_total_time }} - ${{ github.event.inputs.resume_with_artifacts }}"
         echo -e "\ngithub.event.inputs.<...>"
+        # echo "${{ github.event.inputs.submodule }} - ${{ github.event.inputs.fuzz }} - ${{ github.event.inputs.max_total_time }} - ${{ github.event.inputs.resume_with_artifacts }}"
         echo "submodule:             ${{ github.event.inputs.submodule }}"
         echo "fuzz:                  ${{ github.event.inputs.fuzz }}"
         echo "max_total_time:        ${{ github.event.inputs.max_total_time }}"
