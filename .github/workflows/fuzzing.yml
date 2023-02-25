@@ -42,16 +42,22 @@ on:
         description: 'Fuzz-arg: Additional arguments to pass to the fuzzer'
         required: false
         default: '--locked'
-      resume_with_artifacts:
-        type: boolean
-        description: 'Resume fuzzing with artifacts from previous run, including corpus, artifacts and coverage'
+      artifacts_up_down_load:
+        type: choice
+        description: 'Upload and download artifacts'
         required: false
-        default: true
-      upload_artifacts:
-        type: boolean
-        description: 'Upload Artifacts'
-        required: false
-        default: true
+        default: 'upload_and_download'
+        options: ['upload', 'download', 'download_and_upload', 'none']
+      # resume_with_artifacts:
+      #   type: boolean
+      #   description: 'Resume fuzzing with artifacts from previous run, including corpus, artifacts and coverage'
+      #   required: false
+      #   default: true
+      # upload_artifacts:
+      #   type: boolean
+      #   description: 'Upload Artifacts'
+      #   required: false
+      #   default: true
       rust_toolchain:
         type: string
         description: 'Rust toolchain'
@@ -66,6 +72,10 @@ on:
   # schedule:
   #   - cron: '0 */6 * * *' # run every 6 hours
   #   - cron: '0 0 * * *' # run daily at midnight
+
+env:
+  ARTIFACT_DOWNLOAD: ${{ contains(github.event.inputs.artifacts_up_down_load, 'download') }}
+  ARTIFACT_UPLOAD: ${{ contains(github.event.inputs.artifacts_up_down_load, 'upload') }}
 
 jobs:
   fuzz:
@@ -98,24 +108,40 @@ jobs:
         echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
         echo -e "\ngithub.event.inputs.<...>"
         # echo "${{ github.event.inputs.submodule }} - ${{ github.event.inputs.fuzz }} - ${{ github.event.inputs.max_total_time }} - ${{ github.event.inputs.resume_with_artifacts }}"
-        echo "submodule:             ${{ github.event.inputs.submodule }}"
-        echo "fuzz:                  ${{ github.event.inputs.fuzz }}"
-        echo "max_total_time:        ${{ github.event.inputs.max_total_time }}"
-        echo "seed:                  ${{ github.event.inputs.seed }}"
-        echo "only_ascii:            ${{ github.event.inputs.only_ascii }}"
-        echo "corpus:                ${{ github.event.inputs.corpus }}"
-        echo "fuzz_args:             ${{ github.event.inputs.fuzz_args }}"
-        echo "resume_with_artifacts: ${{ github.event.inputs.resume_with_artifacts }}"
-        echo "upload_artifacts:      ${{ github.event.inputs.upload_artifacts }}"
-        echo "rust_toolchain:        ${{ github.event.inputs.rust_toolchain }}"
-        echo "verbose:               ${{ github.event.inputs.verbose }}"
+        echo "submodule:              ${{ github.event.inputs.submodule }}"
+        echo "fuzz:                   ${{ github.event.inputs.fuzz }}"
+        echo "max_total_time:         ${{ github.event.inputs.max_total_time }}"
+        echo "seed:                   ${{ github.event.inputs.seed }}"
+        echo "only_ascii:             ${{ github.event.inputs.only_ascii }}"
+        echo "corpus:                 ${{ github.event.inputs.corpus }}"
+        echo "fuzz_args:              ${{ github.event.inputs.fuzz_args }}"
+        echo "artifacts_up_down_load: ${{ github.event.inputs.artifacts_up_down_load }}"
+        # echo "resume_with_artifacts:  ${{ github.event.inputs.resume_with_artifacts }}"
+        # echo "upload_artifacts:       ${{ github.event.inputs.upload_artifacts }}"
+        echo "rust_toolchain:         ${{ github.event.inputs.rust_toolchain }}"
+        echo "verbose:                ${{ github.event.inputs.verbose }}"
+        echo "ARTIFACT_DOWNLOAD:      ${{ env.ARTIFACT_DOWNLOAD }}"
+        echo "ARTIFACT_UPLOAD:        ${{ env.ARTIFACT_UPLOAD }}"
         echo -e "\npwd: $(pwd)"
         echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
         # find .. -print | sed -e "s;[^/]*/;|____;g;s;____|; |;g"
         # echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
         # ls -aR . | grep ':$' | sed -e 's/:$//' -e 's/[^\/]*\//|  /g' -e 's/|  \([^|]\)/|–– \1/g'
-        ls -R .. | grep ':$' | sed -e 's/:$//' -e 's/[^\/]*\//|  /g' -e 's/|  \([^|]\)/|–– \1/g'
+        # ls -R .. | grep ':$' | sed -e 's/:$//' -e 's/[^\/]*\//|  /g' -e 's/|  \([^|]\)/|–– \1/g'
         echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
+        env | sort
+    - name: playground 2
+      if: ${{ env.ARTIFACT_DOWNLOAD == 'true' }}
+      run: |
+        echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
+        echo "playground 2"
+        echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
+    - name: playground 3
+      if: ${{ env.ARTIFACT_UPLOAD == 'true' }}
+      run: |
+        echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
+        echo "playground 3"
+        echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
     - name: install dependencies
       run: |
         sudo apt update
@@ -180,7 +206,8 @@ jobs:
     #     # git submodule update --init --recursive
 
     - name: Download archived Fuzzing Corpus, Artifacts and Coverage
-      if: ${{ github.event.inputs.resume_with_artifacts == 'true' }}
+      # if: ${{ github.event.inputs.resume_with_artifacts == 'true' }}
+      if: ${{ env.ARTIFACT_DOWNLOAD == 'true' }}
       uses: actions/download-artifact@v3
       with:
         name: fuzzing-corpus-artifacts-coverage
@@ -238,10 +265,13 @@ jobs:
         echo
         du -h -d 3 rpki-rs | sort -h
         echo -e "\n\nCargo.lock:\n"
-        cat Cargo.lock
+        [ -f Cargo.lock ] && cat Cargo.lock
+        echo -e "\n\nfuzz/Cargo.toml:\n"
+        cat fuzz/Cargo.toml
 
     - name: Archive Fuzzing Corpus, Artifacts and Coverage
-      if: ${{ github.event.inputs.upload_artifacts == 'true' }}
+      # if: ${{ github.event.inputs.upload_artifacts == 'true' }}
+      if: ${{ env.ARTIFACT_UPLOAD == 'true' }}
       uses: actions/upload-artifact@v3
       with:
         # name: fuzzing-corpus-artifacts-coverage-${{ github.event.inputs.submodule }}
@@ -256,3 +286,4 @@ jobs:
 
 # bin/act workflow_dispatch -j fuzz --input max_total_time=30 --input fuzz=fuzz_target_rrdp --input submodule=rpki-rs --input resume_with_artifacts=true
 # bin/act workflow_dispatch -j fuzz --input submodule=rpki-rs --input fuzz=fuzz_target_rrdp --input max_total_time=30 --input seed=0 --input only_ascii=1 --input corpus="../corpus/xml/snapshot/*" --input resume_with_artifacts=false --input upload_artifacts=false --input rust_toolchain=nightly --input verbose=false
+# bin/act workflow_dispatch -j fuzz --input submodule=rpki-rs --input fuzz=fuzz_target_rrdp --input max_total_time=30 --input seed=0 --input only_ascii=1 --input corpus="../corpus/xml/snapshot/*" --input fuzz_args="--locked" --input artifacts_up_down_load=download_and_upload --input rust_toolchain=nightly --input verbose=false
