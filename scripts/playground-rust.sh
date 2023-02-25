@@ -7,12 +7,13 @@ fi
 
 # GIT_URL=${1:-"https://github.com/NLnetLabs/krill"}
 GIT_URL=${1:-"https://github.com/NLnetLabs/rpki-rs"}
-WRITE_LOG=${2:-"false"}
-# WRITE_LOG="true"
-
 # echo "$GIT_URL"; exit 0
 REPO_NAME=$(basename $GIT_URL .git)
 REPO_DIR="$REPO_NAME" # REPO_DIR="$CODESPACE_VSCODE_FOLDER/$REPO_NAME"
+WRITE_LOG=${2:-"false"}
+WRITE_LOG="true"
+# LOG_PATH="docs/stdout.txt"
+LOG_PATH="docs/logs/$(date "+%F-%H_%M_%S").txt"
 
 
 function reset_corpus() {
@@ -114,20 +115,27 @@ cd $OLDPWD
 echo "pwd: $(pwd)"
 
 if [ $WRITE_LOG == "true" ]; then
-    # cat << EOF >> ../stdout.txt
-    # echo -e "\n\n##############################################\n\n$(date)\n\n##############################################\n\n" >> docs/stdout.txt
-    echo -e "\n\n<details><summary>\n<pre>$REPO_NAME\t\t$(date "+%D %T")</pre>\n</summary><pre>\n" >> docs/stdout.txt
+    # cat << EOF >> $LOG_PATH
+    # echo -e "\n\n##############################################\n\n$(date)\n\n##############################################\n\n" >> $LOG_PATH
+    echo -e "\n\n<details><summary>\n<pre>$REPO_NAME\t\t$(date "+%D %T")</pre>\n</summary><pre>\n" >> $LOG_PATH
 fi
 
 CORPUS_DIR=""
 # CORPUS_DIR="fuzz/corpus"
 # CORPUS_DIR="../corpus"
 CORPUS_DIR="../corpus/xml/snapshot"
+SEED=0 # default: 0
+SEED=1880631125 # default: 0
+ONLY_ASCII=1 # default: 0
+MAX_TOTAL_TIME=$((60*60*6))
+echo -e "\nREPO_NAME: $REPO_NAME\nWRITE_LOG: $WRITE_LOG\nLOG_PATH: $LOG_PATH\nFUZZING_TARGET: $FUZZING_TARGET\nCORPUS_DIR: $CORPUS_DIR\nSEED: $SEED\nONLY_ASCII: $ONLY_ASCII\nMAX_TOTAL_TIME: $MAX_TOTAL_TIME\n"
+echo -e "\nREPO_NAME: $REPO_NAME\nWRITE_LOG: $WRITE_LOG\nLOG_PATH: $LOG_PATH\nFUZZING_TARGET: $FUZZING_TARGET\nCORPUS_DIR: $CORPUS_DIR\nSEED: $SEED\nONLY_ASCII: $ONLY_ASCII\nMAX_TOTAL_TIME: $MAX_TOTAL_TIME\n\n" >> $LOG_PATH
 
 if [ $WRITE_LOG == "true" ]; then
-    unbuffer cargo +nightly -C $REPO_NAME -vv --locked fuzz run -v $FUZZING_TARGET | tee -a docs/stdout.txt
-    # unbuffer cargo +nightly -C $REPO_NAME -vv fuzz run $FUZZING_TARGET | tee -a docs/stdout.txt
-    # unbuffer cargo +nightly -C $REPO_NAME fuzz run --jobs 2 $FUZZING_TARGET $CORPUS_DIR | tee -a docs/stdout.txt
+    # unbuffer cargo +nightly -C $REPO_NAME -vv --locked fuzz run -v $FUZZING_TARGET | tee -a $LOG_PATH
+    unbuffer cargo +nightly -C $REPO_NAME -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME | tee -a $LOG_PATH
+    # unbuffer cargo +nightly -C $REPO_NAME -vv fuzz run $FUZZING_TARGET | tee -a $LOG_PATH
+    # unbuffer cargo +nightly -C $REPO_NAME fuzz run --jobs 2 $FUZZING_TARGET $CORPUS_DIR | tee -a $LOG_PATH
 else
     # exit 0
     # cargo +nightly -C $REPO_NAME -vv build
@@ -135,12 +143,23 @@ else
     # cargo +nightly -C $REPO_NAME -vv fuzz run --no-default-features $FUZZING_TARGET #$CORPUS_DIR
     # cargo +nightly -C $REPO_NAME -vv fuzz run -v --dev $FUZZING_TARGET #$CORPUS_DIR
     # cargo +nightly -C $REPO_NAME -vv fuzz run -v --release $FUZZING_TARGET #$CORPUS_DIR
-    cargo +nightly -C $REPO_NAME -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR
+    cargo +nightly -C $REPO_NAME -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME
+
+    # [--release]/--dev   --jobs [1]/2 --no-default-features/--all-features/--features <...>
+    # libFuzzer options (full list: http://llvm.org/docs/LibFuzzer.html#options or `cargo +nightly -C rpki-rs fuzz run fuzz_target_1 -- -help=1`)
+    # Some useful options (to be used as `cargo fuzz run fuzz_target -- <options>`)
+    # `-- -seed=0`: Random seed. If 0 (the default), the seed is generated.
+    # `-- -reload=1`: If set to 1 (the default), the corpus directory is re-read periodically to check for new inputs; this allows detection of new inputs that were discovered by other fuzzing processes.
+    # `-- -only_ascii=0`: If 1, generate only ASCII (isprint``+``isspace) inputs. Defaults to 0.
+    # `-- -max_len=<len>`: Will limit the length of the input string to `<len>`
+    # `-- -runs=<number>`: Will limit the number of tries (runs) before it gives up
+    # `-- -max_total_time=<time>`: Will limit the amount of time in sec to fuzz before it gives up
+    # `-- -timeout=<time>`: Will limit the amount of time for a single run before it considers that run a failure
 fi
 
 if [ $WRITE_LOG == "true" ]; then
-    echo -e "\n</pre></details><br>\n\n" >> docs/stdout.txt
-    ansi2html --unescape <docs/stdout.txt >docs/stdout2.html
+    echo -e "\n</pre></details><br>\n\n" >> $LOG_PATH
+    ansi2html --unescape <$LOG_PATH >docs/stdout2.html
     # cat docs/stdout2.html | python -c 'import html, sys; [print(html.unescape(l), end="") for l in sys.stdin]' > docs/stdout2.html
     # cat docs/stdout2.html | sed 's/&nbsp;/ /g; s/&amp;/\&/g; s/&lt;/\</g; s/&gt;/\>/g; s/&quot;/\"/g; s/#&#39;/\'"'"'/g; s/&ldquo;/\"/g; s/&rdquo;/\"/g;' > docs/stdout2.html
 fi

@@ -24,7 +24,9 @@
         "routinator",
         "krill",
         // "rpki-rs",
-        "routinator-diff", "rpki-rs-diff", "krill-diff"
+        "routinator-diff", "rpki-rs-diff", "krill-diff",
+        "corpus"
+        , "hidden"
     ],
     "files.watcherExclude": {
         "**/.git/objects/**": true,
@@ -33,5 +35,7 @@
         "**/.hg/store/**": true,
 
         "*-diff/**": true,
+        // "corpus/**": true,
+        "hidden/**": true,
     },
 }

@@ -1,0 +1,227 @@
+name: fuzzing
+on:
+  # permit manual invocation of the workflow via the GitHub Actions web UI
+  workflow_dispatch:
+    inputs:
+      submodule:
+        type: choice
+        description: 'Submodule to fuzz'
+        required: false
+        default: 'rpki-rs'
+        options: ['rpki-rs', 'krill', 'routinator']
+      fuzz:
+        type: string
+        description: 'Fuzz-arg: Fuzzing target'
+        required: false
+        default: 'fuzz_target_1'
+      max_total_time:
+        type: string
+        # https://docs.github.com/en/actions/learn-github-actions/usage-limits-billing-and-administration
+        description: 'Fuzz-arg: Maximum total time in seconds. (Each job in a workflow can run for up to 6 hours of execution time.)'
+        required: false
+        default: '19800'
+      seed:
+        type: string
+        description: 'Fuzz-arg: Seed'
+        required: false
+        default: '0'
+      only_ascii:
+        type: boolean
+        description: 'Fuzz-arg: Only ASCII'
+        required: false
+        default: true
+      corpus:
+        type: string
+        description: 'Fuzz-arg: paths to corpus files'
+        required: false
+        # default: '../corpus/xml/all/*'
+        default: '../corpus/xml/snapshot/*'
+      resume_with_artifacts:
+        type: boolean
+        description: 'Resume fuzzing with artifacts from previous run, including corpus, artifacts and coverage'
+        required: false
+        default: true
+      upload_artifacts:
+        type: boolean
+        description: 'Upload Artifacts'
+        required: false
+        default: true
+      rust_toolchain:
+        type: string
+        description: 'Rust toolchain'
+        required: false
+        default: 'nightly'
+        # options: ['nightly', 'stable', 'beta', '1.56.1']
+      verbose:
+        type: boolean
+        description: 'Verbose output'
+        required: false
+        default: false
+  # schedule:
+  #   - cron: '0 */6 * * *' # run every 6 hours
+  #   - cron: '0 0 * * *' # run daily at midnight
+
+jobs:
+  fuzz:
+    name: fuzz
+    runs-on: ubuntu-latest
+    # runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ${{ github.event.inputs.submodule }}
+    # strategy:
+    #   matrix:
+    #     tag: ["v0.15.9", "v0.15.8"]
+    #     # os: [ubuntu-latest, windows-latest, macOS-latest]
+    #     # rust: [1.56.1, stable, beta, nightly]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v1
+      with:
+        submodules: true
+    - name: playground
+      # if: ${{ github.event.inputs.submodule == 'rpki-rs' }}
+      # if: ${{ github.event.inputs.verbose == 'true' }}
+      run: |
+        echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
+        echo "github.event.inputs..."
+        # echo "${{ github.event.inputs.submodule }} - ${{ github.event.inputs.fuzz }} - ${{ github.event.inputs.max_total_time }} - ${{ github.event.inputs.resume_with_artifacts }}"
+        echo -e "\ngithub.event.inputs.<...>"
+        echo "submodule:             ${{ github.event.inputs.submodule }}"
+        echo "fuzz:                  ${{ github.event.inputs.fuzz }}"
+        echo "max_total_time:        ${{ github.event.inputs.max_total_time }}"
+        echo "seed:                  ${{ github.event.inputs.seed }}"
+        echo "only_ascii:            ${{ github.event.inputs.only_ascii }}"
+        echo "corpus:                ${{ github.event.inputs.corpus }}"
+        echo "resume_with_artifacts: ${{ github.event.inputs.resume_with_artifacts }}"
+        echo "upload_artifacts:      ${{ github.event.inputs.upload_artifacts }}"
+        echo "rust_toolchain:        ${{ github.event.inputs.rust_toolchain }}"
+        echo "verbose:               ${{ github.event.inputs.verbose }}"
+        echo -e "\npwd: $(pwd)"
+        echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
+        # find .. -print | sed -e "s;[^/]*/;|____;g;s;____|; |;g"
+        # echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
+        # ls -aR . | grep ':$' | sed -e 's/:$//' -e 's/[^\/]*\//|  /g' -e 's/|  \([^|]\)/|–– \1/g'
+        ls -R .. | grep ':$' | sed -e 's/:$//' -e 's/[^\/]*\//|  /g' -e 's/|  \([^|]\)/|–– \1/g'
+        echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
+    - name: install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y \
+          ca-certificates gnupg lsb-release \
+          curl wget git gcc rsync build-essential \
+          pkg-config libssl-dev openssl \
+          expect colorized-logs
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+          # toolchain: nightly
+          toolchain: ${{ github.event.inputs.rust_toolchain }}
+          # override: true
+          components: rust-src
+          # components: rust-src, rustfmt, clippy
+      # uses: hecrj/setup-rust-action@v1
+      # with:
+      #   # rust-version: ${{ matrix.rust }}
+      #   rust-version: nightly
+      #   components: rust-src
+      #   # components: rust-src, rust-analyzer, clippy, rustfmt
+      #   # targets: x86_64-unknown-linux-gnu
+      # run: |
+    - name: Install cargo fuzz
+      run: |
+        rustup install nightly
+        cargo +nightly install cargo-fuzz
+        # cargo install cargo-fuzz
+
+    # - if: matrix.rust == 'stable'
+    #   run: rustup component add clippy
+    # - if: matrix.os != 'windows-latest' && matrix.rust == 'stable'
+    #   run: cargo clippy --all --all-features -- -D warnings
+
+    # Build
+    # - if: matrix.os != 'windows-latest'
+    #   run: cargo build --verbose --all --all-features
+    # - if: matrix.os == 'windows-latest'
+    #   run: cargo build --verbose  --all --features __windows_ci_all
+    # - run: cargo build --verbose --all
+
+    # Test
+    # - if: matrix.os != 'windows-latest'
+    #   run: cargo test --verbose --all --all-features
+    # - if: matrix.os == 'windows-latest'
+    #   run: cargo test --verbose --all --features __windows_ci_all
+    # - run: cargo test --verbose --all
+
+    # - name: Checkout different tag
+    #   if: matrix.tag != ''
+    #   run: |
+    #     git stash
+    #     git fetch
+    #     git stash pop
+    #     git checkout tags/${{ matrix.tag }} -b ${{ matrix.tag }}
+    #     git
+    #     # git submodule update --init --recursive
+
+    - name: Download archived Fuzzing Corpus, Artifacts and Coverage
+      if: ${{ github.event.inputs.resume_with_artifacts == 'true' }}
+      uses: actions/download-artifact@v3
+      with:
+        name: fuzzing-corpus-artifacts-coverage
+        path: fuzz
+
+    - name: Fuzzing
+      run: |
+        echo -e "pwd: $(pwd)\n"
+        # FUZZING_TARGET="fuzz_target_rrdp"
+        FUZZING_TARGET=${{ github.event.inputs.fuzz }}
+        CORPUS_DIR=""
+        # CORPUS_DIR="fuzz/corpus"
+        # CORPUS_DIR="fuzz/corpus/fuzz_target_rrdp"
+        CORPUS_DIR="fuzz/corpus/${{ github.event.inputs.fuzz }}"
+        # CORPUS_DIR="../corpus"
+        # CORPUS_DIR="../corpus/xml/snapshot"
+        # SEED=0 # default: 0
+        # SEED=1880631125 # default: 0
+        SEED=${{ github.event.inputs.seed }}
+        # ONLY_ASCII=1 # default: 0
+        ONLY_ASCII=${{ github.event.inputs.only_ascii }}
+        # MAX_TOTAL_TIME=$((60*60*6))
+        MAX_TOTAL_TIME=${{ github.event.inputs.max_total_time }}
+        if ${{ github.event.inputs.verbose == 'true' }}; then
+          VERBOSE_1="-vv"
+          VERBOSE_2="-v"
+        else
+          VERBOSE_1=""
+          VERBOSE_2=""
+        fi
+        #
+        echo -e "\nCopying corpus..."
+        mkdir -p $CORPUS_DIR
+        cp --verbose ${{ github.event.inputs.corpus }} $CORPUS_DIR/
+        #
+        echo -e "\nFuzzing with the following parameters:"
+        # echo -e "\nREPO_NAME: $REPO_NAME\nWRITE_LOG: $WRITE_LOG\nLOG_PATH: $LOG_PATH\nFUZZING_TARGET: $FUZZING_TARGET\nCORPUS_DIR: $CORPUS_DIR\nSEED: $SEED\nONLY_ASCII: $ONLY_ASCII\nMAX_TOTAL_TIME: $MAX_TOTAL_TIME\n"
+        echo -e "\nFUZZING_TARGET: $FUZZING_TARGET\nCORPUS_DIR: $CORPUS_DIR\nSEED: $SEED\nONLY_ASCII: $ONLY_ASCII\nMAX_TOTAL_TIME: $MAX_TOTAL_TIME\nVERBOSE: $VERBOSE_1\n"
+        #
+        # unbuffer cargo +nightly -C $REPO_NAME -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME | tee -a $LOG_PATH
+        # unbuffer cargo +nightly -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME | tee -a $LOG_PATH
+        # cargo +nightly -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME
+        cargo +nightly $VERBOSE_1 --locked fuzz run $VERBOSE_2 $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME
+
+    - name: Archive Fuzzing Corpus, Artifacts and Coverage
+      if: ${{ github.event.inputs.upload_artifacts == 'true' }}
+      uses: actions/upload-artifact@v3
+      with:
+        # name: fuzzing-corpus-artifacts-coverage-${{ github.event.inputs.submodule }}
+        name: fuzzing-corpus-artifacts-coverage
+        path: |
+          fuzz/corpus
+          fuzz/artifacts
+          fuzz/coverage
+          # !fuzz/fuzz_targets
+          # !fuzz/target
+          # !dist/**/*.md
+
+# bin/act workflow_dispatch -j fuzz --input max_total_time=30 --input fuzz=fuzz_target_rrdp --input submodule=rpki-rs --input resume_with_artifacts=true
+# bin/act workflow_dispatch -j fuzz --input submodule=rpki-rs --input fuzz=fuzz_target_rrdp --input max_total_time=30 --input seed=0 --input only_ascii=1 --input corpus="../corpus/xml/snapshot/*" --input resume_with_artifacts=false --input upload_artifacts=false --input rust_toolchain=nightly --input verbose=false

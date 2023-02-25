@@ -1,3 +1,5 @@
+corpus
+
 # https://github.com/NLnetLabs/rpki-rs/blob/main/.gitignore
 /target
 **/*.rs.bk

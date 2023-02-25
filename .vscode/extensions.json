@@ -4,6 +4,7 @@
         "shd101wyy.markdown-preview-enhanced",
         "ms-azuretools.vscode-docker",
         "iliazeus.vscode-ansi",
-        "ms-vscode.live-server"
+        "ms-vscode.live-server",
+        "cschleiden.vscode-github-actions"
     ]
 }
