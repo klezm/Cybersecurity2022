@@ -76,6 +76,8 @@ on:
 env:
   ARTIFACT_DOWNLOAD: ${{ contains(github.event.inputs.artifacts_up_down_load, 'download') }}
   ARTIFACT_UPLOAD: ${{ contains(github.event.inputs.artifacts_up_down_load, 'upload') }}
+  # TODO: fromJSON()
+  # ARG_BUILD: fromJSON()
 
 jobs:
   fuzz:
@@ -124,10 +126,10 @@ jobs:
         echo "ARTIFACT_UPLOAD:        ${{ env.ARTIFACT_UPLOAD }}"
         echo -e "\npwd: $(pwd)"
         echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
-        # find .. -print | sed -e "s;[^/]*/;|____;g;s;____|; |;g"
+        # find .. -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
         # echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
         # ls -aR . | grep ':$' | sed -e 's/:$//' -e 's/[^\/]*\//|  /g' -e 's/|  \([^|]\)/|–– \1/g'
-        # ls -R .. | grep ':$' | sed -e 's/:$//' -e 's/[^\/]*\//|  /g' -e 's/|  \([^|]\)/|–– \1/g'
+        ls -R .. | grep ':$' | sed -e 's/:$//' -e 's/[^\/]*\//|  /g' -e 's/|  \([^|]\)/|–– \1/g'
         echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
         env | sort
     - name: playground 2
@@ -263,11 +265,21 @@ jobs:
         echo
         ls -lha fuzz/corpus
         echo
-        du -h -d 3 rpki-rs | sort -h
+        ls -lha fuzz/corpus/${{ github.event.inputs.fuzz }}
+        echo
+        du -h -d 3 . | sort -h
         echo -e "\n\nCargo.lock:\n"
         [ -f Cargo.lock ] && cat Cargo.lock
         echo -e "\n\nfuzz/Cargo.toml:\n"
         cat fuzz/Cargo.toml
+
+    - name: ls repo
+      run: |
+        find . -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
+
+    - name: ls parent repo
+      run: |
+        find .. -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
 
     - name: Archive Fuzzing Corpus, Artifacts and Coverage
       # if: ${{ github.event.inputs.upload_artifacts == 'true' }}
@@ -277,9 +289,9 @@ jobs:
         # name: fuzzing-corpus-artifacts-coverage-${{ github.event.inputs.submodule }}
         name: fuzzing-corpus-artifacts-coverage
         path: |
-          ./fuzz/corpus
-          ./fuzz/artifacts
-          ./fuzz/coverage
+          ../fuzz/corpus
+          ../fuzz/artifacts
+          ../fuzz/coverage
           # !fuzz/fuzz_targets
           # !fuzz/target
           # !dist/**/*.md
