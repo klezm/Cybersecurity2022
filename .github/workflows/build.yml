@@ -1,4 +1,4 @@
-name: fuzzing
+name: build
 on:
   # permit manual invocation of the workflow via the GitHub Actions web UI
   workflow_dispatch:
@@ -80,8 +80,8 @@ env:
   # ARG_BUILD: fromJSON()
 
 jobs:
-  fuzz:
-    name: fuzz
+  build:
+    name: build
     runs-on: ubuntu-latest
     # runs-on: ${{ matrix.os }}
     # continue-on-error: true
@@ -300,35 +300,49 @@ jobs:
         fi
           cat $LOG_PATH | grep "INFO:"
 
-
     - name: Fuzzing Finished
       continue-on-error: true
       run: |
         echo -e "\n\nFuzzing finished.\n"
-        echo
+        echo -e "\n\nls -lha\n"
         ls -lha
-        echo
+        echo -e "\n\nls -lha fuzz\n"
         ls -lha fuzz
-        echo
-        ls -lha fuzz/corpus
-        echo
-        ls -lha fuzz/corpus/${{ github.event.inputs.fuzz }} | head -n 20
-        echo
+        echo -e "\n\nls -lha fuzz/corpus\n"
+        ls -lha fuzz/corpus || echo "fuzz/corpus does not exist"
+        echo -e "\n\nls -lha fuzz/corpus/${{ github.event.inputs.fuzz }} | head -n 20\n"
+        ls -lha fuzz/corpus/${{ github.event.inputs.fuzz }} | head -n 20 || echo "fuzz/corpus/${{ github.event.inputs.fuzz }} does not exist"
+        echo -e "\n\ndu -h -d 3 . | sort -h\n"
         du -h -d 3 . | sort -h
         echo -e "\n\nCargo.lock:\n"
         [ -f Cargo.lock ] && cat Cargo.lock
         echo -e "\n\nfuzz/Cargo.lock:\n"
-        cat fuzz/Cargo.lock
+        [ -f fuzz/Cargo.lock ] && cat fuzz/Cargo.lock
+
+    - name: Cargo.lock
+      continue-on-error: true
+      run: |
+        # loop over all Cargo.lock files
+        for f in $(find .. -name Cargo.lock -print); do
+          echo -e "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+          echo -e "\n$f:\n"
+          cat $f
+        done
 
     - name: ls repo
       continue-on-error: true
       run: |
-        find . -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
+        # find . -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
+        # find . -not -path "*/test-data/*" -print
+        find rpki-rs -print | grep -Pv ".*(/test-data/|/target/|/.git/|fuzz/corpus/.*?/).*" | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
 
     - name: ls parent repo
       continue-on-error: true
       run: |
-        find .. -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
+        # find .. -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
+        find . -print | \
+          grep -Pv ".*(/test-data/|/target/|/.git/|fuzz/corpus/.*?/|/doc/|/test-resources/|/rpki-validator-3|.mypy_cache/|/hidden/).*" | \
+          sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
 
     - name: Archive Fuzzing Corpus, Artifacts and Coverage
       continue-on-error: true
