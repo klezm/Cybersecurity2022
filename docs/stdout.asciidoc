@@ -1,0 +1,20 @@
+// :hardbreaks-option:
+
+++++
+include::/workspaces/Cybersecurity2022/docs/stdout.html[]
+++++
+
+
+// https://docs.asciidoctor.org/asciidoc/latest/blocks/hard-line-breaks/[asciidoc hard-line-breaks] +
+// https://docs.asciidoctor.org/asciidoc/latest/text/custom-inline-styles/[asciidoc custom-inline-styles] +
+// https://docs.asciidoctor.org/pdf-converter/latest/theme/color/[asciidoc color]
+
+// ## test2
+
+// Do werewolves believe in [.small]#small print#?
+// [.big]##O##nce upon an infinite loop.
+
+// [%hardbreaks]
+// not Big,
+// [.big]##B##ig,
+// [.big]#Big#

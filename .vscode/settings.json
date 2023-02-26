@@ -1,4 +1,10 @@
 {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+
+    "java.configuration.updateBuildConfiguration": "interactive",
+
     "[rust]": {
         "editor.defaultFormatter": "rust-lang.rust-analyzer"
     },

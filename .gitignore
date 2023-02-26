@@ -1,4 +1,9 @@
+CPY-*
 corpus
+# corpus/xml/snapshot
+# !/corpus/xml/snapshot/snapshot.xml
+# !corpus/xml/snapshot/snapshot.xml
+# !corpus/xml/snapshot/*.xml
 
 # https://github.com/NLnetLabs/rpki-rs/blob/main/.gitignore
 /target
