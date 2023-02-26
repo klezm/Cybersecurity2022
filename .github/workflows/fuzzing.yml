@@ -289,13 +289,13 @@ jobs:
         # name: fuzzing-corpus-artifacts-coverage-${{ github.event.inputs.submodule }}
         name: fuzzing-corpus-artifacts-coverage
         path: |
-          fuzz/corpus
-          fuzz/artifacts
-          fuzz/coverage
+          ${{ github.event.inputs.submodule }}/fuzz/corpus
+          ${{ github.event.inputs.submodule }}/fuzz/artifacts
+          ${{ github.event.inputs.submodule }}/fuzz/coverage
           # !fuzz/fuzz_targets
           # !fuzz/target
           # !dist/**/*.md
-      working-directory: ${{ github.event.inputs.submodule }}
+      # working-directory: ${{ github.event.inputs.submodule }}
 
 # bin/act workflow_dispatch -j fuzz --input max_total_time=30 --input fuzz=fuzz_target_rrdp --input submodule=rpki-rs --input resume_with_artifacts=true
 # bin/act workflow_dispatch -j fuzz --input submodule=rpki-rs --input fuzz=fuzz_target_rrdp --input max_total_time=30 --input seed=0 --input only_ascii=1 --input corpus="../corpus/xml/snapshot/*" --input resume_with_artifacts=false --input upload_artifacts=false --input rust_toolchain=nightly --input verbose=false
