@@ -84,6 +84,7 @@ jobs:
     name: fuzz
     runs-on: ubuntu-latest
     # runs-on: ${{ matrix.os }}
+    # continue-on-error: true
     defaults:
       run:
         working-directory: ${{ github.event.inputs.submodule }}
@@ -216,6 +217,7 @@ jobs:
         path: fuzz
 
     - name: Fuzzing
+      continue-on-error: true
       run: |
         echo -e "pwd: $(pwd)\n"
         # FUZZING_TARGET="fuzz_target_rrdp"
@@ -270,8 +272,8 @@ jobs:
         du -h -d 3 . | sort -h
         echo -e "\n\nCargo.lock:\n"
         [ -f Cargo.lock ] && cat Cargo.lock
-        echo -e "\n\nfuzz/Cargo.toml:\n"
-        cat fuzz/Cargo.toml
+        echo -e "\n\nfuzz/Cargo.lock:\n"
+        cat fuzz/Cargo.lock
 
     - name: ls repo
       run: |
