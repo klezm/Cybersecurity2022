@@ -11,7 +11,7 @@ GIT_URL=${1:-"https://github.com/NLnetLabs/rpki-rs"}
 REPO_NAME=$(basename $GIT_URL .git)
 REPO_DIR="$REPO_NAME" # REPO_DIR="$CODESPACE_VSCODE_FOLDER/$REPO_NAME"
 WRITE_LOG=${2:-"false"}
-# WRITE_LOG="true"
+WRITE_LOG="true"
 # LOG_PATH="docs/stdout.txt"
 LOG_PATH="docs/logs/$(date "+%F-%H_%M_%S").txt"
 
@@ -108,7 +108,6 @@ echo "You chose: $FUZZING_TARGET"
 # cargo test -vv
 
 cd $OLDPWD
-# exit 0
 
 # Run fuzzer
 # sudo su
@@ -129,28 +128,22 @@ SEED=0 # default: 0
 SEED=1880631125 # default: 0
 ONLY_ASCII=1 # default: 0
 MAX_TOTAL_TIME=$((60*60*6))
-MAX_TOTAL_TIME=30/
-VERBOSE_1=""; VERBOSE_2=""
-# VERBOSE_1="-v"; VERBOSE_2="-vv"
-IS_LOCKED=""
-IS_LOCKED="--locked"
-
 echo -e "\nREPO_NAME: $REPO_NAME\nWRITE_LOG: $WRITE_LOG\nLOG_PATH: $LOG_PATH\nFUZZING_TARGET: $FUZZING_TARGET\nCORPUS_DIR: $CORPUS_DIR\nSEED: $SEED\nONLY_ASCII: $ONLY_ASCII\nMAX_TOTAL_TIME: $MAX_TOTAL_TIME\n"
 echo -e "\nREPO_NAME: $REPO_NAME\nWRITE_LOG: $WRITE_LOG\nLOG_PATH: $LOG_PATH\nFUZZING_TARGET: $FUZZING_TARGET\nCORPUS_DIR: $CORPUS_DIR\nSEED: $SEED\nONLY_ASCII: $ONLY_ASCII\nMAX_TOTAL_TIME: $MAX_TOTAL_TIME\n\n" >> $LOG_PATH
 
 if [ $WRITE_LOG == "true" ]; then
-    # unbuffer cargo +nightly -C $REPO_NAME $VERBOSE_2 $IS_LOCKED fuzz run $VERBOSE_1 $FUZZING_TARGET | tee -a $LOG_PATH
-    unbuffer cargo +nightly -C $REPO_NAME $VERBOSE_2 $IS_LOCKED fuzz run $VERBOSE_1 $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME | tee -a $LOG_PATH
-    # unbuffer cargo +nightly -C $REPO_NAME $VERBOSE_2 fuzz run $FUZZING_TARGET | tee -a $LOG_PATH
+    # unbuffer cargo +nightly -C $REPO_NAME -vv --locked fuzz run -v $FUZZING_TARGET | tee -a $LOG_PATH
+    unbuffer cargo +nightly -C $REPO_NAME -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME | tee -a $LOG_PATH
+    # unbuffer cargo +nightly -C $REPO_NAME -vv fuzz run $FUZZING_TARGET | tee -a $LOG_PATH
     # unbuffer cargo +nightly -C $REPO_NAME fuzz run --jobs 2 $FUZZING_TARGET $CORPUS_DIR | tee -a $LOG_PATH
 else
     # exit 0
-    # cargo +nightly -C $REPO_NAME $VERBOSE_2 build
-    # cargo +nightly -C $REPO_NAME $VERBOSE_2 fuzz run $FUZZING_TARGET #$CORPUS_DIR
-    # cargo +nightly -C $REPO_NAME $VERBOSE_2 fuzz run --no-default-features $FUZZING_TARGET #$CORPUS_DIR
-    # cargo +nightly -C $REPO_NAME $VERBOSE_2 fuzz run $VERBOSE_1 --dev $FUZZING_TARGET #$CORPUS_DIR
-    # cargo +nightly -C $REPO_NAME $VERBOSE_2 fuzz run $VERBOSE_1 --release $FUZZING_TARGET #$CORPUS_DIR
-    cargo +nightly -C $REPO_NAME $VERBOSE_2 $IS_LOCKED fuzz run $VERBOSE_1 $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME
+    # cargo +nightly -C $REPO_NAME -vv build
+    # cargo +nightly -C $REPO_NAME -vv fuzz run $FUZZING_TARGET #$CORPUS_DIR
+    # cargo +nightly -C $REPO_NAME -vv fuzz run --no-default-features $FUZZING_TARGET #$CORPUS_DIR
+    # cargo +nightly -C $REPO_NAME -vv fuzz run -v --dev $FUZZING_TARGET #$CORPUS_DIR
+    # cargo +nightly -C $REPO_NAME -vv fuzz run -v --release $FUZZING_TARGET #$CORPUS_DIR
+    cargo +nightly -C $REPO_NAME -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME
 
     # [--release]/--dev   --jobs [1]/2 --no-default-features/--all-features/--features <...>
     # libFuzzer options (full list: http://llvm.org/docs/LibFuzzer.html#options or `cargo +nightly -C rpki-rs fuzz run fuzz_target_1 -- -help=1`)
