@@ -138,12 +138,12 @@ jobs:
         # echo "pwd: $(pwd)"
         # ls -lha
 
-        echo "::group::Resetting submodules"
-        # When running the action locally with act git reset & git clean might be required
-        # (cd ..; git submodule -q foreach pwd | xargs -t -I % -n 1 git -C % reset --hard)
-        find . -name .git -print | xargs -t -I % git -C %/.. reset --hard
-        find . -name .git -print | xargs -t -I % git -C %/.. clean -fxd
-        echo "::endgroup::"
+        # echo "::group::Resetting submodules"
+        # # When running the action locally with act git reset & git clean might be required
+        # # (cd ..; git submodule -q foreach pwd | xargs -t -I % -n 1 git -C % reset --hard)
+        # find . -name .git -print | xargs -t -I % git -C %/.. reset --hard
+        # find . -name .git -print | xargs -t -I % git -C %/.. clean -fxd
+        # echo "::endgroup::"
 
         echo "::group::Restoring submodules"
         .devcontainer/scripts/submodules-backup-restore.sh restore
