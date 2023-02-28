@@ -408,15 +408,24 @@ jobs:
         #   echo -e "\t ARTIFACTS??? -------------------------------------------"
         # fi
 
-        echo "::group::Get log LOG_INFO and LOG_ERROR from ${{ env.LOG_PATH }}"
+        echo "::group::Get log LOG_INFO from ${{ env.LOG_PATH }}"
         [ -f ${{ env.LOG_PATH }} ] && echo "${{ env.LOG_PATH }} exists." || echo "${{ env.LOG_PATH }} does not exist."
         [ -f ${{ env.LOG_PATH }} ] && wc -l ${{ env.LOG_PATH }}
         # https://linuxcommand.org/lc3_man_pages/testh.html
         [ -s ${{ env.LOG_PATH }} ] && cat ${{ env.LOG_PATH }} | grep "INFO:"
 
         LOG_INFO="$(cat ${{ env.LOG_PATH }} | grep "INFO:")"
-        echo "LOG_INFO=$LOG_INFO" >> $GITHUB_OUTPUT
+        # echo "LOG_INFO=$LOG_INFO" >> $GITHUB_OUTPUT
+        EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+        # echo "LOG_INFO<<$EOF" >> $GITHUB_OUTPUT
+        # curl https://example.com >> $GITHUB_OUTPUT
+        # echo -e "$LOG_INFO" >> $GITHUB_OUTPUT
+        cat ${{ env.LOG_PATH }} | grep "INFO:" >> $GITHUB_OUTPUT
+        echo "$EOF" >> $GITHUB_OUTPUT
+        [ -f $GITHUB_OUTPUT ] && cat $GITHUB_OUTPUT || echo "error cat'ing $GITHUB_OUTPUT"
+        echo "::endgroup::"
 
+        echo "::group::Get log LOG_ERROR from ${{ env.LOG_PATH }}"
         # LOG_ERROR="$(tail -n "+$(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }})"
         LOG_ERROR="$(tail -n "+$(($(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }})"
         # echo "LOG_ERROR=$LOG_ERROR" >> $GITHUB_OUTPUT
@@ -429,9 +438,9 @@ jobs:
         echo "::endgroup::"
 
         echo "::group::log error"
-        $(tail -n "+$(($(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }})
+        tail -n "+$(($(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }}
         echo "-------------------------------"
-        $(tail -n "+$(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }})
+        tail -n "+$(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }}
         echo "::endgroup::"
 
         echo "::group::Summary"
@@ -479,6 +488,7 @@ jobs:
         echo "GITHUB_STEP_SUMMARY=$GITHUB_STEP_SUMMARY" >> $GITHUB_OUTPUT
 
     - name: Playground - ls, find, du, cat Cargo.lock
+      continue-on-error: true
       run: |
         echo "::group::ls"
         ls -lha
@@ -524,6 +534,53 @@ jobs:
         # find .. -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
         # echo "::endgroup::"
 
+        echo "::group::GitHub Action Contexts & Environment Variables"
+        echo "https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+
+        Property name            | Value
+        ------------------------ | -----------------------------
+        `github.action`          | ${{ github.action }}
+        `github.job`             | ${{ github.job }}
+        `github.ref`             | ${{ github.ref }}
+        `github.ref_name`        | ${{ github.ref_name }}
+        `github.repository`      | ${{ github.repository }}
+        `github.repositoryUrl`   | ${{ github.repositoryUrl }}
+        `github.retention_days`  | ${{ github.retention_days }}
+        `github.run_id`          | ${{ github.run_id }}
+        `github.run_number`      | ${{ github.run_number }}
+        `github.run_attempt`     | ${{ github.run_attempt }}
+        `github.sha`             | ${{ github.sha }}
+        `github.workflow`        | ${{ github.workflow }}
+        `github.workflow_ref`    | ${{ github.workflow_ref }}
+
+        # https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
+
+        Variable                     | Value
+        ---------------------------- | ------------------------------------
+        `GITHUB_ACTION`              | ${{ vars.GITHUB_ACTION }}
+        `GITHUB_ACTION_PATH`         | ${{ vars.GITHUB_ACTION_PATH }}
+        `GITHUB_ACTION_REPOSITORY`   | ${{ vars.GITHUB_ACTION_REPOSITORY }}
+        `GITHUB_BASE_REF`            | ${{ vars.GITHUB_BASE_REF }}
+        `GITHUB_EVENT_NAME`          | ${{ vars.GITHUB_EVENT_NAME }}
+        `GITHUB_EVENT_PATH`          | ${{ vars.GITHUB_EVENT_PATH }}
+        `GITHUB_HEAD_REF`            | ${{ vars.GITHUB_HEAD_REF }}
+        `GITHUB_JOB`                 | ${{ vars.GITHUB_JOB }}
+        `GITHUB_REF`                 | ${{ vars.GITHUB_REF }}
+        `GITHUB_REF_NAME`            | ${{ vars.GITHUB_REF_NAME }}
+        `GITHUB_REPOSITORY`          | ${{ vars.GITHUB_REPOSITORY }}
+        `GITHUB_RETENTION_DAYS`      | ${{ vars.GITHUB_RETENTION_DAYS }}
+        `GITHUB_RUN_ATTEMPT`         | ${{ vars.GITHUB_RUN_ATTEMPT }}
+        `GITHUB_RUN_ID`              | ${{ vars.GITHUB_RUN_ID }}
+        `GITHUB_RUN_NUMBER`          | ${{ vars.GITHUB_RUN_NUMBER }}
+        `GITHUB_SHA`                 | ${{ vars.GITHUB_SHA }}
+        `GITHUB_STEP_SUMMARY`        | ${{ vars.GITHUB_STEP_SUMMARY }}
+        `GITHUB_WORKFLOW`            | ${{ vars.GITHUB_WORKFLOW }}
+        `GITHUB_WORKFLOW_REF`        | ${{ vars.GITHUB_WORKFLOW_REF }}
+        `GITHUB_WORKFLOW_SHA`        | ${{ vars.GITHUB_WORKFLOW_SHA }}
+        `GITHUB_WORKSPACE`           | ${{ vars.GITHUB_WORKSPACE }}
+        `RUNNER_DEBUG`               | ${{ vars.RUNNER_DEBUG }}"
+        echo "::endgroup::"
+
     - name: Archive Fuzzing Corpus, Artifacts and Coverage
       if: ${{ env.ARTIFACT_UPLOAD == 'true' }}
       uses: actions/upload-artifact@v3
@@ -556,7 +613,7 @@ jobs:
       # if: failure()
       with:
         # assignees: "octocat, monalisa"
-        title: Error found while fuzzing ${{ github.event.inputs.fuzz }} in ${{ github.event.inputs.submodule }}
+        title: Error found while fuzzing `${{ github.event.inputs.fuzz }}` in `${{ github.event.inputs.submodule }}`
         labels: "bug, fuzzing, ci"
         body: |-
           CI GitHub Action failed: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
@@ -584,57 +641,6 @@ jobs:
           ## Summary
 
           ${{ steps.post-processing.outputs.GITHUB_STEP_SUMMARY }}
-
-          ---
-
-          ### github-context
-
-          https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
-
-          Property name            | Value                        
-          ------------------------ | -----------------------------
-          `github.action`          | ${{ github.action }}         
-          `github.job`             | ${{ github.job }}            
-          `github.ref`             | ${{ github.ref }}            
-          `github.ref_name`        | ${{ github.ref_name }}       
-          `github.repository`      | ${{ github.repository }}     
-          `github.repositoryUrl`   | ${{ github.repositoryUrl }}  
-          `github.retention_days`  | ${{ github.retention_days }} 
-          `github.run_id`          | ${{ github.run_id }}         
-          `github.run_number`      | ${{ github.run_number }}     
-          `github.run_attempt`     | ${{ github.run_attempt }}    
-          `github.sha`             | ${{ github.sha }}            
-          `github.workflow`        | ${{ github.workflow }}       
-          `github.workflow_ref`    | ${{ github.workflow_ref }}   
-
-          ### default-environment-variables
-
-          https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
-
-          Variable                     | Value
-          ---------------------------- | ------------------------------------
-          `GITHUB_ACTION`              | ${{ vars.GITHUB_ACTION }}
-          `GITHUB_ACTION_PATH`         | ${{ vars.GITHUB_ACTION_PATH }}
-          `GITHUB_ACTION_REPOSITORY`   | ${{ vars.GITHUB_ACTION_REPOSITORY }}
-          `GITHUB_BASE_REF`            | ${{ vars.GITHUB_BASE_REF }}
-          `GITHUB_EVENT_NAME`          | ${{ vars.GITHUB_EVENT_NAME }}
-          `GITHUB_EVENT_PATH`          | ${{ vars.GITHUB_EVENT_PATH }}
-          `GITHUB_HEAD_REF`            | ${{ vars.GITHUB_HEAD_REF }}
-          `GITHUB_JOB`                 | ${{ vars.GITHUB_JOB }}
-          `GITHUB_REF`                 | ${{ vars.GITHUB_REF }}
-          `GITHUB_REF_NAME`            | ${{ vars.GITHUB_REF_NAME }}
-          `GITHUB_REPOSITORY`          | ${{ vars.GITHUB_REPOSITORY }}
-          `GITHUB_RETENTION_DAYS`      | ${{ vars.GITHUB_RETENTION_DAYS }}
-          `GITHUB_RUN_ATTEMPT`         | ${{ vars.GITHUB_RUN_ATTEMPT }}
-          `GITHUB_RUN_ID`              | ${{ vars.GITHUB_RUN_ID }}
-          `GITHUB_RUN_NUMBER`          | ${{ vars.GITHUB_RUN_NUMBER }}
-          `GITHUB_SHA`                 | ${{ vars.GITHUB_SHA }}
-          `GITHUB_STEP_SUMMARY`        | ${{ vars.GITHUB_STEP_SUMMARY }}
-          `GITHUB_WORKFLOW`            | ${{ vars.GITHUB_WORKFLOW }}
-          `GITHUB_WORKFLOW_REF`        | ${{ vars.GITHUB_WORKFLOW_REF }}
-          `GITHUB_WORKFLOW_SHA`        | ${{ vars.GITHUB_WORKFLOW_SHA }}
-          `GITHUB_WORKSPACE`           | ${{ vars.GITHUB_WORKSPACE }}
-          `RUNNER_DEBUG`               | ${{ vars.RUNNER_DEBUG }}
         # body: |-
         #   # :wave: Hi, {{#each assignees}}@{{this}}{{#unless @last}}, {{/unless}}{{/each}}!
         # pinned: true
