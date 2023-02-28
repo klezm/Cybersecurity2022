@@ -70,3 +70,15 @@ name = "fuzz_target_cert"
 path = "fuzz_targets/fuzz_target_cert.rs"
 test = false
 doc = false
+
+[[bin]]
+name = "fuzz_target_rrdp_notification"
+path = "fuzz_targets/fuzz_target_rrdp_notification.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "fuzz_target_rrdp_delta"
+path = "fuzz_targets/fuzz_target_rrdp_delta.rs"
+test = false
+doc = false

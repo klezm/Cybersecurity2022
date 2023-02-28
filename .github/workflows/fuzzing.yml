@@ -74,6 +74,7 @@ on:
   #   - cron: '0 0 * * *' # run daily at midnight
 
 env:
+  LOG_PATH: "fuzz.log"
   ARTIFACT_DOWNLOAD: ${{ contains(github.event.inputs.artifacts_up_down_load, 'download') }}
   ARTIFACT_UPLOAD: ${{ contains(github.event.inputs.artifacts_up_down_load, 'upload') }}
   # TODO: fromJSON()
@@ -158,9 +159,7 @@ jobs:
       # if: ${{ github.event.inputs.submodule == 'rpki-rs' }}
       # if: ${{ github.event.inputs.verbose == 'true' }}
       run: |
-        echo "::group::GitHub Acction Context"
-        echo -e "\ngithub.event.inputs.<...>"
-        # echo "${{ github.event.inputs.submodule }} - ${{ github.event.inputs.fuzz }} - ${{ github.event.inputs.max_total_time }} - ${{ github.event.inputs.resume_with_artifacts }}"
+        echo "::group::GitHub Acction Inputs"
         echo "submodule:              ${{ github.event.inputs.submodule }}"
         echo "fuzz:                   ${{ github.event.inputs.fuzz }}"
         echo "max_total_time:         ${{ github.event.inputs.max_total_time }}"
@@ -192,11 +191,8 @@ jobs:
 
     - name: playground 2
       # if: ${{ env.ARTIFACT_DOWNLOAD == 'true' }}
-      # if: ${{ steps.playground1.conclusion.0 }}
       # if: ${{ steps.playground1.conclusion }}
       # if: ${{ steps.playground1.outcome }}
-      # if: ${{ steps.playground1.outcome }}
-      # if: ${{ steps.playground1.outputs }}
       run: |
         echo "playground 2"
 
@@ -228,7 +224,6 @@ jobs:
     - name: Install Rust
       uses: actions-rs/toolchain@v1
       with:
-          # toolchain: nightly
           toolchain: ${{ github.event.inputs.rust_toolchain }}
           # override: true
           components: rust-src
@@ -262,7 +257,6 @@ jobs:
 
         echo "::group::cargo clean"
         find . -name Cargo.toml -not -path "*-diff/*" -type f -exec dirname {} \; | xargs -t -I % cargo +nightly -C % clean
-        # cargo clean || echo "cargo clean failed"
         [ -f Cargo.toml ] && cargo clean
         echo "::endgroup::"
 
@@ -354,13 +348,9 @@ jobs:
         FUZZING_TARGET=${{ github.event.inputs.fuzz }}
         CORPUS_DIR=""
         CORPUS_DIR="fuzz/corpus/${{ github.event.inputs.fuzz }}"
-        # SEED=0 # default: 0
-        # SEED=1880631125 # default: 0
-        SEED=${{ github.event.inputs.seed }}
-        # ONLY_ASCII=1 # default: 0
-        ONLY_ASCII=${{ github.event.inputs.only_ascii }}
-        # MAX_TOTAL_TIME=$((60*60*6))
-        MAX_TOTAL_TIME=${{ github.event.inputs.max_total_time }}
+        SEED=${{ github.event.inputs.seed }} # default: 0
+        ONLY_ASCII=${{ github.event.inputs.only_ascii }} # default: 0
+        MAX_TOTAL_TIME=${{ github.event.inputs.max_total_time }} # $((60*60*6)) # 6 hours
         if ${{ github.event.inputs.verbose == 'true' }}; then
           VERBOSE_1="-vv"
           VERBOSE_2="-v"
@@ -369,27 +359,24 @@ jobs:
           VERBOSE_2=""
         fi
         FUZZ_ARGS=${{ github.event.inputs.fuzz_args }}
-        LOG_PATH=fuzz.log
 
         echo "::group::Copying corpus"
-        # echo -e "\nCopying corpus..."
         mkdir -p $CORPUS_DIR
         cp --verbose ${{ github.event.inputs.corpus }} $CORPUS_DIR/
         echo "::endgroup::"
 
         echo -e "\nFuzzing with the following parameters:"
-        # echo -e "\nREPO_NAME: $REPO_NAME\nWRITE_LOG: $WRITE_LOG\nLOG_PATH: $LOG_PATH\nFUZZING_TARGET: $FUZZING_TARGET\nCORPUS_DIR: $CORPUS_DIR\nSEED: $SEED\nONLY_ASCII: $ONLY_ASCII\nMAX_TOTAL_TIME: $MAX_TOTAL_TIME\n"
         echo -e "\nFUZZING_TARGET: $FUZZING_TARGET\nCORPUS_DIR: $CORPUS_DIR\nSEED: $SEED\nONLY_ASCII: $ONLY_ASCII\nMAX_TOTAL_TIME: $MAX_TOTAL_TIME\nVERBOSE: $VERBOSE_1\n"
 
         echo "::group::Fuzzing"
-        # unbuffer cargo +nightly -C $REPO_NAME -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME | tee -a $LOG_PATH
-        # unbuffer cargo +nightly -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME | tee -a $LOG_PATH
+        # unbuffer cargo +nightly -C $REPO_NAME -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME | tee -a ${{ env.LOG_PATH }}
+        # unbuffer cargo +nightly -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME | tee -a ${{ env.LOG_PATH }}
         # cargo +nightly -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME
         # https://man7.org/linux/man-pages/man1/tee.1.html
         # https://manpages.ubuntu.com/manpages/jammy/en/man1/stdbuf.1.html
-        cargo +nightly $VERBOSE_1 $FUZZ_ARGS fuzz run $VERBOSE_2 $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME -ignore_crashes=1 2>&1 | tee $LOG_PATH
-        # cargo +nightly $VERBOSE_1 $FUZZ_ARGS fuzz run $VERBOSE_2 $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME -ignore_crashes=1 2>&1 | tee --output-error=warn-nopipe $LOG_PATH
-        # unbuffer cargo +nightly $VERBOSE_1 $FUZZ_ARGS fuzz run $VERBOSE_2 $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME -ignore_crashes=1 | tee $LOG_PATH
+        cargo +nightly $VERBOSE_1 $FUZZ_ARGS fuzz run $VERBOSE_2 $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME -ignore_crashes=1 2>&1 | tee ${{ env.LOG_PATH }}
+        # cargo +nightly $VERBOSE_1 $FUZZ_ARGS fuzz run $VERBOSE_2 $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME -ignore_crashes=1 2>&1 | tee --output-error=warn-nopipe ${{ env.LOG_PATH }}
+        # unbuffer cargo +nightly $VERBOSE_1 $FUZZ_ARGS fuzz run $VERBOSE_2 $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME -ignore_crashes=1 | tee ${{ env.LOG_PATH }}
         echo "::endgroup::"
 
     - name: Post Processing
@@ -400,17 +387,11 @@ jobs:
       # When a continue-on-error step fails, the outcome is failure, but the final conclusion is success.
       continue-on-error: true
       run: |
-        LOG_PATH=fuzz.log
-
-        # echo "::group::playground"
-        # apt update | tee -a $LOG_PATH
-        # echo "::endgroup::"
-
         # echo "::group::Fuzzing Log"
-        # echo "LOG_PATH: $LOG_PATH, $(realpath $LOG_PATH), $(dirname $(realpath $LOG_PATH))"
+        # echo "LOG_PATH: ${{ env.LOG_PATH }}, $(realpath ${{ env.LOG_PATH }}), $(dirname $(realpath ${{ env.LOG_PATH }}))"
         # ls -lh
-        # ls -lh $(dirname $(realpath $LOG_PATH))
-        # [ -f $LOG_PATH ] && cat $LOG_PATH
+        # ls -lh $(dirname $(realpath ${{ env.LOG_PATH }}))
+        # [ -f ${{ env.LOG_PATH }} ] && cat ${{ env.LOG_PATH }}
         # echo "::endgroup::"
 
         echo "::group::Step Fuzzing Context"
@@ -427,16 +408,30 @@ jobs:
         #   echo -e "\t ARTIFACTS??? -------------------------------------------"
         # fi
 
-        echo "::group::cat $LOG_PATH | grep INFO:"
-        [ -f $LOG_PATH ] && echo "$LOG_PATH exists." || echo "$LOG_PATH does not exist."
-        [ -f $LOG_PATH ] && wc -l $LOG_PATH
+        echo "::group::Get log LOG_INFO and LOG_ERROR from ${{ env.LOG_PATH }}"
+        [ -f ${{ env.LOG_PATH }} ] && echo "${{ env.LOG_PATH }} exists." || echo "${{ env.LOG_PATH }} does not exist."
+        [ -f ${{ env.LOG_PATH }} ] && wc -l ${{ env.LOG_PATH }}
         # https://linuxcommand.org/lc3_man_pages/testh.html
-        [ -s $LOG_PATH ] && cat $LOG_PATH | grep "INFO:"
-        LOG_INFO="$(cat $LOG_PATH | grep "INFO:")"
+        [ -s ${{ env.LOG_PATH }} ] && cat ${{ env.LOG_PATH }} | grep "INFO:"
+
+        LOG_INFO="$(cat ${{ env.LOG_PATH }} | grep "INFO:")"
         echo "LOG_INFO=$LOG_INFO" >> $GITHUB_OUTPUT
-        # LOG_ERROR="$(tail -n "+$(grep -n 'NOTE:' $LOG_PATH | head -n 1 | cut -d ":" -f 1)" $LOG_PATH)"
-        LOG_ERROR="$(tail -n "+$(($(grep -n 'NOTE:' $LOG_PATH | head -n 1 | cut -d ":" -f 1)+1))" $LOG_PATH)"
-        echo "LOG_ERROR=$LOG_ERROR" >> $GITHUB_OUTPUT
+
+        # LOG_ERROR="$(tail -n "+$(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }})"
+        LOG_ERROR="$(tail -n "+$(($(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }})"
+        # echo "LOG_ERROR=$LOG_ERROR" >> $GITHUB_OUTPUT
+        # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
+        EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+        echo "LOG_ERROR<<$EOF" >> $GITHUB_OUTPUT
+        # curl https://example.com >> $GITHUB_OUTPUT
+        echo -e "$LOG_ERROR" >> $GITHUB_OUTPUT
+        echo "$EOF" >> $GITHUB_OUTPUT
+        echo "::endgroup::"
+
+        echo "::group::log error"
+        $(tail -n "+$(($(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }})
+        echo "-------------------------------"
+        $(tail -n "+$(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }})
         echo "::endgroup::"
 
         echo "::group::Summary"
@@ -444,6 +439,7 @@ jobs:
         # bla1=($(find docs/gh-actions/runs4272680831jobs7438036693 -type f))
         # bla1=($(find docs/gh-actions -type f))
 
+        # TODO: find the bug... (https://github.com/klezm/Cybersecurity2022/actions/runs/4288995860/jobs/7471597250#step:14:97)
         if [ ${#FOUND_ARTIFACTS[@]} -ne 0 ]; then
           echo "## Errors found" >> $GITHUB_STEP_SUMMARY
           for x in ${FOUND_ARTIFACTS[@]}; do
@@ -453,13 +449,26 @@ jobs:
               echo ""
               echo "```"
             } >> $GITHUB_STEP_SUMMARY
-            cat $x >> $GITHUB_STEP_SUMMARY
+
+
+
+
+
+            [ -f $x ] && echo "$x exists." || echo "$x does not exist."
+            # [ -s $x ] && cat $x >> $GITHUB_STEP_SUMMARY
+            echo "$(cat $x)" >> $GITHUB_STEP_SUMMARY
+
+
+
+
+
             {
               echo "```"
               echo ""
             } >> $GITHUB_STEP_SUMMARY
-            crash_file="$(cat $x)"
-            echo "ERROR_INPUT=$crash_file" >> $GITHUB_OUTPUT
+            # crash_file="$(cat $x)"
+            # echo "ERROR_INPUT=$crash_file" >> $GITHUB_OUTPUT
+            echo "ERROR_INPUT=$(cat $x)" >> $GITHUB_OUTPUT
           done
         else
           echo "## Success" >> $GITHUB_STEP_SUMMARY
@@ -469,9 +478,8 @@ jobs:
 
         echo "GITHUB_STEP_SUMMARY=$GITHUB_STEP_SUMMARY" >> $GITHUB_OUTPUT
 
-    - name: Fuzzing Finished
+    - name: Playground - ls, find, du, cat Cargo.lock
       run: |
-        echo -e "\n\nFuzzing finished.\n"
         echo "::group::ls"
         ls -lha
         echo "::endgroup::"
@@ -508,8 +516,6 @@ jobs:
         # cat fuzz/Cargo.lock
         # echo "::endgroup::"
 
-    - name: ls repo
-      run: |
         echo "::group::ls repo"
         find . -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
         echo "::endgroup::"
@@ -518,12 +524,7 @@ jobs:
         # find .. -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
         # echo "::endgroup::"
 
-    # - name: ls parent repo
-    #   run: |
-    #     find .. -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
-
     - name: Archive Fuzzing Corpus, Artifacts and Coverage
-      # if: ${{ github.event.inputs.upload_artifacts == 'true' }}
       if: ${{ env.ARTIFACT_UPLOAD == 'true' }}
       uses: actions/upload-artifact@v3
       with:
@@ -537,7 +538,6 @@ jobs:
           # !fuzz/fuzz_targets
           # !fuzz/target
           # !dist/**/*.md
-      # working-directory: ${{ github.event.inputs.submodule }}
 
     - name: Create new issue
       continue-on-error: true
@@ -559,28 +559,84 @@ jobs:
         title: Error found while fuzzing ${{ github.event.inputs.fuzz }} in ${{ github.event.inputs.submodule }}
         labels: "bug, fuzzing, ci"
         body: |-
-          Fuzz log | grep "INFO:"
+          CI GitHub Action failed: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          ## Fuzz log | grep "INFO:"
 
           ```
           ${{ steps.post-processing.outputs.LOG_INFO }}
           ```
 
-          Error:
+          ## Error
 
           ```
           ${{ steps.post-processing.outputs.LOG_ERROR }}
           ```
 
+          ## Input
+
           Error occured with the following input:
 
           ```
-          ${{ steps.postyprocessing.outputs.ERROR_INPUT }}
+          ${{ steps.post-processing.outputs.ERROR_INPUT }}
           ```
 
+          ## Summary
+
           ${{ steps.post-processing.outputs.GITHUB_STEP_SUMMARY }}
+
+          ---
+
+          ### github-context
+
+          https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+
+          | Property name            | Value                         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+          | ------------------------ | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+          | `github.action`          | ${{ github.action }}          | The name of the action currently running, or the [`id`](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsid) of a step. GitHub removes special characters, and uses the name `__run` when the current step runs a script without an `id`. If you use the same action more than once in the same job, the name will include a suffix with the sequence number with underscore before it. For example, the first script you run will have the name `__run`, and the second script will be named `__run_2`. Similarly, the second invocation of `actions/checkout` will be `actionscheckout2`.                                                                                      |
+          | `github.job`             | ${{ github.job }}             | The [`job_id`](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_id) of the current job.<br>Note: This context property is set by the Actions runner, and is only available within the execution `steps` of a job. Otherwise, the value of this property will be `null`.                                                                                                                                                                                                                                                                                                                                                                                                                 |
+          | `github.ref`             | ${{ github.ref }}             | The fully-formed ref of the branch or tag that triggered the workflow run. For workflows triggered by `push`, this is the branch or tag ref that was pushed. For workflows triggered by `pull_request`, this is the pull request merge branch. For workflows triggered by `release`, this is the release tag created. For other triggers, this is the branch or tag ref that triggered the workflow run. This is only set if a branch or tag is available for the event type. The ref given is fully-formed, meaning that for branches the format is `refs/heads/<branch_name>`, for pull requests it is `refs/pull/<pr_number>/merge`, and for tags it is `refs/tags/<tag_name>`. For example, `refs/heads/feature-branch-1`.       |
+          | `github.ref_name`        | ${{ github.ref_name }}        | The short ref name of the branch or tag that triggered the workflow run. This value matches the branch or tag name shown on GitHub. For example, `feature-branch-1`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+          | `github.repository`      | ${{ github.repository }}      | The owner and repository name. For example, `octocat/Hello-World`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+          | `github.repositoryUrl`   | ${{ github.repositoryUrl }}   | The Git URL to the repository. For example, `git://github.com/octocat/hello-world.git`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+          | `github.retention_days`  | ${{ github.retention_days }}  | The number of days that workflow run logs and artifacts are kept.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+          | `github.run_id`          | ${{ github.run_id }}          | A unique number for each workflow run within a repository. This number does not change if you re-run the workflow run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+          | `github.run_number`      | ${{ github.run_number }}      | A unique number for each run of a particular workflow in a repository. This number begins at 1 for the workflow's first run, and increments with each new run. This number does not change if you re-run the workflow run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+          | `github.run_attempt`     | ${{ github.run_attempt }}     | A unique number for each attempt of a particular workflow run in a repository. This number begins at 1 for the workflow run's first attempt, and increments with each re-run.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+          | `github.sha`             | ${{ github.sha }}             | The commit SHA that triggered the workflow. The value of this commit SHA depends on the event that triggered the workflow. For more information, see "[Events that trigger workflows](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows)." For example, `ffac537e6cbbf934b08745a378932722df287a53`.                                                                                                                                                                                                                                                                                                                                                                                                   |
+          | `github.workflow`        | ${{ github.workflow }}        | The name of the workflow. If the workflow file doesn't specify a `name`, the value of this property is the full path of the workflow file in the repository.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+          | `github.workflow_ref`    | ${{ github.workflow_ref }}    | The ref path to the workflow. For example, `octocat/hello-world/.github/workflows/my-workflow.yml@refs/heads/my_branch`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+
+          ### default-environment-variables
+
+          https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
+
+          | Variable                     | Value                                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+          | ---------------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+          | `GITHUB_ACTION`              | ${{ vars.GITHUB_ACTION }}            | The name of the action currently running, or the [`id`](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsid) of a step. For example, for an action, `__repo-owner_name-of-action-repo`.<br><br>GitHub removes special characters, and uses the name `__run` when the current step runs a script without an `id`. If you use the same script or action more than once in the same job, the name will include a suffix that consists of the sequence number preceded by an underscore. For example, the first script you run will have the name `__run`, and the second script will be named `__run_2`. Similarly, the second invocation of `actions/checkout` will be `actionscheckout2`. |
+          | `GITHUB_ACTION_PATH`         | ${{ vars.GITHUB_ACTION_PATH }}       | The path where an action is located. This property is only supported in composite actions. You can use this path to access files located in the same repository as the action. For example, `/home/runner/work/_actions/repo-owner/name-of-action-repo/v1`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+          | `GITHUB_ACTION_REPOSITORY`   | ${{ vars.GITHUB_ACTION_REPOSITORY }} | For a step executing an action, this is the owner and repository name of the action. For example, `actions/checkout`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+          | `GITHUB_BASE_REF`            | ${{ vars.GITHUB_BASE_REF }}          | The name of the base ref or target branch of the pull request in a workflow run. This is only set when the event that triggers a workflow run is either `pull_request` or `pull_request_target`. For example, `main`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+          | `GITHUB_EVENT_NAME`          | ${{ vars.GITHUB_EVENT_NAME }}        | The name of the event that triggered the workflow. For example, `workflow_dispatch`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+          | `GITHUB_EVENT_PATH`          | ${{ vars.GITHUB_EVENT_PATH }}        | The path to the file on the runner that contains the full event webhook payload. For example, `/github/workflow/event.json`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+          | `GITHUB_HEAD_REF`            | ${{ vars.GITHUB_HEAD_REF }}          | The head ref or source branch of the pull request in a workflow run. This property is only set when the event that triggers a workflow run is either `pull_request` or `pull_request_target`. For example, `feature-branch-1`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+          | `GITHUB_JOB`                 | ${{ vars.GITHUB_JOB }}               | The [job_id](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_id) of the current job. For example, `greeting_job`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+          | `GITHUB_REF`                 | ${{ vars.GITHUB_REF }}               | The fully-formed ref of the branch or tag that triggered the workflow run. For workflows triggered by `push`, this is the branch or tag ref that was pushed. For workflows triggered by `pull_request`, this is the pull request merge branch. For workflows triggered by `release`, this is the release tag created. For other triggers, this is the branch or tag ref that triggered the workflow run. This is only set if a branch or tag is available for the event type. The ref given is fully-formed, meaning that for branches the format is `refs/heads/<branch_name>`, for pull requests it is `refs/pull/<pr_number>/merge`, and for tags it is `refs/tags/<tag_name>`. For example, `refs/heads/feature-branch-1`.               |
+          | `GITHUB_REF_NAME`            | ${{ vars.GITHUB_REF_NAME }}          | The short ref name of the branch or tag that triggered the workflow run. This value matches the branch or tag name shown on GitHub. For example, `feature-branch-1`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+          | `GITHUB_REPOSITORY`          | ${{ vars.GITHUB_REPOSITORY }}        | The owner and repository name. For example, `octocat/Hello-World`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+          | `GITHUB_RETENTION_DAYS`      | ${{ vars.GITHUB_RETENTION_DAYS }}    | The number of days that workflow run logs and artifacts are kept. For example, `90`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+          | `GITHUB_RUN_ATTEMPT`         | ${{ vars.GITHUB_RUN_ATTEMPT }}       | A unique number for each attempt of a particular workflow run in a repository. This number begins at 1 for the workflow run's first attempt, and increments with each re-run. For example, `3`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+          | `GITHUB_RUN_ID`              | ${{ vars.GITHUB_RUN_ID }}            | A unique number for each workflow run within a repository. This number does not change if you re-run the workflow run. For example, `1658821493`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+          | `GITHUB_RUN_NUMBER`          | ${{ vars.GITHUB_RUN_NUMBER }}        | A unique number for each run of a particular workflow in a repository. This number begins at 1 for the workflow's first run, and increments with each new run. This number does not change if you re-run the workflow run. For example, `3`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+          | `GITHUB_SHA`                 | ${{ vars.GITHUB_SHA }}               | The commit SHA that triggered the workflow. The value of this commit SHA depends on the event that triggered the workflow. For more information, see "[Events that trigger workflows](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows)." For example, `ffac537e6cbbf934b08745a378932722df287a53`.                                                                                                                                                                                                                                                                                                                                                                                                           |
+          | `GITHUB_STEP_SUMMARY`        | ${{ vars.GITHUB_STEP_SUMMARY }}      | The path on the runner to the file that contains job summaries from workflow commands. This file is unique to the current step and changes for each step in a job. For example, `/home/runner/_layout/_work/_temp/_runner_file_commands/step_summary_1cb22d7f-5663-41a8-9ffc-13472605c76c`. For more information, see "[Workflow commands for GitHub Actions](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-job-summary)."                                                                                                                                                                                                                                                                |
+          | `GITHUB_WORKFLOW`            | ${{ vars.GITHUB_WORKFLOW }}          | The name of the workflow. For example, `My test workflow`. If the workflow file doesn't specify a `name`, the value of this variable is the full path of the workflow file in the repository.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+          | `GITHUB_WORKFLOW_REF`        | ${{ vars.GITHUB_WORKFLOW_REF }}      | The ref path to the workflow. For example, `octocat/hello-world/.github/workflows/my-workflow.yml@refs/heads/my_branch`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+          | `GITHUB_WORKFLOW_SHA`        | ${{ vars.GITHUB_WORKFLOW_SHA }}      | The commit SHA for the workflow file.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+          | `GITHUB_WORKSPACE`           | ${{ vars.GITHUB_WORKSPACE }}         | The default working directory on the runner for steps, and the default location of your repository when using the [`checkout`](https://github.com/actions/checkout) action. For example, `/home/runner/work/my-repo-name/my-repo-name`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+          | `RUNNER_DEBUG`               | ${{ vars.RUNNER_DEBUG }}             | This is set only if [debug logging](https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/enabling-debug-logging) is enabled, and always has the value of `1`. It can be useful as an indicator to enable additional debugging or verbose logging in your own job steps.                                                                                                                                                                                                                                                                                                                                                                                                                                               |
         # body: |-
         #   # :wave: Hi, {{#each assignees}}@{{this}}{{#unless @last}}, {{/unless}}{{/each}}!
-
         # pinned: true
       # env:
       #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
