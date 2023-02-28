@@ -85,20 +85,33 @@ jobs:
     runs-on: ubuntu-latest
     # runs-on: ${{ matrix.os }}
     # continue-on-error: true
-    permissions:
-      # actions: read|write|none
-      # checks: read|write|none
-      contents: read
-      # deployments: read|write|none
-      # id-token: read|write|none
-      issues: write
-      # discussions: read|write|none
-      # packages: read|write|none
-      # pages: write
-      # pull-requests: read|write|none
-      # repository-projects: read|write|none
-      # security-events: read|write|none
-      # statuses: read|write|none
+    # permissions:
+    #   # actions: read|write|none
+    #   # checks: read|write|none
+    #   contents: read
+    #   # deployments: read|write|none
+    #   # id-token: read|write|none
+    #   issues: write
+    #   # discussions: read|write|none
+    #   # packages: read|write|none
+    #   # pages: write
+    #   # pull-requests: read|write|none
+    #   # repository-projects: read|write|none
+    #   # security-events: read|write|none
+    #   # statuses: read|write|none
+    #   # Actions: write
+    #   # Checks: write
+    #   # Contents: write
+    #   # Deployments: write
+    #   # Discussions: write
+    #   # Issues: write
+    #   # Metadata: read
+    #   # Packages: write
+    #   # Pages: write
+    #   # PullRequests: write
+    #   # RepositoryProjects: write
+    #   # SecurityEvents: write
+    #   # Statuses: write
     defaults:
       run:
         working-directory: ${{ github.event.inputs.submodule }}
