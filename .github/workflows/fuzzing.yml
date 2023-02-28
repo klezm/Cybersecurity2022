@@ -435,6 +435,7 @@ jobs:
         # curl https://example.com >> $GITHUB_OUTPUT
         echo -e "$LOG_ERROR" >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
+        [ -f $GITHUB_OUTPUT ] && cat $GITHUB_OUTPUT || echo "error cat'ing $GITHUB_OUTPUT"
         echo "::endgroup::"
 
         echo "::group::log error"
@@ -456,7 +457,7 @@ jobs:
               echo "### $x"
               echo "Error occurred with the following input:"
               echo ""
-              echo "```"
+              echo "\`\`\`"
             } >> $GITHUB_STEP_SUMMARY
 
 
@@ -472,7 +473,7 @@ jobs:
 
 
             {
-              echo "```"
+              echo "\`\`\`"
               echo ""
             } >> $GITHUB_STEP_SUMMARY
             # crash_file="$(cat $x)"
@@ -539,46 +540,46 @@ jobs:
 
         Property name            | Value
         ------------------------ | -----------------------------
-        `github.action`          | ${{ github.action }}
-        `github.job`             | ${{ github.job }}
-        `github.ref`             | ${{ github.ref }}
-        `github.ref_name`        | ${{ github.ref_name }}
-        `github.repository`      | ${{ github.repository }}
-        `github.repositoryUrl`   | ${{ github.repositoryUrl }}
-        `github.retention_days`  | ${{ github.retention_days }}
-        `github.run_id`          | ${{ github.run_id }}
-        `github.run_number`      | ${{ github.run_number }}
-        `github.run_attempt`     | ${{ github.run_attempt }}
-        `github.sha`             | ${{ github.sha }}
-        `github.workflow`        | ${{ github.workflow }}
-        `github.workflow_ref`    | ${{ github.workflow_ref }}
+        github.action            | ${{ github.action }}
+        github.job               | ${{ github.job }}
+        github.ref               | ${{ github.ref }}
+        github.ref_name          | ${{ github.ref_name }}
+        github.repository        | ${{ github.repository }}
+        github.repositoryUrl     | ${{ github.repositoryUrl }}
+        github.retention_days    | ${{ github.retention_days }}
+        github.run_id            | ${{ github.run_id }}
+        github.run_number        | ${{ github.run_number }}
+        github.run_attempt       | ${{ github.run_attempt }}
+        github.sha               | ${{ github.sha }}
+        github.workflow          | ${{ github.workflow }}
+        github.workflow_ref      | ${{ github.workflow_ref }}
 
-        # https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
+        https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
 
         Variable                     | Value
         ---------------------------- | ------------------------------------
-        `GITHUB_ACTION`              | ${{ vars.GITHUB_ACTION }}
-        `GITHUB_ACTION_PATH`         | ${{ vars.GITHUB_ACTION_PATH }}
-        `GITHUB_ACTION_REPOSITORY`   | ${{ vars.GITHUB_ACTION_REPOSITORY }}
-        `GITHUB_BASE_REF`            | ${{ vars.GITHUB_BASE_REF }}
-        `GITHUB_EVENT_NAME`          | ${{ vars.GITHUB_EVENT_NAME }}
-        `GITHUB_EVENT_PATH`          | ${{ vars.GITHUB_EVENT_PATH }}
-        `GITHUB_HEAD_REF`            | ${{ vars.GITHUB_HEAD_REF }}
-        `GITHUB_JOB`                 | ${{ vars.GITHUB_JOB }}
-        `GITHUB_REF`                 | ${{ vars.GITHUB_REF }}
-        `GITHUB_REF_NAME`            | ${{ vars.GITHUB_REF_NAME }}
-        `GITHUB_REPOSITORY`          | ${{ vars.GITHUB_REPOSITORY }}
-        `GITHUB_RETENTION_DAYS`      | ${{ vars.GITHUB_RETENTION_DAYS }}
-        `GITHUB_RUN_ATTEMPT`         | ${{ vars.GITHUB_RUN_ATTEMPT }}
-        `GITHUB_RUN_ID`              | ${{ vars.GITHUB_RUN_ID }}
-        `GITHUB_RUN_NUMBER`          | ${{ vars.GITHUB_RUN_NUMBER }}
-        `GITHUB_SHA`                 | ${{ vars.GITHUB_SHA }}
-        `GITHUB_STEP_SUMMARY`        | ${{ vars.GITHUB_STEP_SUMMARY }}
-        `GITHUB_WORKFLOW`            | ${{ vars.GITHUB_WORKFLOW }}
-        `GITHUB_WORKFLOW_REF`        | ${{ vars.GITHUB_WORKFLOW_REF }}
-        `GITHUB_WORKFLOW_SHA`        | ${{ vars.GITHUB_WORKFLOW_SHA }}
-        `GITHUB_WORKSPACE`           | ${{ vars.GITHUB_WORKSPACE }}
-        `RUNNER_DEBUG`               | ${{ vars.RUNNER_DEBUG }}"
+        GITHUB_ACTION                | ${{ vars.GITHUB_ACTION }}
+        GITHUB_ACTION_PATH           | ${{ vars.GITHUB_ACTION_PATH }}
+        GITHUB_ACTION_REPOSITORY     | ${{ vars.GITHUB_ACTION_REPOSITORY }}
+        GITHUB_BASE_REF              | ${{ vars.GITHUB_BASE_REF }}
+        GITHUB_EVENT_NAME            | ${{ vars.GITHUB_EVENT_NAME }}
+        GITHUB_EVENT_PATH            | ${{ vars.GITHUB_EVENT_PATH }}
+        GITHUB_HEAD_REF              | ${{ vars.GITHUB_HEAD_REF }}
+        GITHUB_JOB                   | ${{ vars.GITHUB_JOB }}
+        GITHUB_REF                   | ${{ vars.GITHUB_REF }}
+        GITHUB_REF_NAME              | ${{ vars.GITHUB_REF_NAME }}
+        GITHUB_REPOSITORY            | ${{ vars.GITHUB_REPOSITORY }}
+        GITHUB_RETENTION_DAYS        | ${{ vars.GITHUB_RETENTION_DAYS }}
+        GITHUB_RUN_ATTEMPT           | ${{ vars.GITHUB_RUN_ATTEMPT }}
+        GITHUB_RUN_ID                | ${{ vars.GITHUB_RUN_ID }}
+        GITHUB_RUN_NUMBER            | ${{ vars.GITHUB_RUN_NUMBER }}
+        GITHUB_SHA                   | ${{ vars.GITHUB_SHA }}
+        GITHUB_STEP_SUMMARY          | ${{ vars.GITHUB_STEP_SUMMARY }}
+        GITHUB_WORKFLOW              | ${{ vars.GITHUB_WORKFLOW }}
+        GITHUB_WORKFLOW_REF          | ${{ vars.GITHUB_WORKFLOW_REF }}
+        GITHUB_WORKFLOW_SHA          | ${{ vars.GITHUB_WORKFLOW_SHA }}
+        GITHUB_WORKSPACE             | ${{ vars.GITHUB_WORKSPACE }}
+        RUNNER_DEBUG                 | ${{ vars.RUNNER_DEBUG }}"
         echo "::endgroup::"
 
     - name: Archive Fuzzing Corpus, Artifacts and Coverage
