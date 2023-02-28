@@ -150,7 +150,7 @@ jobs:
         echo "::endgroup::"
 
         echo "::group::Make Corpus"
-        ../scripts/make-corpus.sh
+        scripts/make-corpus.sh
         echo "::endgroup::"
 
     - name: playground 1
