@@ -571,12 +571,13 @@ jobs:
           ${{ steps.post-processing.outputs.LOG_ERROR }}
           ```
 
-error_file         Error occured with the following input:
+          Error occured with the following input:
 
           ```
-crash         ${{ steps.postyprocessing.outputs.ERROR_INPUT }}
-          crash
-crash          ${{ steps.post-processing.outputs.GITHUB_STEP_SUMMARY }}
+          ${{ steps.postyprocessing.outputs.ERROR_INPUT }}
+          ```
+
+          ${{ steps.post-processing.outputs.GITHUB_STEP_SUMMARY }}
         # body: |-
         #   # :wave: Hi, {{#each assignees}}@{{this}}{{#unless @last}}, {{/unless}}{{/each}}!
 
