@@ -85,6 +85,8 @@ jobs:
     runs-on: ubuntu-latest
     # runs-on: ${{ matrix.os }}
     # continue-on-error: true
+    permissions:
+      issues: write
     defaults:
       run:
         working-directory: ${{ github.event.inputs.submodule }}
@@ -98,17 +100,40 @@ jobs:
       uses: actions/checkout@v1
       with:
         submodules: true
+
+    - name: Fuzz Demo Setup
+      if: ${{ github.event.inputs.submodule == 'humantime' }}
+      working-directory: .
+      run: |
+        git clone --depth 1 https://github.com/tailhook/humantime
+
     - name: Restore submodules
       working-directory: .
       run: |
         # echo "pwd: $(pwd)"
         # ls -lha
+
+        echo "::group::Resetting submodules"
+        # When running the action locally with act git reset & git clean might be required
+        # (cd ..; git submodule -q foreach pwd | xargs -t -I % -n 1 git -C % reset --hard)
+        find . -name .git -print | xargs -t -I % git -C %/.. reset --hard
+        find . -name .git -print | xargs -t -I % git -C %/.. clean -fxd
+        echo "::endgroup::"
+
+        echo "::group::Restoring submodules"
         .devcontainer/scripts/submodules-backup-restore.sh restore
-    - name: playground
+        echo "::endgroup::"
+
+        echo "::group::Make Corpus"
+        ../scripts/make-corpus.sh
+        echo "::endgroup::"
+
+    - name: playground 1
+      id: playground1
       # if: ${{ github.event.inputs.submodule == 'rpki-rs' }}
       # if: ${{ github.event.inputs.verbose == 'true' }}
       run: |
-        echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
+        echo "::group::GitHub Acction Context"
         echo -e "\ngithub.event.inputs.<...>"
         # echo "${{ github.event.inputs.submodule }} - ${{ github.event.inputs.fuzz }} - ${{ github.event.inputs.max_total_time }} - ${{ github.event.inputs.resume_with_artifacts }}"
         echo "submodule:              ${{ github.event.inputs.submodule }}"
@@ -119,40 +144,62 @@ jobs:
         echo "corpus:                 ${{ github.event.inputs.corpus }}"
         echo "fuzz_args:              ${{ github.event.inputs.fuzz_args }}"
         echo "artifacts_up_down_load: ${{ github.event.inputs.artifacts_up_down_load }}"
-        # echo "resume_with_artifacts:  ${{ github.event.inputs.resume_with_artifacts }}"
-        # echo "upload_artifacts:       ${{ github.event.inputs.upload_artifacts }}"
         echo "rust_toolchain:         ${{ github.event.inputs.rust_toolchain }}"
         echo "verbose:                ${{ github.event.inputs.verbose }}"
         echo "ARTIFACT_DOWNLOAD:      ${{ env.ARTIFACT_DOWNLOAD }}"
         echo "ARTIFACT_UPLOAD:        ${{ env.ARTIFACT_UPLOAD }}"
+        echo "::endgroup::"
         echo -e "\npwd: $(pwd)"
-        echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
+
+        # echo "::group::List files ../"
         # find .. -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
+        # echo "::endgroup::"
         # echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
+
+        echo "::group::List files"
         # ls -aR . | grep ':$' | sed -e 's/:$//' -e 's/[^\/]*\//|  /g' -e 's/|  \([^|]\)/|–– \1/g'
         ls -R .. | grep ':$' | sed -e 's/:$//' -e 's/[^\/]*\//|  /g' -e 's/|  \([^|]\)/|–– \1/g'
-        echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
+        echo "::endgroup::"
+
+        echo "::group::env"
         env | sort
+        echo "::endgroup::"
+
     - name: playground 2
-      if: ${{ env.ARTIFACT_DOWNLOAD == 'true' }}
+      # if: ${{ env.ARTIFACT_DOWNLOAD == 'true' }}
+      # if: ${{ steps.playground1.conclusion.0 }}
+      # if: ${{ steps.playground1.conclusion }}
+      # if: ${{ steps.playground1.outcome }}
+      # if: ${{ steps.playground1.outcome }}
+      # if: ${{ steps.playground1.outputs }}
       run: |
-        echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
         echo "playground 2"
-        echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
+
+        echo "::group::Step Playground 1 Context"
+        echo "conclusion:     ${{ steps.playground1.conclusion }}"
+        echo "outcome:        ${{ steps.playground1.outcome }}"
+        echo "outputs:        ${{ steps.playground1.outputs }}"
+        echo "outputs.stdout: ${{ steps.playground1.outputs.stdout }}"
+        echo "::endgroup::"
+
     - name: playground 3
       if: ${{ env.ARTIFACT_UPLOAD == 'true' }}
       run: |
         echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
         echo "playground 3"
         echo -e "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
+
     - name: install dependencies
       run: |
+        echo "::group::apt"
         sudo apt update
         sudo apt install -y \
           ca-certificates gnupg lsb-release \
           curl wget git gcc rsync build-essential \
           pkg-config libssl-dev openssl \
           expect colorized-logs
+        echo "::endgroup::"
+
     - name: Install Rust
       uses: actions-rs/toolchain@v1
       with:
@@ -174,11 +221,67 @@ jobs:
     #     crate: cargo-fuzz
     #     version: latest
     #     use-tool-cache: true
+
     - name: Install cargo fuzz
       run: |
+        echo "::group::rustup install nightly"
         rustup install nightly
+        echo "::endgroup::"
+
+        # rustup default stable
+
+        echo "::group::install cargo-fuzz"
         cargo +nightly install cargo-fuzz
         # cargo install cargo-fuzz
+        echo "::endgroup::"
+
+        echo "::group::cargo clean"
+        find . -name Cargo.toml -not -path "*-diff/*" -type f -exec dirname {} \; | xargs -t -I % cargo +nightly -C % clean
+        # cargo clean || echo "cargo clean failed"
+        [ -f Cargo.toml ] && cargo clean
+        echo "::endgroup::"
+
+    - name: Fuzz Demo
+      if: ${{ github.event.inputs.submodule == 'humantime' }}
+      run: |
+        # cargo +nightly fuzz init
+
+        # cat > fuzz/fuzz_targets/fuzz_target_1.rs << EOF
+        # #![no_main]
+        # use libfuzzer_sys::fuzz_target;
+        # use humantime::{parse_duration, parse_rfc3339, parse_rfc3339_weak};
+        # fuzz_target!(|data: &[u8]| {
+        #     if let Ok(s) = std::str::from_utf8(data) {
+        #         let _ = parse_duration(s);
+        #         let _ = parse_rfc3339(s);
+        #         let _ = parse_rfc3339_weak(s);
+        #     }
+        # });
+        # EOF
+
+        cd ..
+        rm -rf humantime
+        cargo new humantime
+        cd humantime
+        cargo +nightly fuzz init
+
+        cat > fuzz/fuzz_targets/fuzz_target_1.rs << EOF
+        #![no_main]
+        use libfuzzer_sys::fuzz_target;
+        pub fn pass_fuzzing(data: &[u8]) {
+            let _ = data;
+        }
+        pub fn fail_fuzzing(data: &[u8]) {
+            if data.len() == 7 {
+                panic!("I'm afraid of number 7");
+            }
+        }
+        fuzz_target!(|data: &[u8]| {
+          let _ = pass_fuzzing(data);
+          let _ = fail_fuzzing(data);
+        });
+        EOF
+
     # - if: matrix.rust == 'stable'
     #   run: rustup component add clippy
     # - if: matrix.os != 'windows-latest' && matrix.rust == 'stable'
@@ -217,17 +320,15 @@ jobs:
         path: fuzz
 
     - name: Fuzzing
+      id: fuzzing
       continue-on-error: true
+      shell: bash
       run: |
         echo -e "pwd: $(pwd)\n"
-        # FUZZING_TARGET="fuzz_target_rrdp"
+
         FUZZING_TARGET=${{ github.event.inputs.fuzz }}
         CORPUS_DIR=""
-        # CORPUS_DIR="fuzz/corpus"
-        # CORPUS_DIR="fuzz/corpus/fuzz_target_rrdp"
         CORPUS_DIR="fuzz/corpus/${{ github.event.inputs.fuzz }}"
-        # CORPUS_DIR="../corpus"
-        # CORPUS_DIR="../corpus/xml/snapshot"
         # SEED=0 # default: 0
         # SEED=1880631125 # default: 0
         SEED=${{ github.event.inputs.seed }}
@@ -243,45 +344,153 @@ jobs:
           VERBOSE_2=""
         fi
         FUZZ_ARGS=${{ github.event.inputs.fuzz_args }}
-        #
-        echo -e "\nCopying corpus..."
+        LOG_PATH=fuzz.log
+
+        echo "::group::Copying corpus"
+        # echo -e "\nCopying corpus..."
         mkdir -p $CORPUS_DIR
         cp --verbose ${{ github.event.inputs.corpus }} $CORPUS_DIR/
-        #
+        echo "::endgroup::"
+
         echo -e "\nFuzzing with the following parameters:"
         # echo -e "\nREPO_NAME: $REPO_NAME\nWRITE_LOG: $WRITE_LOG\nLOG_PATH: $LOG_PATH\nFUZZING_TARGET: $FUZZING_TARGET\nCORPUS_DIR: $CORPUS_DIR\nSEED: $SEED\nONLY_ASCII: $ONLY_ASCII\nMAX_TOTAL_TIME: $MAX_TOTAL_TIME\n"
         echo -e "\nFUZZING_TARGET: $FUZZING_TARGET\nCORPUS_DIR: $CORPUS_DIR\nSEED: $SEED\nONLY_ASCII: $ONLY_ASCII\nMAX_TOTAL_TIME: $MAX_TOTAL_TIME\nVERBOSE: $VERBOSE_1\n"
-        #
+
+        echo "::group::Fuzzing"
         # unbuffer cargo +nightly -C $REPO_NAME -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME | tee -a $LOG_PATH
         # unbuffer cargo +nightly -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME | tee -a $LOG_PATH
         # cargo +nightly -vv --locked fuzz run -v $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME
-        cargo +nightly $VERBOSE_1 $FUZZ_ARGS fuzz run $VERBOSE_2 $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME
+        # https://man7.org/linux/man-pages/man1/tee.1.html
+        # https://manpages.ubuntu.com/manpages/jammy/en/man1/stdbuf.1.html
+        cargo +nightly $VERBOSE_1 $FUZZ_ARGS fuzz run $VERBOSE_2 $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME -ignore_crashes=1 2>&1 | tee $LOG_PATH
+        # cargo +nightly $VERBOSE_1 $FUZZ_ARGS fuzz run $VERBOSE_2 $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME -ignore_crashes=1 2>&1 | tee --output-error=warn-nopipe $LOG_PATH
+        # unbuffer cargo +nightly $VERBOSE_1 $FUZZ_ARGS fuzz run $VERBOSE_2 $FUZZING_TARGET $CORPUS_DIR -- -only_ascii=$ONLY_ASCII -seed=$SEED -max_total_time=$MAX_TOTAL_TIME -ignore_crashes=1 | tee $LOG_PATH
+        echo "::endgroup::"
+
+    - name: Post Processing
+      id: post-processing
+      # if: ${{ steps.fuzzing.conclusion == 'success' }}
+      # if: ${{ steps.fuzzing.outcome == 'success' }}
+      # Possible values are success, failure, cancelled, or skipped.
+      # When a continue-on-error step fails, the outcome is failure, but the final conclusion is success.
+      continue-on-error: true
+      run: |
+        LOG_PATH=fuzz.log
+
+        # echo "::group::playground"
+        # apt update | tee -a $LOG_PATH
+        # echo "::endgroup::"
+
+        # echo "::group::Fuzzing Log"
+        # echo "LOG_PATH: $LOG_PATH, $(realpath $LOG_PATH), $(dirname $(realpath $LOG_PATH))"
+        # ls -lh
+        # ls -lh $(dirname $(realpath $LOG_PATH))
+        # [ -f $LOG_PATH ] && cat $LOG_PATH
+        # echo "::endgroup::"
+
+        echo "::group::Step Fuzzing Context"
+        echo "conclusion:     ${{ steps.fuzzing.conclusion }}"
+        echo "outcome:        ${{ steps.fuzzing.outcome }}"
+        echo "outputs:        ${{ steps.fuzzing.outputs }}"
+        echo "::endgroup::"
+
+        # ARTIFACTS_DIR="fuzz/artifacts/${{ github.event.inputs.fuzz }}"
+        # # is folder empty?
+        # if [ -d $ARTIFACTS_DIR ] && [ ! -z "$(ls -A $ARTIFACTS_DIR)" ]; then
+        #   echo -e "\t ARTIFACTS??? +++++++++++++++++++++++++++++++++++++++++++"
+        # else
+        #   echo -e "\t ARTIFACTS??? -------------------------------------------"
+        # fi
+
+        echo "::group::cat $LOG_PATH | grep INFO:"
+        [ -f $LOG_PATH ] && echo "$LOG_PATH exists." || echo "$LOG_PATH does not exist."
+        [ -f $LOG_PATH ] && wc -l $LOG_PATH
+        # https://linuxcommand.org/lc3_man_pages/testh.html
+        # [ -s $LOG_PATH ] && cat $LOG_PATH
+        # echo
+        [ -s $LOG_PATH ] && cat $LOG_PATH | grep "INFO:"
+        echo "::endgroup::"
+
+        echo "::group::Summary"
+        FOUND_ARTIFACTS=($(find fuzz/artifacts -type f))
+        # bla1=($(find docs/gh-actions/runs4272680831jobs7438036693 -type f))
+        # bla1=($(find docs/gh-actions -type f))
+
+        if [ ${#FOUND_ARTIFACTS[@]} -ne 0 ]; then
+          echo "## Errors found" >> $GITHUB_STEP_SUMMARY
+          for x in ${FOUND_ARTIFACTS[@]}; do
+            {
+              echo "### $x"
+              echo "Error occured with the following input:"
+              echo ""
+              echo "```"
+            } >> $GITHUB_STEP_SUMMARY
+            cat $x >> $GITHUB_STEP_SUMMARY
+            {
+              echo "```"
+              echo ""
+            } >> $GITHUB_STEP_SUMMARY
+          done
+        else
+          echo "## Success" >> $GITHUB_STEP_SUMMARY
+          echo "No errors found." >> $GITHUB_STEP_SUMMARY
+        fi
+        echo "::endgroup::"
+
+        echo "GITHUB_STEP_SUMMARY=$GITHUB_STEP_SUMMARY" >> $GITHUB_OUTPUT
 
     - name: Fuzzing Finished
       run: |
         echo -e "\n\nFuzzing finished.\n"
-        echo
+        echo "::group::ls"
         ls -lha
-        echo
+        echo "::endgroup::"
+
+        echo "::group::ls fuzz"
         ls -lha fuzz
+        echo "::endgroup::"
+
+        echo "::group::ls fuzz/artifacts"
+        ls -lha fuzz/artifacts
+        echo "::endgroup::"
+        echo "::group::ls fuzz/artifacts/${{ github.event.inputs.fuzz }}"
+        ls -lha fuzz/artifacts/${{ github.event.inputs.fuzz }}
         echo
+        find fuzz/artifacts -type f
+        echo "::endgroup::"
+
+        echo "::group::ls fuzz/corpus"
         ls -lha fuzz/corpus
-        echo
+        echo "::endgroup::"
+        echo "::group::ls fuzz/corpus/${{ github.event.inputs.fuzz }}"
         ls -lha fuzz/corpus/${{ github.event.inputs.fuzz }} | head -n 20
-        echo
+        echo "::endgroup::"
+
+        echo "::group::du"
         du -h -d 3 . | sort -h
-        echo -e "\n\nCargo.lock:\n"
-        [ -f Cargo.lock ] && cat Cargo.lock
-        echo -e "\n\nfuzz/Cargo.lock:\n"
-        cat fuzz/Cargo.lock
+        echo "::endgroup::"
+
+        # echo "::group::Cargo.lock"
+        # [ -f Cargo.lock ] && cat Cargo.lock
+        # echo "::endgroup::"
+
+        # echo "::group::fuzz/Cargo.lock"
+        # cat fuzz/Cargo.lock
+        # echo "::endgroup::"
 
     - name: ls repo
       run: |
+        echo "::group::ls repo"
         find . -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
+        echo "::endgroup::"
 
-    - name: ls parent repo
-      run: |
-        find .. -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
+        # echo "::group::ls parent repo"
+        # find .. -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
+        # echo "::endgroup::"
+
+    # - name: ls parent repo
+    #   run: |
+    #     find .. -print | sed -e "s;[^/]*/;|____;g;s;____|;  |;g"
 
     - name: Archive Fuzzing Corpus, Artifacts and Coverage
       # if: ${{ github.event.inputs.upload_artifacts == 'true' }}
@@ -290,6 +499,7 @@ jobs:
       with:
         # name: fuzzing-corpus-artifacts-coverage-${{ github.event.inputs.submodule }}
         name: fuzzing-corpus-artifacts-coverage
+        # retention-days: 90
         path: |
           ${{ github.event.inputs.submodule }}/fuzz/corpus
           ${{ github.event.inputs.submodule }}/fuzz/artifacts
@@ -299,6 +509,40 @@ jobs:
           # !dist/**/*.md
       # working-directory: ${{ github.event.inputs.submodule }}
 
-# bin/act workflow_dispatch -j fuzz --input max_total_time=30 --input fuzz=fuzz_target_rrdp --input submodule=rpki-rs --input resume_with_artifacts=true
-# bin/act workflow_dispatch -j fuzz --input submodule=rpki-rs --input fuzz=fuzz_target_rrdp --input max_total_time=30 --input seed=0 --input only_ascii=1 --input corpus="../corpus/xml/snapshot/*" --input resume_with_artifacts=false --input upload_artifacts=false --input rust_toolchain=nightly --input verbose=false
-# bin/act workflow_dispatch -j fuzz --input submodule=rpki-rs --input fuzz=fuzz_target_rrdp --input max_total_time=30 --input seed=0 --input only_ascii=1 --input corpus="../corpus/xml/snapshot/*" --input fuzz_args="--locked" --input artifacts_up_down_load=download_and_upload --input rust_toolchain=nightly --input verbose=false
+    - name: Create new issue
+      continue-on-error: true
+      # https://docs.github.com/en/actions/using-workflows/using-github-cli-in-workflows
+      # https://docs.github.com/en/actions/examples/using-the-github-cli-on-a-runner
+      # # https://github.com/marketplace/actions/issues-helper
+      # # https://github.com/marketplace/actions/create-an-issue
+      # uses: JasonEtco/create-an-issue@v2
+      # https://github.com/marketplace/actions/issue-bot-action
+      # https://docs.github.com/en/actions/managing-issues-and-pull-requests/scheduling-issue-creation
+      uses: imjohnbo/issue-bot@v3
+      # Possible values are success, failure, cancelled, or skipped.
+      # When a continue-on-error step fails, the outcome is failure, but the final conclusion is success.
+      # if: ${{ steps.fuzzing.outcome == 'DONTRUN' }}
+      if: ${{ steps.fuzzing.outcome == 'failure' }}
+      # if: failure()
+      with:
+        # assignees: "octocat, monalisa"
+        title: Error found while fuzzing
+        labels: "bug, fuzzing, ci"
+        body: ${{ steps.post-processing.outputs.GITHUB_STEP_SUMMARY }}
+        # body: |-
+        #   # :wave: Hi, {{#each assignees}}@{{this}}{{#unless @last}}, {{/unless}}{{/each}}!
+
+        # pinned: true
+      # env:
+      #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   ISSUE: ${{ github.event.issue.html_url }}
+      # run: gh issue comment $ISSUE --body "Thank you for opening this issue!"
+
+# bin/act workflow_dispatch -j fuzz --input max_total_time=30 --input fuzz=fuzz_target_rrdp --input submodule=rpki-rs --input resume_with_artifacts=true | batcat
+# bin/act workflow_dispatch -j fuzz --input submodule=rpki-rs --input fuzz=fuzz_target_rrdp --input max_total_time=30 --input seed=0 --input only_ascii=1 --input corpus="../corpus/xml/snapshot/*" --input resume_with_artifacts=false --input upload_artifacts=false --input rust_toolchain=nightly --input verbose=false | batcat
+# bin/act workflow_dispatch -j fuzz --input submodule=rpki-rs --input fuzz=fuzz_target_rrdp --input max_total_time=30 --input seed=0 --input only_ascii=1 --input corpus="../corpus/xml/snapshot/*" --input fuzz_args="--locked" --input artifacts_up_down_load=none --input rust_toolchain=nightly --input verbose=false | batcat
+# bin/act workflow_dispatch -j fuzz --input submodule=rpki-rs --input fuzz=fuzz_target_1 --input max_total_time=300 --input seed=0 --input only_ascii=1 --input corpus="../corpus/all/*" --input fuzz_args="--locked" --input artifacts_up_down_load=none --input rust_toolchain=nightly --input verbose=false --env GITHUB_STEP_SUMMARY="/dev/stdout" | batcat
+
+# bin/act workflow_dispatch -j fuzz --input submodule=humantime --input fuzz=fuzz_target_1 --input max_total_time=300 --input seed=0 --input only_ascii=1 --input corpus="../corpus/all/*" --input fuzz_args="--locked" --input artifacts_up_down_load=none --input rust_toolchain=nightly --input verbose=false | batcat
+
+# bin/act workflow_dispatch -j fuzz --input submodule=rpki-rs --input fuzz=fuzz_target_rrdp --input max_total_time=30 --input seed=0 --input only_ascii=1 --input corpus="../docs/gh-actions/snapshot/*" --input fuzz_args="--locked" --input artifacts_up_down_load=none --input rust_toolchain=nightly --input verbose=false | batcat

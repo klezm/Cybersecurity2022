@@ -38,4 +38,10 @@
         // "corpus/**": true,
         "hidden/**": true,
     },
+
+    // https://github.com/cschleiden/vscode-github-actions/issues/144
+    "yaml.schemaStore.enable": true,
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml",
+    }
 }

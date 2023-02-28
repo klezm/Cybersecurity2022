@@ -301,7 +301,7 @@ fn parse_my_ca(
 <tr><td>
 
 ```rs
-
+fn from_str(s: &str) -> Result<Self, Self::Err> {
 ```
 
 </td><td>
@@ -317,7 +317,7 @@ fn parse_my_ca(
 <tr><td>
 
 ```rs
-
+fn parse_delta() {
 ```
 
 </td><td>
@@ -330,6 +330,144 @@ fn parse_my_ca(
 
 </td></tr>
 
+</table>
+
+
+
+
+rpki-rs:
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Local</th>
+    <th>GitHub</th>
+  </tr>
+
+
+<tr><td>
+
+```rs
+impl Snapshot {
+    /// Parses the snapshot from its XML representation.
+    pub fn parse<R: io::BufRead>(
+        reader: R
+    ) -> Result<Self, ProcessError> {
+```
+
+</td><td>
+
+[src/rrdp.rs#L574](rpki-rs/src/rrdp.rs#L574)
+
+</td><td>
+
+[GitHub](https://github.com/NLnetLabs/rpki-rs/blob/5978fbe3e4aa3872e83a34efbf18dc84c02391ed/src/rrdp.rs#L574)
+
+</td></tr>
+
+
+<tr><td>
+
+```rs
+impl<Alg: SignatureAlgorithm, Attrs: CsrAttributes> Csr<Alg, Attrs> {
+    /// Parse as a source as a certificate signing request.
+    pub fn decode<S: IntoSource>(
+        source: S
+    ) -> Result<Self, DecodeError<<S::Source as Source>::Error>> {
+        Mode::Der.decode(source.into_source(), Self::take_from)
+    }
+```
+
+</td><td>
+
+[src/ca/csr.rs#L124](rpki-rs/src/ca/csr.rs#L124)
+
+</td><td>
+
+[GitHub](https://github.com/NLnetLabs/rpki-rs/blob/5978fbe3e4aa3872e83a34efbf18dc84c02391ed/src/ca/csr.rs#L124)
+
+</td></tr>
+
+
+<tr><td>
+
+```rs
+impl IdCert {
+    /// Decodes a source as a certificate.
+    pub fn decode<S: IntoSource>(
+        source: S
+    ) -> Result<Self, DecodeError<<S::Source as Source>::Error>> {
+```
+
+</td><td>
+
+[src/ca/idcert.rs#L93](rpki-rs/src/ca/idcert.rs#L93)
+
+</td><td>
+
+[GitHub](https://github.com/NLnetLabs/rpki-rs/blob/5978fbe3e4aa3872e83a34efbf18dc84c02391ed/src/ca/idcert.rs#L93)
+
+</td></tr>
+
+
+
+<tr><td>
+
+```rs
+impl str::FromStr for Rsync {
+    type Err = Error;
+
+    fn from_str(s: &str) -> Result<Self, Error> {
+        Self::from_bytes(Bytes::copy_from_slice(s.as_ref()))
+    }
+}
+// Wie ihr die Dateien für den Korpus erstellt, ist euch überlassen. Wenn
+// die Funktion einen String als input erwartet, könnt ihr die Dateien mit
+// validen Input Strings füllen. Denkbar wäre beispielsweise, dass ihr eine
+// Funktion fuzzed die eine rsync-uri parsed und ihr erstellt eine
+// Corpus-Datei die "rsync://my.server.com/a/b/c.roa" enthält. Wenn ihr
+// einen Funktion fuzzed, die ein RPKI Object parsed, könnt ihr eins der
+// Objekte dem Corpus hinzufügen, die wir euch zur Verfügung gestellt
+// haben. Falls ihr rohe Bytes in eine Datei zu schreiben wollt, würde ich
+// euch empfehlen, das mit der Programmiersprache eurer Wahl zu machen.
+// Also z.B. Python bietet die Funktion ein file mit der flag "wb" zu
+// öffnen und dann ein binary literal hinein zu schreiben.
+```
+
+</td><td>
+
+[src/uri.rs#L394](rpki-rs/src/uri.rs#L394)
+
+</td><td>
+
+[GitHub](https://github.com/NLnetLabs/rpki-rs/blob/5978fbe3e4aa3872e83a34efbf18dc84c02391ed/src/uri.rs#L394)
+
+</td></tr>
+
+
+<tr><td>
+
+```rs
+impl Roa {
+    pub fn decode<S: IntoSource>(
+        source: S,
+        strict: bool
+    ) -> Result<Self, DecodeError<<S::Source as Source>::Error>> {
+```
+
+</td><td>
+
+[src/repository/roa.rs#L30](rpki-rs/src/repository/roa.rs#L30)
+
+</td><td>
+
+[GitHub](https://github.com/NLnetLabs/rpki-rs/blob/5978fbe3e4aa3872e83a34efbf18dc84c02391ed/src/repository/roa.rs#L30)
+
+</td></tr>
+
+
+
+
 <tr><td>
 
 ```rs
@@ -338,13 +476,122 @@ fn parse_my_ca(
 
 </td><td>
 
-[](krill/)
+[](rpki-rs/)
 
 </td><td>
 
 [GitHub]()
 
 </td></tr>
+
+
+
+
+<tr><td>
+
+```rs
+// Verifiziert die Validität eines Zertifikats, somit für kritische Aufgabe zuständig (evtl. auch simple Datentypen?)
+pub fn verify_validity(
+    &self, now: Time,
+) -> Result<(), VerificationError> {
+    self.validity.verify_at(now).map_err(Into::into)
+}
+```
+
+</td><td>
+
+[src/ca/idcert.rs#L251](rpki-rs/src/ca/idcert.rs#L251)
+
+</td><td>
+
+[GitHub](https://github.com/NLnetLabs/rpki-rs/blob/80ca2f627892f863bb075974ae3fa545e519d379/src/ca/idcert.rs#L251)
+
+</td></tr>
+
+
+<tr><td>
+
+```rs
+// Verifiziert die Signatur eines Zertifikats, smit ebenfalls kritisch
+fn verify_signature(
+    &self, public_key: &PublicKey,
+) -> Result<(), SignatureVerificationError> {
+    self.signed_data.verify_signature(public_key)
+}
+```
+
+</td><td>
+
+[src/ca/idcert.rs#L282](rpki-rs/src/ca/idcert.rs#L282)
+
+</td><td>
+
+[GitHub](https://github.com/NLnetLabs/rpki-rs/blob/80ca2f627892f863bb075974ae3fa545e519d379/src/ca/idcert.rs#L282)
+
+</td></tr>
+
+
+<tr><td>
+
+```rs
+// Validiert CSR gegen öffentlichen Schlüssel
+pub fn verify_signature(&self) -> Result<(), SignatureVerificationError> {
+    self.signed_data.verify_signature(self.public_key())
+}
+```
+
+</td><td>
+
+[src/ca/csr.rs#L150](rpki-rs/src/ca/csr.rs#L150)
+
+</td><td>
+
+[GitHub](https://github.com/NLnetLabs/rpki-rs/blob/80ca2f627892f863bb075974ae3fa545e519d379/src/ca/csr.rs#L150)
+
+</td></tr>
+
+
+<tr><td>
+
+```rs
+// Nimmt primitiven Datentyp u8 an
+impl DigestAlgorithm {
+    /// Returns the digest of `data` using this algorithm.
+    pub fn digest(self, data: &[u8]) -> Digest {
+        digest::digest(&digest::SHA256, data)
+    }
+```
+
+</td><td>
+
+[src/crypto/digest.rs#L52](rpki-rs/src/crypto/digest.rs#L52)
+
+</td><td>
+
+[GitHub](https://github.com/NLnetLabs/rpki-rs/blob/80ca2f627892f863bb075974ae3fa545e519d379/src/crypto/digest.rs#L52)
+
+</td></tr>
+
+
+<tr><td>
+
+```rs
+// Nimmt primitiven Datentyp u8 an
+pub fn sha1_digest(data: &[u8]) -> Digest {
+    digest::digest(&digest::SHA1_FOR_LEGACY_USE_ONLY, data)
+}
+```
+
+</td><td>
+
+[src/crypto/digest.rs#L199](rpki-rs/src/crypto/digest.rs#L199)
+
+</td><td>
+
+[GitHub](https://github.com/NLnetLabs/rpki-rs/blob/80ca2f627892f863bb075974ae3fa545e519d379/src/crypto/digest.rs#L199)
+
+</td></tr>
+
 
 <tr><td>
 
@@ -354,13 +601,14 @@ fn parse_my_ca(
 
 </td><td>
 
-[](krill/)
+[](rpki-rs/)
 
 </td><td>
 
 [GitHub]()
 
 </td></tr>
+
 
 </table>
 

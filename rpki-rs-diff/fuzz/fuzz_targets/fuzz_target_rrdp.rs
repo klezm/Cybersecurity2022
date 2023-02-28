@@ -11,6 +11,9 @@ fuzz_target!(|data: &[u8]| {
     let _ = Snapshot::parse(data);
 });
 
+// cp **/*snap*.xml  corpus/tmp/
+// cp --verbose --backup=numbered **/*snap*.xml corpus/tmp/
+
 // fuzz_target!(|data: &[u8]| {
 //     if let Ok(data) = BufReader::new(data) {
 //         let _ = Snapshot::parse(data);

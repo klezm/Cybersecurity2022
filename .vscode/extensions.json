@@ -5,6 +5,7 @@
         "ms-azuretools.vscode-docker",
         "iliazeus.vscode-ansi",
         "ms-vscode.live-server",
-        "cschleiden.vscode-github-actions"
+        "cschleiden.vscode-github-actions",
+        "redhat.vscode-yaml"
     ]
 }

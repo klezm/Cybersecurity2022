@@ -23,7 +23,8 @@ RUN sudo apt update && \
         ca-certificates gnupg lsb-release \
         curl wget git gcc rsync build-essential \
         pkg-config libssl-dev openssl \
-        bat mc expect colorized-logs
+        bat mc expect colorized-logs \
+        p7zip p7zip-full
         # gcc-multilib libpq-dev libpq5
         # mesa-opencl-icd ocl-icd-opencl-dev bzr jq clang hwloc libhwloc-dev
         # tini
@@ -52,6 +53,6 @@ RUN rustup component add rust-src rust-analyzer clippy rustfmt
     # && cargo metadata --format-version 1 --manifest-path /workspaces/Cybersecurity2022/rpki-rs/Cargo.toml --filter-platform x86_64-unknown-linux-gnu
 
 RUN cargo +nightly install cargo-fuzz
-    # cargo-test-fuzz afl
+# RUN cargo +nightly install cargo-fuzz cargo-test-fuzz afl
     # && cargo install --force cargo-fuzz
 # RUN cargo +nightly install -f cargo-libafl

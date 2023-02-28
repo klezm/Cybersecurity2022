@@ -24,18 +24,6 @@
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
-		// "ghcr.io/devcontainers/features/desktop-lite:1": {},
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
-		"ghcr.io/dhoeric/features/act:1.0.0": {}, // Run GitHub Actions locally
-		// "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
-		// "ghcr.io/devcontainers/features/git-lfs:1": {},
-		// "ghcr.io/devcontainers/features/github-cli:1": {},
-		// "ghcr.io/devcontainers/features/go:1": {},
-		// "ghcr.io/devcontainers/features/java:1": {},
-		// "ghcr.io/devcontainers/features/nix:1": {},
-		// "ghcr.io/devcontainers/features/python:1": {},
-		"ghcr.io/devcontainers/features/sshd:1": {}, // Prerequisit for using codespaces in JetBrains IDEs
-
 		"ghcr.io/devcontainers/features/common-utils:2": {
 			"configureZshAsDefaultShell": true,
 			"username": "vscode",
@@ -46,7 +34,17 @@
 			// "optimize":	true,
 			// "installJupyterlab": true
 		}
+		// "ghcr.io/devcontainers/features/sshd:1": {}, // Prerequisit for using codespaces in JetBrains IDEs
+		// "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+		// "ghcr.io/dhoeric/features/act:1.0.0": {}, // Run GitHub Actions locally
+		// "ghcr.io/devcontainers/features/git-lfs:1": {},
 
+		// "ghcr.io/devcontainers/features/desktop-lite:1": {},
+		// "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+		// "ghcr.io/devcontainers/features/github-cli:1": {},
+		// "ghcr.io/devcontainers/features/go:1": {},
+		// "ghcr.io/devcontainers/features/java:1": {},
+		// "ghcr.io/devcontainers/features/nix:1": {},
 		// "ghcr.io/akhildevelops/devcontainer-features/apt:0": {},
 		// "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {},
 		// "ghcr.io/devcontainers-contrib/features/bash-command:1": {"command": "env | sort; whoami"},

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 BACKUP_RESTORE=${1:-"backup"}
+REPO_NAME=${2:-""}
 REPO_DIFF_SUFFIX="-diff"
 
 echo Performs $BACKUP_RESTORE of changes from submodules. the changes are stored in a folder named "<REPO_FOLDER>-diff".
@@ -86,12 +87,21 @@ function backup_changes() {
 }
 
 function restore_changes() {
-    find $subMod/fuzz/ -name "Cargo.lock" -type f -delete
-    find $subModDiffDir -name "Cargo.lock" -type f -delete
+    # git -C $subMod reset --hard
+    echo "-> Removing Cargo.lock files..."
+    find $subMod/fuzz/ -name "Cargo.lock" -type f -delete -print #| xargs -I % echo -e "  %"
+    find $subModDiffDir -name "Cargo.lock" -type f -delete -print
+    echo "-> Copying changes from $subModDiffDir to $subMod..."
     cp -r --verbose $subModDiffDir/* $subMod/
 }
 
 for subMod in $SUBMODULES; do
+
+    # if REPO_NAME is set, only backup/restore the specified repo
+    if [ -n "$REPO_NAME" ] && [ "$subMod" != "$REPO_NAME" ]; then
+        continue
+    fi
+
     subMod=$(basename $subMod)
     subModDiffDir="$subMod$REPO_DIFF_SUFFIX"
     echo -e "\n|||||| Submodule: $subMod ||||||"
