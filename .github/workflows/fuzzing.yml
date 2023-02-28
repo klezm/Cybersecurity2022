@@ -431,9 +431,11 @@ jobs:
         [ -f $LOG_PATH ] && echo "$LOG_PATH exists." || echo "$LOG_PATH does not exist."
         [ -f $LOG_PATH ] && wc -l $LOG_PATH
         # https://linuxcommand.org/lc3_man_pages/testh.html
-        # [ -s $LOG_PATH ] && cat $LOG_PATH
-        # echo
         [ -s $LOG_PATH ] && cat $LOG_PATH | grep "INFO:"
+        LOG_INFO=$(cat $LOG_PATH | grep "INFO:")
+        echo "LOG_INFO=$LOG_INFO" >> $GITHUB_OUTPUT
+        LOG_ERROR=$(tail -n "+$(grep -n 'NOTE:' $LOG_PATH | head -n 1 | cut -d ":" -f 1)" $LOG_PATH)
+        echo "LOG_ERROR=$LOG_ERROR" >> $GITHUB_OUTPUT
         echo "::endgroup::"
 
         echo "::group::Summary"
@@ -446,7 +448,7 @@ jobs:
           for x in ${FOUND_ARTIFACTS[@]}; do
             {
               echo "### $x"
-              echo "Error occured with the following input:"
+              echo "Error occurred with the following input:"
               echo ""
               echo "```"
             } >> $GITHUB_STEP_SUMMARY
@@ -551,9 +553,22 @@ jobs:
       # if: failure()
       with:
         # assignees: "octocat, monalisa"
-        title: Error found while fuzzing
+        title: Error found while fuzzing ${{ github.event.inputs.fuzz }} in ${{ github.event.inputs.submodule }}
         labels: "bug, fuzzing, ci"
-        body: ${{ steps.post-processing.outputs.GITHUB_STEP_SUMMARY }}
+        body: |-
+          Fuzz log | grep "INFO:"
+
+          ```
+          ${{ steps.post-processing.outputs.LOG_INFO }}
+          ```
+
+          Error:
+
+          ```
+          ${{ steps.post-processing.outputs.LOG_ERROR }}
+          ```
+
+          ${{ steps.post-processing.outputs.GITHUB_STEP_SUMMARY }}
         # body: |-
         #   # :wave: Hi, {{#each assignees}}@{{this}}{{#unless @last}}, {{/unless}}{{/each}}!
 
