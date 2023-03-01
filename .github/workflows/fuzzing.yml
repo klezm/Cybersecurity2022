@@ -729,40 +729,40 @@ jobs:
 
         ...truncated..."
 
-        LOG_INFO=$(cat << '$EOF'
+        LOG_INFO=$(cat << 'QbuZPFj2b0ocxBxVzv85'
         ${{ steps.post-processing.outputs.LOG_INFO }}
-        $EOF
+        QbuZPFj2b0ocxBxVzv85
         )
         if [ ${#LOG_INFO} -gt 5000 ]; then
           LOG_INFO=${LOG_INFO:0:1000}
           LOG_INFO+=$MORE_TEXT
         fi
-        echo "LOG_INFO<<$EOF" >> $GITHUB_OUTPUT
+        echo "LOG_INFO<<QbuZPFj2b0ocxBxVzv85" >> $GITHUB_OUTPUT
         echo "$LOG_INFO" >> $GITHUB_OUTPUT
-        echo "$EOF" >> $GITHUB_OUTPUT
+        echo "QbuZPFj2b0ocxBxVzv85" >> $GITHUB_OUTPUT
 
-        LOG_ERROR=$(cat << '$EOF'
+        LOG_ERROR=$(cat << 'QbuZPFj2b0ocxBxVzv85'
         ${{ steps.post-processing-err.outputs.LOG_ERROR }}
-        $EOF
+        QbuZPFj2b0ocxBxVzv85
         )
         if [ ${#LOG_ERROR} -gt 20000 ]; then
           LOG_ERROR=${LOG_ERROR:0:20000}
           LOG_ERROR+=$MORE_TEXT
         fi
-        echo "LOG_ERROR<<$EOF" >> $GITHUB_OUTPUT
+        echo "LOG_ERROR<<QbuZPFj2b0ocxBxVzv85" >> $GITHUB_OUTPUT
         echo "$LOG_ERROR" >> $GITHUB_OUTPUT
-        echo "$EOF" >> $GITHUB_OUTPUT
+        echo "QbuZPFj2b0ocxBxVzv85" >> $GITHUB_OUTPUT
 
-        GITHUB_STEP_SUMMARY=$(cat << '$EOF'
+        GITHUB_STEP_SUMMARY=$(cat << 'QbuZPFj2b0ocxBxVzv85'
         ${{ steps.post-processing-input-summary.outputs.GITHUB_STEP_SUMMARY }}
-        $EOF
+        QbuZPFj2b0ocxBxVzv85
         )
         if [ ${#GITHUB_STEP_SUMMARY} -gt 20000 ]; then
           GITHUB_STEP_SUMMARY=${GITHUB_STEP_SUMMARY:0:20000}
         fi
         echo "$(cat $GITHUB_STEP_SUMMARY)" >> $GITHUB_OUTPUT
-        echo "GITHUB_STEP_SUMMARY<<$EOF" >> $GITHUB_OUTPUT
-        echo "$EOF" >> $GITHUB_OUTPUT
+        echo "GITHUB_STEP_SUMMARY<<QbuZPFj2b0ocxBxVzv85" >> $GITHUB_OUTPUT
+        echo "QbuZPFj2b0ocxBxVzv85" >> $GITHUB_OUTPUT
 
     - name: Create new issue
       continue-on-error: true
