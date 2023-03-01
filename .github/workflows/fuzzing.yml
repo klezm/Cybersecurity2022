@@ -729,11 +729,11 @@ jobs:
         MORE_TEXT="
 
         ...truncated..."
-        # mapfile -d '' LOG_INFO << '$EOF'
-        LOG_INFO=$(cat << '$EOF'
+        # LOG_INFO=$(cat << '$EOF'
+        mapfile -d '' LOG_INFO << '$EOF'
         ${{ steps.post-processing.outputs.LOG_INFO }}
         $EOF
-        )
+        # )
         if [ ${#LOG_INFO} -gt 5000 ]; then
           LOG_INFO=${LOG_INFO:0:1000}
           LOG_INFO+=$MORE_TEXT
@@ -742,11 +742,11 @@ jobs:
         echo "$LOG_INFO" >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
 
-        # mapfile -d '' LOG_ERROR << '$EOF'
-        LOG_ERROR=$(cat << '$EOF'
+        # LOG_ERROR=$(cat << '$EOF'
+        mapfile -d '' LOG_ERROR << '$EOF'
         ${{ steps.post-processing-err.outputs.LOG_ERROR }}
         $EOF
-        )
+        # )
         if [ ${#LOG_ERROR} -gt 20000 ]; then
           LOG_ERROR=${LOG_ERROR:0:20000}
           LOG_ERROR+=$MORE_TEXT
@@ -755,13 +755,14 @@ jobs:
         echo "$LOG_ERROR" >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
 
-        # mapfile -d '' GITHUB_STEP_SUMMARY << '$EOF'
-        GITHUB_STEP_SUMMARY=$(cat << '$EOF'
+        # GITHUB_STEP_SUMMARY=$(cat << '$EOF'
+        mapfile -d '' GITHUB_STEP_SUMMARY << '$EOF'
         ${{ steps.post-processing-input-summary.outputs.GITHUB_STEP_SUMMARY }}
         $EOF
-        )
+        # )
         if [ ${#GITHUB_STEP_SUMMARY} -gt 20000 ]; then
           GITHUB_STEP_SUMMARY=${GITHUB_STEP_SUMMARY:0:20000}
+          GITHUB_STEP_SUMMARY+=$MORE_TEXT
         fi
         echo "GITHUB_STEP_SUMMARY<<$EOF" >> $GITHUB_OUTPUT
         echo "$(cat $GITHUB_STEP_SUMMARY)" >> $GITHUB_OUTPUT
