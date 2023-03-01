@@ -604,7 +604,7 @@ jobs:
 
         echo -e "\n Dump env context\n";     echo '${{ toJSON(env) }}'
         echo -e "\n Dump vars context\n";    echo '${{ toJSON(vars) }}'
-        echo -e "\n Dump jobs context\n";    echo '${{ toJSON(jobs) }}'
+        # echo -e "\n Dump jobs context\n";
         # echo -e "\n Dump secrets context\n";
         echo -e "\n Dump needs context\n";   echo '${{ toJSON(needs) }}'
         echo "::endgroup::"
