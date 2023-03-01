@@ -157,6 +157,7 @@ jobs:
 
     - name: playground 1
       id: playground1
+      continue-on-error: true
       # if: ${{ github.event.inputs.submodule == 'rpki-rs' }}
       # if: ${{ github.event.inputs.verbose == 'true' }}
       run: |
@@ -188,6 +189,11 @@ jobs:
 
         echo "::group::env"
         env | sort
+        echo "::endgroup::"
+
+        echo "::group::GitHub Acction Inputs & ENVs"
+        echo '${{ toJSON(github.event.inputs) }}'
+        echo '${{ toJSON(env) }}'
         echo "::endgroup::"
 
     - name: playground 2
@@ -501,8 +507,17 @@ jobs:
             # echo "$EOF" >> $GITHUB_OUTPUT
           done
         else
-          echo "## Success" >> $GITHUB_STEP_SUMMARY
-          echo "No errors found." >> $GITHUB_STEP_SUMMARY
+          {
+            echo "## Success"
+            echo "No errors found."
+            echo ""
+            echo "\`\`\`"
+          } >> $GITHUB_STEP_SUMMARY
+          tail -n "+$(grep -n ' DONE ' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }} >> $GITHUB_STEP_SUMMARY
+          {
+            echo "\`\`\`"
+            echo ""
+          } >> $GITHUB_STEP_SUMMARY
         fi
         # echo "GITHUB_STEP_SUMMARY=$(cat $GITHUB_STEP_SUMMARY)" >> $GITHUB_OUTPUT
         EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
@@ -684,6 +699,10 @@ jobs:
         # done
         echo "::endgroup::"
 
+        echo "::group::..."
+        [ -f ${{ github.step_summary }} ] && cat "${{ github.step_summary }}" || echo "could not read ${{ github.step_summary }}"
+        echo "::endgroup::"
+
     - name: Archive Fuzzing Corpus, Artifacts and Coverage
       if: ${{ env.ARTIFACT_UPLOAD == 'true' }}
       # if: ${{ failure() }}
@@ -701,8 +720,45 @@ jobs:
           # !fuzz/target
           # !dist/**/*.md
 
+    - name: Prepare Issue
+      continue-on-error: true
+      id: issue-content
+      run: |
+        # Issue body must not exceed 65536 characters
+        EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+        MORE_TEXT="
+
+        ...truncated..."
+
+        LOG_INFO=${{ steps.post-processing.outputs.LOG_INFO }}
+        if [ ${#LOG_INFO} -gt 5000 ]; then
+          LOG_INFO=${LOG_INFO:0:1000}
+          LOG_INFO+=$MORE_TEXT
+        fi
+        echo "LOG_INFO<<$EOF" >> $GITHUB_OUTPUT
+        echo "$LOG_INFO" >> $GITHUB_OUTPUT
+        echo "$EOF" >> $GITHUB_OUTPUT
+
+        LOG_ERROR=${{ steps.post-processing-err.outputs.LOG_ERROR }}
+        if [ ${#LOG_ERROR} -gt 20000 ]; then
+          LOG_ERROR=${LOG_ERROR:0:20000}
+          LOG_ERROR+=$MORE_TEXT
+        fi
+        echo "LOG_ERROR<<$EOF" >> $GITHUB_OUTPUT
+        echo "$LOG_ERROR" >> $GITHUB_OUTPUT
+        echo "$EOF" >> $GITHUB_OUTPUT
+
+        GITHUB_STEP_SUMMARY=${{ steps.post-processing-input-summary.outputs.GITHUB_STEP_SUMMARY }}
+        if [ ${#GITHUB_STEP_SUMMARY} -gt 20000 ]; then
+          GITHUB_STEP_SUMMARY=${GITHUB_STEP_SUMMARY:0:20000}
+        fi
+        echo "$(cat $GITHUB_STEP_SUMMARY)" >> $GITHUB_OUTPUT
+        echo "GITHUB_STEP_SUMMARY<<$EOF" >> $GITHUB_OUTPUT
+        echo "$EOF" >> $GITHUB_OUTPUT
+
     - name: Create new issue
       continue-on-error: true
+      id: create-issue
       # https://docs.github.com/en/actions/using-workflows/using-github-cli-in-workflows
       # https://docs.github.com/en/actions/examples/using-the-github-cli-on-a-runner
       # # https://github.com/marketplace/actions/issues-helper
@@ -719,25 +775,26 @@ jobs:
       with:
         # assignees: "octocat, monalisa"
         title: Error found while fuzzing `${{ github.event.inputs.fuzz }}` in `${{ github.event.inputs.submodule }}`
-        labels: "bug, fuzzing, ci"
+        labels: "bug, fuzzing, ci, ${{ github.event.inputs.fuzz }}"
+        # CI GitHub Action failed: ${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}
         body: |-
           CI GitHub Action failed: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
           ## Fuzz log - INFO
 
           ```
-          ${{ steps.post-processing.outputs.LOG_INFO }}
+          ${{ steps.issue-content.outputs.LOG_INFO }}
           ```
 
           ## Fuzz log - Error
 
           ```
-          ${{ steps.post-processing-err.outputs.LOG_ERROR }}
+          ${{ steps.issue-content.outputs.LOG_ERROR }}
           ```
 
           ## Summary
 
-          ${{ steps.post-processing-input-summary.outputs.GITHUB_STEP_SUMMARY }}
+          ${{ steps.issue-content.outputs.GITHUB_STEP_SUMMARY }}
         # body: |-
         #   # :wave: Hi, {{#each assignees}}@{{this}}{{#unless @last}}, {{/unless}}{{/each}}!
         # pinned: true
@@ -745,6 +802,26 @@ jobs:
       #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #   ISSUE: ${{ github.event.issue.html_url }}
       # run: gh issue comment $ISSUE --body "Thank you for opening this issue!"
+
+    - name: Create new issue - Success
+      continue-on-error: true
+      uses: imjohnbo/issue-bot@v3
+      if: ${{ steps.create-issue.outcome != 'failure' }}
+      with:
+        title: Error found while fuzzing `${{ github.event.inputs.fuzz }}` in `${{ github.event.inputs.submodule }}`
+        labels: "Success, fuzzing, ci, ${{ github.event.inputs.fuzz }}"
+        body: |-
+          CI GitHub Action failed: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          ## Fuzz log - INFO
+
+          ```
+          ${{ steps.issue-content.outputs.LOG_INFO }}
+          ```
+
+          ## Summary
+
+          ${{ steps.issue-content.outputs.GITHUB_STEP_SUMMARY }}
 
 # bin/act workflow_dispatch -j fuzz --input max_total_time=30 --input fuzz=fuzz_target_rrdp --input submodule=rpki-rs --input resume_with_artifacts=true | batcat
 # bin/act workflow_dispatch -j fuzz --input submodule=rpki-rs --input fuzz=fuzz_target_rrdp --input max_total_time=30 --input seed=0 --input only_ascii=1 --input corpus="../corpus/xml/snapshot/*" --input resume_with_artifacts=false --input upload_artifacts=false --input rust_toolchain=nightly --input verbose=false | batcat
