@@ -627,39 +627,39 @@ jobs:
         # EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
         # # https://stackoverflow.com/a/2954835/9058671
         # context_github=$(cat << '$EOF'
-        # ${{ toJSON(github) }}
+        # .... put inside dollar and twice curly bracket: toJSON(github)
         # $EOF
         # )
         # context_job=$(cat << '$EOF'
-        # ${{ toJSON(job) }}
+        # .... put inside dollar and twice curly bracket: toJSON(job)
         # $EOF
         # )
         # context_steps=$(cat << '$EOF'
-        # ${{ toJSON(steps) }}
+        # .... put inside dollar and twice curly bracket: toJSON(steps)
         # $EOF
         # )
         # context_runner=$(cat << '$EOF'
-        # ${{ toJSON(runner) }}
+        # .... put inside dollar and twice curly bracket: toJSON(runner)
         # $EOF
         # )
         # context_strategy=$(cat << '$EOF'
-        # ${{ toJSON(strategy) }}
+        # .... put inside dollar and twice curly bracket: toJSON(strategy)
         # $EOF
         # )
         # context_matrix=$(cat << '$EOF'
-        # ${{ toJSON(matrix) }}
+        # .... put inside dollar and twice curly bracket: toJSON(matrix)
         # $EOF
         # )
         # context_env=$(cat << '$EOF'
-        # ${{ toJSON(env) }}
+        # .... put inside dollar and twice curly bracket: toJSON(env)
         # $EOF
         # )
         # context_vars=$(cat << '$EOF'
-        # ${{ toJSON(vars) }}
+        # .... put inside dollar and twice curly bracket: toJSON(vars)
         # $EOF
         # )
         # context_needs=$(cat << '$EOF'
-        # ${{ toJSON(needs) }}
+        # .... put inside dollar and twice curly bracket: toJSON(needs)
         # $EOF
         # )
         # contexts=()
