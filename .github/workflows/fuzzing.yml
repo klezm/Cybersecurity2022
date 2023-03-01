@@ -679,8 +679,8 @@ jobs:
             echo -e "\n----------------------------------------------------"
             echo -e               "\t\t${context_names[$i]}"
             echo -e   "----------------------------------------------------\n"
-            # echo "${contexts[$i]}"
-            echo "${contexts[$i]}" | jq
+            echo "${contexts[$i]}"
+            # echo "${contexts[$i]}" | jq
         done
         echo "::endgroup::"
 
