@@ -440,7 +440,7 @@ jobs:
         echo "LOG_ERROR<<$EOF" >> $GITHUB_OUTPUT
         # curl https://example.com >> $GITHUB_OUTPUT
         # echo -e "$LOG_ERROR" >> $GITHUB_OUTPUT
-        tail -n "+$(($(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }} >> $GITHUB_OUTPUT
+        tail -n "+$(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }} >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
         echo "--------------\n---------------\n---------------"
         [ -f $GITHUB_OUTPUT ] && cat $GITHUB_OUTPUT || echo "error cat'ing $GITHUB_OUTPUT"
@@ -506,7 +506,9 @@ jobs:
             } >> $GITHUB_STEP_SUMMARY
             # crash_file="$(cat $x)"
             # echo "ERROR_INPUT=$crash_file" >> $GITHUB_OUTPUT
-            echo "ERROR_INPUT=$(cat $x)" >> $GITHUB_OUTPUT
+            # TODO: fix
+            # echo "ERROR_INPUT=$(cat $x)" >> $GITHUB_OUTPUT
+            echo "ERROR_INPUT=TODO: Fix" >> $GITHUB_OUTPUT
           done
         else
           echo "## Success" >> $GITHUB_STEP_SUMMARY
