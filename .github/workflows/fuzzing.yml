@@ -495,17 +495,10 @@ jobs:
               echo "\`\`\`"
               echo ""
             } >> $GITHUB_STEP_SUMMARY
-            # crash_file="$(cat $x)"
-            # echo "ERROR_INPUT=$crash_file" >> $GITHUB_OUTPUT
-            # TODO: fix
-            # echo "ERROR_INPUT=$(cat $x)" >> $GITHUB_OUTPUT
-            # echo "ERROR_INPUT=TODO: Fix" >> $GITHUB_OUTPUT
-            EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-            echo "ERROR_INPUT<<$EOF" >> $GITHUB_OUTPUT
-            # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='ignore'))" >> $GITHUB_OUTPUT
-            echo "$(cat $x)" >> $GITHUB_OUTPUT
-            echo "$EOF" >> $GITHUB_OUTPUT
-            # echo "ERROR_INPUT=$(python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='ignore'))")" >> $GITHUB_OUTPUT
+            # EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+            # echo "ERROR_INPUT<<$EOF" >> $GITHUB_OUTPUT
+            # echo "$(cat $x)" >> $GITHUB_OUTPUT
+            # echo "$EOF" >> $GITHUB_OUTPUT
           done
         else
           echo "## Success" >> $GITHUB_STEP_SUMMARY
@@ -615,7 +608,12 @@ jobs:
         echo "::group::Context testing"
         echo -e "\n------- Dump GitHub context\n";   echo '${{ toJSON(github) }}'
         echo -e "\n------- Dump job context\n";      echo '${{ toJSON(job) }}'
-        echo -e "\n------- Dump steps context\n";    echo '${{ toJSON(steps) }}'
+        echo -e "\n------- Dump steps context\n";
+        # https://stackoverflow.com/a/2954835/9058671
+        EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+        cat << '$EOF'
+        ${{ toJSON(steps) }}
+        $EOF
         echo -e "\n------- Dump runner context\n";   echo '${{ toJSON(runner) }}'
         echo -e "\n------- Dump strategy context\n"; echo '${{ toJSON(strategy) }}'
         echo -e "\n------- Dump matrix context\n";   echo '${{ toJSON(matrix) }}'
@@ -626,6 +624,67 @@ jobs:
         # echo -e "\n------- Dump secrets context\n";
         echo -e "\n------- Dump needs context\n";   echo '${{ toJSON(needs) }}'
         echo "::endgroup::"
+
+    - name: Playground - Contexts
+      continue-on-error: true
+      run: |
+        EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+        # https://stackoverflow.com/a/2954835/9058671
+        context_github=$(cat << '$EOF'
+        ${{ toJSON(github) }}
+        $EOF
+        )
+        context_job=$(cat << '$EOF'
+        ${{ toJSON(job) }}
+        $EOF
+        )
+        context_steps=$(cat << '$EOF'
+        ${{ toJSON(steps) }}
+        $EOF
+        )
+        context_runner=$(cat << '$EOF'
+        ${{ toJSON(runner) }}
+        $EOF
+        )
+        context_strategy=$(cat << '$EOF'
+        ${{ toJSON(strategy) }}
+        $EOF
+        )
+        context_matrix=$(cat << '$EOF'
+        ${{ toJSON(matrix) }}
+        $EOF
+        )
+        context_env=$(cat << '$EOF'
+        ${{ toJSON(env) }}
+        $EOF
+        )
+        context_vars=$(cat << '$EOF'
+        ${{ toJSON(vars) }}
+        $EOF
+        )
+        context_needs=$(cat << '$EOF'
+        ${{ toJSON(needs) }}
+        $EOF
+        )
+        contexts=()
+        contexts[${#contexts[@]}]=$context_github
+        contexts[${#contexts[@]}]=$context_job
+        contexts[${#contexts[@]}]=$context_steps
+        contexts[${#contexts[@]}]=$context_runner
+        contexts[${#contexts[@]}]=$context_strategy
+        contexts[${#contexts[@]}]=$context_matrix
+        contexts[${#contexts[@]}]=$context_env
+        contexts[${#contexts[@]}]=$context_vars
+        contexts[${#contexts[@]}]=$context_needs
+
+        context_names=(github job steps runner strategy matrix env vars needs)
+
+        for ((i=0; i<${#contexts[@]}; i++)); do
+            echo -e "\n\n----------------------------------------------------"
+            echo -e     "\t\t\t\t\t${context_names[$i]}"
+            echo -e     "----------------------------------------------------\n"
+            echo "${contexts[$i]}"
+        done
 
     - name: Archive Fuzzing Corpus, Artifacts and Coverage
       if: ${{ env.ARTIFACT_UPLOAD == 'true' }}
@@ -676,14 +735,6 @@ jobs:
 
           ```
           ${{ steps.post-processing-err.outputs.LOG_ERROR }}
-          ```
-
-          ## Input
-
-          Error occured with the following input:
-
-          ```
-          ${{ steps.post-processing-input-summary.outputs.ERROR_INPUT }}
           ```
 
           ## Summary
