@@ -438,15 +438,15 @@ jobs:
       continue-on-error: true
       run: |
         echo "::group::Get log LOG_ERROR from ${{ env.LOG_PATH }}"
-        # LOG_ERROR="$(tail -n "+$(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }})"
-        # LOG_ERROR="$(tail -n "+$(($(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }})"
+        # LOG_ERROR="$(tail -n "+$(grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }})"
+        # LOG_ERROR="$(tail -n "+$(($(grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }})"
         # echo "LOG_ERROR=$LOG_ERROR" >> $GITHUB_OUTPUT
         # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
         EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
         echo "LOG_ERROR<<$EOF" >> $GITHUB_OUTPUT
         # curl https://example.com >> $GITHUB_OUTPUT
         # echo -e "$LOG_ERROR" >> $GITHUB_OUTPUT
-        tail -n "+$(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }} >> $GITHUB_OUTPUT
+        tail -n "+$(grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }} >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
         echo "--------------\n---------------\n---------------"
         [ -f $GITHUB_OUTPUT ] && cat $GITHUB_OUTPUT || echo "error cat'ing $GITHUB_OUTPUT"
@@ -456,12 +456,12 @@ jobs:
       continue-on-error: true
       run: |
         echo "::group::log error"
-        grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1
-        grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1
+        grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1
+        grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1
         echo "-------------------------------"
-        tail -n "+$(($(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }}
+        tail -n "+$(($(grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }}
         echo "-------------------------------"
-        tail -n "+$(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }}
+        tail -n "+$(grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }}
         echo "::endgroup::"
 
     - name: Post Processing - ERROR_INPUT & GITHUB_STEP_SUMMARY
@@ -513,7 +513,7 @@ jobs:
             echo ""
             echo "\`\`\`"
           } >> $GITHUB_STEP_SUMMARY
-          tail -n "+$(grep -n ' DONE ' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }} >> $GITHUB_STEP_SUMMARY
+          tail -n "+$(grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }} >> $GITHUB_STEP_SUMMARY
           {
             echo "\`\`\`"
             echo ""
@@ -639,7 +639,6 @@ jobs:
         # echo -e "\n------- Dump secrets context\n";
         echo -e "\n------- Dump needs context\n";   echo '${{ toJSON(needs) }}'
 
-        # EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
         # # https://stackoverflow.com/a/2954835/9058671
         # context_github=$(cat << '$EOF'
         # .... put inside dollar and twice curly bracket: toJSON(github)
@@ -724,13 +723,16 @@ jobs:
       continue-on-error: true
       id: issue-content
       run: |
-        # Issue body must not exceed 65536 characters
+        # Issue body must not exceed 65536 characters (https://github.com/dead-claudia/github-limits)
         EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
         MORE_TEXT="
 
         ...truncated..."
 
-        LOG_INFO=${{ steps.post-processing.outputs.LOG_INFO }}
+        LOG_INFO=$(cat << '$EOF'
+        ${{ steps.post-processing.outputs.LOG_INFO }}
+        $EOF
+        )
         if [ ${#LOG_INFO} -gt 5000 ]; then
           LOG_INFO=${LOG_INFO:0:1000}
           LOG_INFO+=$MORE_TEXT
@@ -739,7 +741,10 @@ jobs:
         echo "$LOG_INFO" >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
 
-        LOG_ERROR=${{ steps.post-processing-err.outputs.LOG_ERROR }}
+        LOG_ERROR=$(cat << '$EOF'
+        ${{ steps.post-processing-err.outputs.LOG_ERROR }}
+        $EOF
+        )
         if [ ${#LOG_ERROR} -gt 20000 ]; then
           LOG_ERROR=${LOG_ERROR:0:20000}
           LOG_ERROR+=$MORE_TEXT
@@ -748,7 +753,10 @@ jobs:
         echo "$LOG_ERROR" >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
 
-        GITHUB_STEP_SUMMARY=${{ steps.post-processing-input-summary.outputs.GITHUB_STEP_SUMMARY }}
+        GITHUB_STEP_SUMMARY=$(cat << '$EOF'
+        ${{ steps.post-processing-input-summary.outputs.GITHUB_STEP_SUMMARY }}
+        $EOF
+        )
         if [ ${#GITHUB_STEP_SUMMARY} -gt 20000 ]; then
           GITHUB_STEP_SUMMARY=${GITHUB_STEP_SUMMARY:0:20000}
         fi
