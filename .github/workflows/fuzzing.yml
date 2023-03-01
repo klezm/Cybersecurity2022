@@ -510,8 +510,8 @@ jobs:
             # echo "ERROR_INPUT=TODO: Fix" >> $GITHUB_OUTPUT
             EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
             echo "ERROR_INPUT<<$EOF" >> $GITHUB_OUTPUT
-            python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='ignore'))" >> $GITHUB_OUTPUT
-            # echo "$(cat $x)" >> $GITHUB_OUTPUT
+            # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='ignore'))" >> $GITHUB_OUTPUT
+            echo "$(cat $x)" >> $GITHUB_OUTPUT
             echo "$EOF" >> $GITHUB_OUTPUT
             # echo "ERROR_INPUT=$(python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='ignore'))")" >> $GITHUB_OUTPUT
           done
