@@ -729,11 +729,11 @@ jobs:
         MORE_TEXT="
 
         ...truncated..."
-        # LOG_INFO=$(cat << '$EOF'
-        mapfile -d '' LOG_INFO << '$EOF'
+        # mapfile -d '' LOG_INFO << '$EOF'
+        LOG_INFO=$(cat << '$EOF'
         ${{ steps.post-processing.outputs.LOG_INFO }}
         $EOF
-        # )
+        )
         if [ ${#LOG_INFO} -gt 5000 ]; then
           LOG_INFO=${LOG_INFO:0:1000}
           LOG_INFO+=$MORE_TEXT
@@ -765,7 +765,7 @@ jobs:
           GITHUB_STEP_SUMMARY+=$MORE_TEXT
         fi
         echo "GITHUB_STEP_SUMMARY<<$EOF" >> $GITHUB_OUTPUT
-        echo "$(cat $GITHUB_STEP_SUMMARY)" >> $GITHUB_OUTPUT
+        echo "$GITHUB_STEP_SUMMARY" >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
 
     - name: Create new issue
