@@ -413,32 +413,42 @@ jobs:
         [ -f ${{ env.LOG_PATH }} ] && echo "${{ env.LOG_PATH }} exists." || echo "${{ env.LOG_PATH }} does not exist."
         [ -f ${{ env.LOG_PATH }} ] && wc -l ${{ env.LOG_PATH }}
         # https://linuxcommand.org/lc3_man_pages/testh.html
-        [ -s ${{ env.LOG_PATH }} ] && cat ${{ env.LOG_PATH }} | grep "INFO:"
+        # [ -s ${{ env.LOG_PATH }} ] && cat ${{ env.LOG_PATH }} | grep "INFO:"
 
-        LOG_INFO="$(cat ${{ env.LOG_PATH }} | grep "INFO:")"
+        # LOG_INFO="$(cat ${{ env.LOG_PATH }} | grep "INFO:")"
         # echo "LOG_INFO=$LOG_INFO" >> $GITHUB_OUTPUT
         EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-        # echo "LOG_INFO<<$EOF" >> $GITHUB_OUTPUT
+        echo "LOG_INFO<<$EOF" >> $GITHUB_OUTPUT
         # curl https://example.com >> $GITHUB_OUTPUT
         # echo -e "$LOG_INFO" >> $GITHUB_OUTPUT
         cat ${{ env.LOG_PATH }} | grep "INFO:" >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
+        echo "--------------\n---------------\n---------------"
         [ -f $GITHUB_OUTPUT ] && cat $GITHUB_OUTPUT || echo "error cat'ing $GITHUB_OUTPUT"
         echo "::endgroup::"
 
+    - name: Post Processing - LOG_ERROR
+      id: post-processing-err
+      continue-on-error: true
+      run: |
         echo "::group::Get log LOG_ERROR from ${{ env.LOG_PATH }}"
         # LOG_ERROR="$(tail -n "+$(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }})"
-        LOG_ERROR="$(tail -n "+$(($(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }})"
+        # LOG_ERROR="$(tail -n "+$(($(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }})"
         # echo "LOG_ERROR=$LOG_ERROR" >> $GITHUB_OUTPUT
         # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
         EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
         echo "LOG_ERROR<<$EOF" >> $GITHUB_OUTPUT
         # curl https://example.com >> $GITHUB_OUTPUT
-        echo -e "$LOG_ERROR" >> $GITHUB_OUTPUT
+        # echo -e "$LOG_ERROR" >> $GITHUB_OUTPUT
+        tail -n "+$(($(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }} >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
+        echo "--------------\n---------------\n---------------"
         [ -f $GITHUB_OUTPUT ] && cat $GITHUB_OUTPUT || echo "error cat'ing $GITHUB_OUTPUT"
         echo "::endgroup::"
 
+    - name: Post Processing - log error
+      continue-on-error: true
+      run: |
         echo "::group::log error"
         grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1
         grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1
@@ -448,8 +458,8 @@ jobs:
         tail -n "+$(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }}
         echo "::endgroup::"
 
-    - name: Post Processing 2
-      id: post-processing2
+    - name: Post Processing - ERROR_INPUT & GITHUB_STEP_SUMMARY
+      id: post-processing-input-summary
       continue-on-error: true
       run: |
         echo "::group::Summary"
@@ -477,8 +487,14 @@ jobs:
             # echo "$(cat $x)" >> $GITHUB_STEP_SUMMARY
             # echo "$(cat -v $x)" >> $GITHUB_STEP_SUMMARY
             python -V
-            # python -c "from pathlib import Path; Path('$x').read_bytes()"
-            python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors=None)" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; Path('$x').read_bytes()"  >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors=None)" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='ignore')" >> $GITHUB_STEP_SUMMARY
+            # TODO: ensure correct representation
+            python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='replace')" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='surrogateescape')" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='backslashreplace')" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='namereplace')" >> $GITHUB_STEP_SUMMARY
 
 
 
@@ -657,7 +673,7 @@ jobs:
           ## Error
 
           ```
-          ${{ steps.post-processing.outputs.LOG_ERROR }}
+          ${{ steps.post-processing-err.outputs.LOG_ERROR }}
           ```
 
           ## Input
@@ -665,12 +681,12 @@ jobs:
           Error occured with the following input:
 
           ```
-          ${{ steps.post-processing2.outputs.ERROR_INPUT }}
+          ${{ steps.post-processing-input-summary.outputs.ERROR_INPUT-}}
           ```
 
           ## Summary
 
-          ${{ steps.post-processing2.outputs.GITHUB_STEP_SUMMARY }}
+          ${{ steps.post-processing-input-summary.outputs.GITHUB_STEP_SUMMARY-}}
         # body: |-
         #   # :wave: Hi, {{#each assignees}}@{{this}}{{#unless @last}}, {{/unless}}{{/each}}!
         # pinned: true
