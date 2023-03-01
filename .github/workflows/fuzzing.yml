@@ -472,7 +472,7 @@ jobs:
           echo "## Errors found" >> $GITHUB_STEP_SUMMARY
           for x in ${FOUND_ARTIFACTS[@]}; do
             {
-              echo "Error occurred with the following input"
+              echo "Error occurred with the following input (null bytes in input might have been removed)"
               echo "\`$x\`:"
               echo ""
               echo "\`\`\`"
@@ -484,13 +484,13 @@ jobs:
 
             [ -f $x ] && echo "$x exists." || echo "$x does not exist."
             # [ -s $x ] && cat $x >> $GITHUB_STEP_SUMMARY
-            # echo "$(cat $x)" >> $GITHUB_STEP_SUMMARY
+            echo "$(cat $x)" >> $GITHUB_STEP_SUMMARY
             # echo "$(cat -v $x)" >> $GITHUB_STEP_SUMMARY
             # python -c "from pathlib import Path; print(Path('$x').read_bytes())" >> $GITHUB_STEP_SUMMARY
             # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors=None))" >> $GITHUB_STEP_SUMMARY
             # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='ignore'))" >> $GITHUB_STEP_SUMMARY
             # TODO: ensure correct representation
-            python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='replace'))" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='replace'))" >> $GITHUB_STEP_SUMMARY
             # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='surrogateescape'))" >> $GITHUB_STEP_SUMMARY
             # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='backslashreplace'))" >> $GITHUB_STEP_SUMMARY
             # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='namereplace'))" >> $GITHUB_STEP_SUMMARY
@@ -507,7 +507,8 @@ jobs:
             # echo "ERROR_INPUT=$crash_file" >> $GITHUB_OUTPUT
             # TODO: fix
             # echo "ERROR_INPUT=$(cat $x)" >> $GITHUB_OUTPUT
-            echo "ERROR_INPUT=TODO: Fix" >> $GITHUB_OUTPUT
+            # echo "ERROR_INPUT=TODO: Fix" >> $GITHUB_OUTPUT
+            echo "ERROR_INPUT=$(python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='ignore'))")" >> $GITHUB_OUTPUT
           done
         else
           echo "## Success" >> $GITHUB_STEP_SUMMARY
@@ -682,12 +683,12 @@ jobs:
           Error occured with the following input:
 
           ```
-          ${{ steps.post-processing-input-summary.outputs.ERROR_INPUT-}}
+          ${{ steps.post-processing-input-summary.outputs.ERROR_INPUT }}
           ```
 
           ## Summary
 
-          ${{ steps.post-processing-input-summary.outputs.GITHUB_STEP_SUMMARY-}}
+          ${{ steps.post-processing-input-summary.outputs.GITHUB_STEP_SUMMARY }}
         # body: |-
         #   # :wave: Hi, {{#each assignees}}@{{this}}{{#unless @last}}, {{/unless}}{{/each}}!
         # pinned: true
