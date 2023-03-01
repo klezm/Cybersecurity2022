@@ -75,6 +75,7 @@ on:
 
 env:
   LOG_PATH: "fuzz.log"
+  # LOG_PATH: "${{ runner.temp }}/fuzz.log"
   ARTIFACT_DOWNLOAD: ${{ contains(github.event.inputs.artifacts_up_down_load, 'download') }}
   ARTIFACT_UPLOAD: ${{ contains(github.event.inputs.artifacts_up_down_load, 'upload') }}
   # TODO: fromJSON()
@@ -439,11 +440,18 @@ jobs:
         echo "::endgroup::"
 
         echo "::group::log error"
+        grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1
+        grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1
+        echo "-------------------------------"
         tail -n "+$(($(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }}
         echo "-------------------------------"
         tail -n "+$(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }}
         echo "::endgroup::"
 
+    - name: Post Processing 2
+      id: post-processing2
+      continue-on-error: true
+      run: |
         echo "::group::Summary"
         FOUND_ARTIFACTS=($(find fuzz/artifacts -type f))
         # bla1=($(find docs/gh-actions/runs4272680831jobs7438036693 -type f))
@@ -466,7 +474,11 @@ jobs:
 
             [ -f $x ] && echo "$x exists." || echo "$x does not exist."
             # [ -s $x ] && cat $x >> $GITHUB_STEP_SUMMARY
-            echo "$(cat $x)" >> $GITHUB_STEP_SUMMARY
+            # echo "$(cat $x)" >> $GITHUB_STEP_SUMMARY
+            # echo "$(cat -v $x)" >> $GITHUB_STEP_SUMMARY
+            python -V
+            # python -c "from pathlib import Path; Path('$x').read_bytes()"
+            python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors=None)" >> $GITHUB_STEP_SUMMARY
 
 
 
@@ -488,7 +500,7 @@ jobs:
 
         echo "GITHUB_STEP_SUMMARY=$GITHUB_STEP_SUMMARY" >> $GITHUB_OUTPUT
 
-    - name: Playground - ls, find, du, cat Cargo.lock
+    - name: Playground - ls, find, du, Contexts, Cargo.lock
       continue-on-error: true
       run: |
         echo "::group::ls"
@@ -582,8 +594,24 @@ jobs:
         RUNNER_DEBUG                 | ${{ vars.RUNNER_DEBUG }}"
         echo "::endgroup::"
 
+        echo "::group::Context testing"
+        echo -e "\nDump GitHub context\n";   echo '${{ toJSON(github) }}'
+        echo -e "\nDump job context\n";      echo '${{ toJSON(job) }}'
+        echo -e "\nDump steps context\n";    echo '${{ toJSON(steps) }}'
+        echo -e "\nDump runner context\n";   echo '${{ toJSON(runner) }}'
+        echo -e "\nDump strategy context\n"; echo '${{ toJSON(strategy) }}'
+        echo -e "\nDump matrix context\n";   echo '${{ toJSON(matrix) }}'
+
+        echo -e "\n Dump env context\n";     echo '${{ toJSON(env) }}'
+        echo -e "\n Dump vars context\n";    echo '${{ toJSON(vars) }}'
+        echo -e "\n Dump jobs context\n";    echo '${{ toJSON(jobs) }}'
+        # echo -e "\n Dump secrets context\n";
+        echo -e "\n Dump needs context\n";   echo '${{ toJSON(needs) }}'
+        echo "::endgroup::"
+
     - name: Archive Fuzzing Corpus, Artifacts and Coverage
       if: ${{ env.ARTIFACT_UPLOAD == 'true' }}
+      # if: ${{ failure() }}
       uses: actions/upload-artifact@v3
       with:
         # name: fuzzing-corpus-artifacts-coverage-${{ github.event.inputs.submodule }}
@@ -593,6 +621,7 @@ jobs:
           ${{ github.event.inputs.submodule }}/fuzz/corpus
           ${{ github.event.inputs.submodule }}/fuzz/artifacts
           ${{ github.event.inputs.submodule }}/fuzz/coverage
+          # ${{ runner.temp }}/build_logs
           # !fuzz/fuzz_targets
           # !fuzz/target
           # !dist/**/*.md
@@ -636,12 +665,12 @@ jobs:
           Error occured with the following input:
 
           ```
-          ${{ steps.post-processing.outputs.ERROR_INPUT }}
+          ${{ steps.post-processing2.outputs.ERROR_INPUT }}
           ```
 
           ## Summary
 
-          ${{ steps.post-processing.outputs.GITHUB_STEP_SUMMARY }}
+          ${{ steps.post-processing2.outputs.GITHUB_STEP_SUMMARY }}
         # body: |-
         #   # :wave: Hi, {{#each assignees}}@{{this}}{{#unless @last}}, {{/unless}}{{/each}}!
         # pinned: true

@@ -5,8 +5,8 @@ This repository contains the code for the Cybersecurity Course 2022/2023.
 ## Repo
 
 ```
-├ Corpus.zip              | Corpus provided by the course
 ├ .zsh_history            | Shell history
+├ Corpus.zip              | Corpus provided by the course
 ├── .devcontainer         | Devcontainer configuration
 │   ├── java              |   for Java
 │   ├── rust              |   for Rust
@@ -34,9 +34,13 @@ This repository contains the code for the Cybersecurity Course 2022/2023.
 
 ### Devcontainer
 
-Two devcontainers are provided for fuzzing either Rust or Java code.
+Two devcontainers are provided for fuzzing either [Rust](.devcontainer/rust/devcontainer.json) or [Java](.devcontainer/java/devcontainer.json) code.
 When using the devcontainer, all dependencies are installed, the submodules are pulled and the changes to the submodules are copied automatically.
 This is the preferred method.
+
+### VSCode
+
+The [settings](.vscode/settings.json) need to be adjusted for rust-analyzer to work with other submodules then `rpki-rs`. Therefore the path to the submodule you want to work with needs to be added in `rust-analyzer.linkedProjects` removed from `rust-analyzer.files.excludeDirs`.
 
 ### Submodules (Fuzzing Targets)
 
