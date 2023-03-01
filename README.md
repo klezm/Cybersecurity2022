@@ -30,6 +30,8 @@ This repository contains the code for the Cybersecurity Course 2022/2023.
 └── scripts               | Helper scripts
 ```
 
+Fuzz tests can be run manually via GitHub Actions with the [fuzzing workflow](https://github.com/klezm/Cybersecurity2022/actions/workflows/fuzzing.yml).
+
 ## Development
 
 ### Devcontainer
@@ -84,4 +86,3 @@ git submodule update --remote --merge
 |      | Caches & The RPKI/RTR Protocol     | To reduce load at BGP routers, RPKI objects are fetched and cryptographically validated by cache servers. The RPKI/RTR protocol defines a standard mechanism to maintain the exchange of valid RPKI data between cache server and router, which is implemented by the RTRlib. |
 | TAL  | Trust Anchor Location              |
 | CA   | Certificate Authority              |
-

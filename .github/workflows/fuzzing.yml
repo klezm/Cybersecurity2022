@@ -472,8 +472,8 @@ jobs:
           echo "## Errors found" >> $GITHUB_STEP_SUMMARY
           for x in ${FOUND_ARTIFACTS[@]}; do
             {
-              echo "### $x"
-              echo "Error occurred with the following input:"
+              echo "Error occurred with the following input"
+              echo "\`$x\`:"
               echo ""
               echo "\`\`\`"
             } >> $GITHUB_STEP_SUMMARY
@@ -484,14 +484,13 @@ jobs:
 
             [ -f $x ] && echo "$x exists." || echo "$x does not exist."
             # [ -s $x ] && cat $x >> $GITHUB_STEP_SUMMARY
-            # echo "$(cat $x)" >> $GITHUB_STEP_SUMMARY
+            echo "$(cat $x)" >> $GITHUB_STEP_SUMMARY
             # echo "$(cat -v $x)" >> $GITHUB_STEP_SUMMARY
-            python -V
             # python -c "from pathlib import Path; Path('$x').read_bytes()"  >> $GITHUB_STEP_SUMMARY
             # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors=None)" >> $GITHUB_STEP_SUMMARY
             # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='ignore')" >> $GITHUB_STEP_SUMMARY
             # TODO: ensure correct representation
-            python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='replace')" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='replace')" >> $GITHUB_STEP_SUMMARY
             # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='surrogateescape')" >> $GITHUB_STEP_SUMMARY
             # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='backslashreplace')" >> $GITHUB_STEP_SUMMARY
             # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='namereplace')" >> $GITHUB_STEP_SUMMARY
@@ -666,13 +665,13 @@ jobs:
         body: |-
           CI GitHub Action failed: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-          ## Fuzz log | grep "INFO:"
+          ## Fuzz log - INFO
 
           ```
           ${{ steps.post-processing.outputs.LOG_INFO }}
           ```
 
-          ## Error
+          ## Fuzz log - Error
 
           ```
           ${{ steps.post-processing-err.outputs.LOG_ERROR }}
