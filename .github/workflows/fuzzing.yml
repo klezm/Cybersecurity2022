@@ -484,16 +484,16 @@ jobs:
 
             [ -f $x ] && echo "$x exists." || echo "$x does not exist."
             # [ -s $x ] && cat $x >> $GITHUB_STEP_SUMMARY
-            echo "$(cat $x)" >> $GITHUB_STEP_SUMMARY
+            # echo "$(cat $x)" >> $GITHUB_STEP_SUMMARY
             # echo "$(cat -v $x)" >> $GITHUB_STEP_SUMMARY
-            # python -c "from pathlib import Path; Path('$x').read_bytes()"  >> $GITHUB_STEP_SUMMARY
-            # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors=None)" >> $GITHUB_STEP_SUMMARY
-            # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='ignore')" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; print(Path('$x').read_bytes())" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors=None))" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='ignore'))" >> $GITHUB_STEP_SUMMARY
             # TODO: ensure correct representation
-            # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='replace')" >> $GITHUB_STEP_SUMMARY
-            # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='surrogateescape')" >> $GITHUB_STEP_SUMMARY
-            # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='backslashreplace')" >> $GITHUB_STEP_SUMMARY
-            # python -c "from pathlib import Path; Path('$x').read_text(encoding=None, errors='namereplace')" >> $GITHUB_STEP_SUMMARY
+            python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='replace'))" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='surrogateescape'))" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='backslashreplace'))" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='namereplace'))" >> $GITHUB_STEP_SUMMARY
 
 
 
