@@ -219,7 +219,7 @@ jobs:
           ca-certificates gnupg lsb-release \
           curl wget git gcc rsync build-essential \
           pkg-config libssl-dev openssl \
-          expect colorized-logs
+          expect colorized-logs jq
         echo "::endgroup::"
 
     - name: Install Rust
@@ -606,28 +606,24 @@ jobs:
         echo "::endgroup::"
 
         echo "::group::Context testing"
-        echo -e "\n------- Dump GitHub context\n";   echo '${{ toJSON(github) }}'
-        echo -e "\n------- Dump job context\n";      echo '${{ toJSON(job) }}'
-        echo -e "\n------- Dump steps context\n";
-        # https://stackoverflow.com/a/2954835/9058671
-        EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-        cat << '$EOF'
-        ${{ toJSON(steps) }}
-        $EOF
-        echo -e "\n------- Dump runner context\n";   echo '${{ toJSON(runner) }}'
-        echo -e "\n------- Dump strategy context\n"; echo '${{ toJSON(strategy) }}'
-        echo -e "\n------- Dump matrix context\n";   echo '${{ toJSON(matrix) }}'
+        # echo -e "\n------- Dump GitHub context\n";   echo '${{ toJSON(github) }}'
+        # echo -e "\n------- Dump job context\n";      echo '${{ toJSON(job) }}'
+        # echo -e "\n------- Dump steps context\n";
+        # # https://stackoverflow.com/a/2954835/9058671
+        # EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+        # cat << '$EOF'
+        # ${{ toJSON(steps) }}
+        # $EOF
+        # echo -e "\n------- Dump runner context\n";   echo '${{ toJSON(runner) }}'
+        # echo -e "\n------- Dump strategy context\n"; echo '${{ toJSON(strategy) }}'
+        # echo -e "\n------- Dump matrix context\n";   echo '${{ toJSON(matrix) }}'
 
-        echo -e "\n------- Dump env context\n";     echo '${{ toJSON(env) }}'
-        echo -e "\n------- Dump vars context\n";    echo '${{ toJSON(vars) }}'
-        # echo -e "\n------- Dump jobs context\n";
-        # echo -e "\n------- Dump secrets context\n";
-        echo -e "\n------- Dump needs context\n";   echo '${{ toJSON(needs) }}'
-        echo "::endgroup::"
+        # echo -e "\n------- Dump env context\n";     echo '${{ toJSON(env) }}'
+        # echo -e "\n------- Dump vars context\n";    echo '${{ toJSON(vars) }}'
+        # # echo -e "\n------- Dump jobs context\n";
+        # # echo -e "\n------- Dump secrets context\n";
+        # echo -e "\n------- Dump needs context\n";   echo '${{ toJSON(needs) }}'
 
-    - name: Playground - Contexts
-      continue-on-error: true
-      run: |
         EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
         # https://stackoverflow.com/a/2954835/9058671
         context_github=$(cat << '$EOF'
@@ -680,11 +676,13 @@ jobs:
         context_names=(github job steps runner strategy matrix env vars needs)
 
         for ((i=0; i<${#contexts[@]}; i++)); do
-            echo -e "\n\n----------------------------------------------------"
-            echo -e     "\t\t\t\t\t${context_names[$i]}"
-            echo -e     "----------------------------------------------------\n"
-            echo "${contexts[$i]}"
+            echo -e "\n----------------------------------------------------"
+            echo -e               "\t\t${context_names[$i]}"
+            echo -e   "----------------------------------------------------\n"
+            # echo "${contexts[$i]}"
+            echo "${contexts[$i]}" | jq
         done
+        echo "::endgroup::"
 
     - name: Archive Fuzzing Corpus, Artifacts and Coverage
       if: ${{ env.ARTIFACT_UPLOAD == 'true' }}
