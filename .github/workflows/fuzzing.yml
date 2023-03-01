@@ -729,7 +729,8 @@ jobs:
         MORE_TEXT="
 
         ...truncated..."
-        LOG_INFO=$(cat <<'$EOF'
+        # mapfile -d '' LOG_INFO << '$EOF'
+        LOG_INFO=$(cat << '$EOF'
         ${{ steps.post-processing.outputs.LOG_INFO }}
         $EOF
         )
@@ -741,7 +742,8 @@ jobs:
         echo "$LOG_INFO" >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
 
-        LOG_ERROR=$(cat <<'$EOF'
+        # mapfile -d '' LOG_ERROR << '$EOF'
+        LOG_ERROR=$(cat << '$EOF'
         ${{ steps.post-processing-err.outputs.LOG_ERROR }}
         $EOF
         )
@@ -753,15 +755,16 @@ jobs:
         echo "$LOG_ERROR" >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
 
-        GITHUB_STEP_SUMMARY=$(cat <<'$EOF'
+        # mapfile -d '' GITHUB_STEP_SUMMARY << '$EOF'
+        GITHUB_STEP_SUMMARY=$(cat << '$EOF'
         ${{ steps.post-processing-input-summary.outputs.GITHUB_STEP_SUMMARY }}
         $EOF
         )
         if [ ${#GITHUB_STEP_SUMMARY} -gt 20000 ]; then
           GITHUB_STEP_SUMMARY=${GITHUB_STEP_SUMMARY:0:20000}
         fi
-        echo "$(cat $GITHUB_STEP_SUMMARY)" >> $GITHUB_OUTPUT
         echo "GITHUB_STEP_SUMMARY<<$EOF" >> $GITHUB_OUTPUT
+        echo "$(cat $GITHUB_STEP_SUMMARY)" >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
 
     - name: Create new issue
