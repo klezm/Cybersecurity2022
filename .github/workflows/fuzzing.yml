@@ -1,4 +1,4 @@
-name: fuzzing - ${{ github.event.inputs.fuzz }}
+name: fuzzing
 on:
   # permit manual invocation of the workflow via the GitHub Actions web UI
   workflow_dispatch:
