@@ -5,8 +5,8 @@ This repository contains the code for the Cybersecurity Course 2022/2023.
 ## Repo
 
 ```
-├ Corpus.zip              | Corpus provided by the course
 ├ .zsh_history            | Shell history
+├ Corpus.zip              | Corpus provided by the course
 ├── .devcontainer         | Devcontainer configuration
 │   ├── java              |   for Java
 │   ├── rust              |   for Rust
@@ -30,13 +30,19 @@ This repository contains the code for the Cybersecurity Course 2022/2023.
 └── scripts               | Helper scripts
 ```
 
+Fuzz tests can be run manually via GitHub Actions with the [fuzzing workflow](https://github.com/klezm/Cybersecurity2022/actions/workflows/fuzzing.yml).
+
 ## Development
 
 ### Devcontainer
 
-Two devcontainers are provided for fuzzing either Rust or Java code.
+Two devcontainers are provided for fuzzing either [Rust](.devcontainer/rust/devcontainer.json) or [Java](.devcontainer/java/devcontainer.json) code.
 When using the devcontainer, all dependencies are installed, the submodules are pulled and the changes to the submodules are copied automatically.
 This is the preferred method.
+
+### VSCode
+
+The [settings](.vscode/settings.json) need to be adjusted for rust-analyzer to work with other submodules then `rpki-rs`. Therefore the path to the submodule you want to work with needs to be added in `rust-analyzer.linkedProjects` removed from `rust-analyzer.files.excludeDirs`.
 
 ### Submodules (Fuzzing Targets)
 
@@ -80,4 +86,3 @@ git submodule update --remote --merge
 |      | Caches & The RPKI/RTR Protocol     | To reduce load at BGP routers, RPKI objects are fetched and cryptographically validated by cache servers. The RPKI/RTR protocol defines a standard mechanism to maintain the exchange of valid RPKI data between cache server and router, which is implemented by the RTRlib. |
 | TAL  | Trust Anchor Location              |
 | CA   | Certificate Authority              |
-

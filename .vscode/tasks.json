@@ -42,7 +42,7 @@
     {
       "label": "Corpus Reset",
       "type": "shell",
-      "command": "rm -rf $CODESPACE_VSCODE_FOLDER/corpus && mkdir $CODESPACE_VSCODE_FOLDER/corpus && cp $CODESPACE_VSCODE_FOLDER/Corpus.zip $CODESPACE_VSCODE_FOLDER/corpus/ && cd $CODESPACE_VSCODE_FOLDER/corpus && unzip Corpus.zip && rm Corpus.zip && cd $OLDPWD",
+      "command": "rm -rf ${workspaceFolder}/corpus && mkdir ${workspaceFolder}/corpus && cp ${workspaceFolder}/Corpus.zip ${workspaceFolder}/corpus/ && cd ${workspaceFolder}/corpus && unzip Corpus.zip && rm Corpus.zip && cd $OLDPWD",
       "problemMatcher": []
     },
     {

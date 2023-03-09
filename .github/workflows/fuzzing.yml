@@ -75,6 +75,7 @@ on:
 
 env:
   LOG_PATH: "fuzz.log"
+  # LOG_PATH: "${{ runner.temp }}/fuzz.log"
   ARTIFACT_DOWNLOAD: ${{ contains(github.event.inputs.artifacts_up_down_load, 'download') }}
   ARTIFACT_UPLOAD: ${{ contains(github.event.inputs.artifacts_up_down_load, 'upload') }}
   # TODO: fromJSON()
@@ -156,6 +157,7 @@ jobs:
 
     - name: playground 1
       id: playground1
+      continue-on-error: true
       # if: ${{ github.event.inputs.submodule == 'rpki-rs' }}
       # if: ${{ github.event.inputs.verbose == 'true' }}
       run: |
@@ -189,6 +191,11 @@ jobs:
         env | sort
         echo "::endgroup::"
 
+        echo "::group::GitHub Acction Inputs & ENVs"
+        echo '${{ toJSON(github.event.inputs) }}'
+        echo '${{ toJSON(env) }}'
+        echo "::endgroup::"
+
     - name: playground 2
       # if: ${{ env.ARTIFACT_DOWNLOAD == 'true' }}
       # if: ${{ steps.playground1.conclusion }}
@@ -218,7 +225,7 @@ jobs:
           ca-certificates gnupg lsb-release \
           curl wget git gcc rsync build-essential \
           pkg-config libssl-dev openssl \
-          expect colorized-logs
+          expect colorized-logs jq
         echo "::endgroup::"
 
     - name: Install Rust
@@ -412,38 +419,55 @@ jobs:
         [ -f ${{ env.LOG_PATH }} ] && echo "${{ env.LOG_PATH }} exists." || echo "${{ env.LOG_PATH }} does not exist."
         [ -f ${{ env.LOG_PATH }} ] && wc -l ${{ env.LOG_PATH }}
         # https://linuxcommand.org/lc3_man_pages/testh.html
-        [ -s ${{ env.LOG_PATH }} ] && cat ${{ env.LOG_PATH }} | grep "INFO:"
+        # [ -s ${{ env.LOG_PATH }} ] && cat ${{ env.LOG_PATH }} | grep "INFO:"
 
-        LOG_INFO="$(cat ${{ env.LOG_PATH }} | grep "INFO:")"
+        # LOG_INFO="$(cat ${{ env.LOG_PATH }} | grep "INFO:")"
         # echo "LOG_INFO=$LOG_INFO" >> $GITHUB_OUTPUT
         EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-        # echo "LOG_INFO<<$EOF" >> $GITHUB_OUTPUT
+        echo "LOG_INFO<<$EOF" >> $GITHUB_OUTPUT
         # curl https://example.com >> $GITHUB_OUTPUT
         # echo -e "$LOG_INFO" >> $GITHUB_OUTPUT
         cat ${{ env.LOG_PATH }} | grep "INFO:" >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
+        echo "--------------\n---------------\n---------------"
         [ -f $GITHUB_OUTPUT ] && cat $GITHUB_OUTPUT || echo "error cat'ing $GITHUB_OUTPUT"
         echo "::endgroup::"
 
+    - name: Post Processing - LOG_ERROR
+      id: post-processing-err
+      continue-on-error: true
+      run: |
         echo "::group::Get log LOG_ERROR from ${{ env.LOG_PATH }}"
-        # LOG_ERROR="$(tail -n "+$(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }})"
-        LOG_ERROR="$(tail -n "+$(($(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }})"
+        # LOG_ERROR="$(tail -n "+$(grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }})"
+        # LOG_ERROR="$(tail -n "+$(($(grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }})"
         # echo "LOG_ERROR=$LOG_ERROR" >> $GITHUB_OUTPUT
         # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
         EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
         echo "LOG_ERROR<<$EOF" >> $GITHUB_OUTPUT
         # curl https://example.com >> $GITHUB_OUTPUT
-        echo -e "$LOG_ERROR" >> $GITHUB_OUTPUT
+        # echo -e "$LOG_ERROR" >> $GITHUB_OUTPUT
+        tail -n "+$(grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }} >> $GITHUB_OUTPUT
         echo "$EOF" >> $GITHUB_OUTPUT
+        echo "--------------\n---------------\n---------------"
         [ -f $GITHUB_OUTPUT ] && cat $GITHUB_OUTPUT || echo "error cat'ing $GITHUB_OUTPUT"
         echo "::endgroup::"
 
+    - name: Post Processing - log error
+      continue-on-error: true
+      run: |
         echo "::group::log error"
-        tail -n "+$(($(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }}
+        grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1
+        grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1
         echo "-------------------------------"
-        tail -n "+$(grep -n 'NOTE:' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }}
+        tail -n "+$(($(grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)+1))" ${{ env.LOG_PATH }}
+        echo "-------------------------------"
+        tail -n "+$(grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }}
         echo "::endgroup::"
 
+    - name: Post Processing - ERROR_INPUT & GITHUB_STEP_SUMMARY
+      id: post-processing-input-summary
+      continue-on-error: true
+      run: |
         echo "::group::Summary"
         FOUND_ARTIFACTS=($(find fuzz/artifacts -type f))
         # bla1=($(find docs/gh-actions/runs4272680831jobs7438036693 -type f))
@@ -454,31 +478,55 @@ jobs:
           echo "## Errors found" >> $GITHUB_STEP_SUMMARY
           for x in ${FOUND_ARTIFACTS[@]}; do
             {
-              echo "### $x"
-              echo "Error occurred with the following input:"
+              echo "Error occurred with the following input (null bytes in input might have been removed)"
+              echo "\`$x\`:"
               echo ""
               echo "\`\`\`"
             } >> $GITHUB_STEP_SUMMARY
+
             [ -f $x ] && echo "$x exists." || echo "$x does not exist."
             # [ -s $x ] && cat $x >> $GITHUB_STEP_SUMMARY
             echo "$(cat $x)" >> $GITHUB_STEP_SUMMARY
+            # echo "$(cat -v $x)" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; print(Path('$x').read_bytes())" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors=None))" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='ignore'))" >> $GITHUB_STEP_SUMMARY
+            # TODO: ensure correct representation
+            # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='replace'))" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='surrogateescape'))" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='backslashreplace'))" >> $GITHUB_STEP_SUMMARY
+            # python -c "from pathlib import Path; print(Path('$x').read_text(encoding=None, errors='namereplace'))" >> $GITHUB_STEP_SUMMARY
+
             {
               echo "\`\`\`"
               echo ""
             } >> $GITHUB_STEP_SUMMARY
-            # crash_file="$(cat $x)"
-            # echo "ERROR_INPUT=$crash_file" >> $GITHUB_OUTPUT
-            echo "ERROR_INPUT=$(cat $x)" >> $GITHUB_OUTPUT
+            # EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+            # echo "ERROR_INPUT<<$EOF" >> $GITHUB_OUTPUT
+            # echo "$(cat $x)" >> $GITHUB_OUTPUT
+            # echo "$EOF" >> $GITHUB_OUTPUT
           done
         else
-          echo "## Success" >> $GITHUB_STEP_SUMMARY
-          echo "No errors found." >> $GITHUB_STEP_SUMMARY
+          {
+            echo "## Success"
+            echo "No errors found."
+            echo ""
+            echo "\`\`\`"
+          } >> $GITHUB_STEP_SUMMARY
+          tail -n "+$(grep -n 'NOTE:\|DONE' ${{ env.LOG_PATH }} | head -n 1 | cut -d ":" -f 1)" ${{ env.LOG_PATH }} >> $GITHUB_STEP_SUMMARY
+          {
+            echo "\`\`\`"
+            echo ""
+          } >> $GITHUB_STEP_SUMMARY
         fi
+        # echo "GITHUB_STEP_SUMMARY=$(cat $GITHUB_STEP_SUMMARY)" >> $GITHUB_OUTPUT
+        EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+        echo "GITHUB_STEP_SUMMARY<<$EOF" >> $GITHUB_OUTPUT
+        echo "$(cat $GITHUB_STEP_SUMMARY)" >> $GITHUB_OUTPUT
+        echo "$EOF" >> $GITHUB_OUTPUT
         echo "::endgroup::"
 
-        echo "GITHUB_STEP_SUMMARY=$GITHUB_STEP_SUMMARY" >> $GITHUB_OUTPUT
-
-    - name: Playground - ls, find, du, cat Cargo.lock
+    - name: Playground - ls, find, du, Contexts, Cargo.lock
       continue-on-error: true
       run: |
         echo "::group::ls"
@@ -572,8 +620,91 @@ jobs:
         RUNNER_DEBUG                 | ${{ vars.RUNNER_DEBUG }}"
         echo "::endgroup::"
 
+        echo "::group::Context testing"
+        echo -e "\n------- Dump GitHub context\n";   echo '${{ toJSON(github) }}'
+        echo -e "\n------- Dump job context\n";      echo '${{ toJSON(job) }}'
+        echo -e "\n------- Dump steps context\n";
+        # https://stackoverflow.com/a/2954835/9058671
+        EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+        cat << '$EOF'
+        ${{ toJSON(steps) }}
+        $EOF
+        echo -e "\n------- Dump runner context\n";   echo '${{ toJSON(runner) }}'
+        echo -e "\n------- Dump strategy context\n"; echo '${{ toJSON(strategy) }}'
+        echo -e "\n------- Dump matrix context\n";   echo '${{ toJSON(matrix) }}'
+
+        echo -e "\n------- Dump env context\n";     echo '${{ toJSON(env) }}'
+        echo -e "\n------- Dump vars context\n";    echo '${{ toJSON(vars) }}'
+        # echo -e "\n------- Dump jobs context\n";
+        # echo -e "\n------- Dump secrets context\n";
+        echo -e "\n------- Dump needs context\n";   echo '${{ toJSON(needs) }}'
+
+        # # https://stackoverflow.com/a/2954835/9058671
+        # context_github=$(cat << '$EOF'
+        # .... put inside dollar and twice curly bracket: toJSON(github)
+        # $EOF
+        # )
+        # context_job=$(cat << '$EOF'
+        # .... put inside dollar and twice curly bracket: toJSON(job)
+        # $EOF
+        # )
+        # context_steps=$(cat << '$EOF'
+        # .... put inside dollar and twice curly bracket: toJSON(steps)
+        # $EOF
+        # )
+        # context_runner=$(cat << '$EOF'
+        # .... put inside dollar and twice curly bracket: toJSON(runner)
+        # $EOF
+        # )
+        # context_strategy=$(cat << '$EOF'
+        # .... put inside dollar and twice curly bracket: toJSON(strategy)
+        # $EOF
+        # )
+        # context_matrix=$(cat << '$EOF'
+        # .... put inside dollar and twice curly bracket: toJSON(matrix)
+        # $EOF
+        # )
+        # context_env=$(cat << '$EOF'
+        # .... put inside dollar and twice curly bracket: toJSON(env)
+        # $EOF
+        # )
+        # context_vars=$(cat << '$EOF'
+        # .... put inside dollar and twice curly bracket: toJSON(vars)
+        # $EOF
+        # )
+        # context_needs=$(cat << '$EOF'
+        # .... put inside dollar and twice curly bracket: toJSON(needs)
+        # $EOF
+        # )
+        # contexts=()
+        # contexts[${#contexts[@]}]=$context_github
+        # contexts[${#contexts[@]}]=$context_job
+        # contexts[${#contexts[@]}]=$context_steps
+        # contexts[${#contexts[@]}]=$context_runner
+        # contexts[${#contexts[@]}]=$context_strategy
+        # contexts[${#contexts[@]}]=$context_matrix
+        # contexts[${#contexts[@]}]=$context_env
+        # contexts[${#contexts[@]}]=$context_vars
+        # contexts[${#contexts[@]}]=$context_needs
+
+        # context_names=(github job steps runner strategy matrix env vars needs)
+
+        # for ((i=0; i<${#contexts[@]}; i++)); do
+        #     echo -e "\n----------------------------------------------------"
+        #     echo -e               "\t\t${context_names[$i]}"
+        #     echo -e   "----------------------------------------------------\n"
+        #     echo "${contexts[$i]}"
+        #     # echo "${contexts[$i]}" | jq
+        # done
+        echo "::endgroup::"
+
+        echo "::group::..."
+        [ -f ${{ github.step_summary }} ] && cat "${{ github.step_summary }}" || echo "could not read ${{ github.step_summary }}"
+        echo "::endgroup::"
+
     - name: Archive Fuzzing Corpus, Artifacts and Coverage
       if: ${{ env.ARTIFACT_UPLOAD == 'true' }}
+      # if: ${{ failure() }}
       uses: actions/upload-artifact@v3
       with:
         # name: fuzzing-corpus-artifacts-coverage-${{ github.event.inputs.submodule }}
@@ -583,12 +714,63 @@ jobs:
           ${{ github.event.inputs.submodule }}/fuzz/corpus
           ${{ github.event.inputs.submodule }}/fuzz/artifacts
           ${{ github.event.inputs.submodule }}/fuzz/coverage
+          # ${{ runner.temp }}/build_logs
           # !fuzz/fuzz_targets
           # !fuzz/target
           # !dist/**/*.md
 
+    - name: Prepare Issue
+      continue-on-error: true
+      id: issue-content
+      run: |
+        # Issue body must not exceed 65536 characters (https://github.com/dead-claudia/github-limits)
+        EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+        # EOF=TTTTTTQbuZPxBxVzv85TTTTTT
+        MORE_TEXT="
+
+        ...truncated..."
+        # mapfile -d '' LOG_INFO << '$EOF'
+        LOG_INFO=$(cat << '$EOF'
+        ${{ steps.post-processing.outputs.LOG_INFO }}
+        $EOF
+        )
+        if [ ${#LOG_INFO} -gt 5000 ]; then
+          LOG_INFO=${LOG_INFO:0:1000}
+          LOG_INFO+=$MORE_TEXT
+        fi
+        echo "LOG_INFO<<$EOF" >> $GITHUB_OUTPUT
+        echo "$LOG_INFO" >> $GITHUB_OUTPUT
+        echo "$EOF" >> $GITHUB_OUTPUT
+
+        # LOG_ERROR=$(cat << '$EOF'
+        mapfile -d '' LOG_ERROR << '$EOF'
+        ${{ steps.post-processing-err.outputs.LOG_ERROR }}
+        $EOF
+        # )
+        if [ ${#LOG_ERROR} -gt 20000 ]; then
+          LOG_ERROR=${LOG_ERROR:0:20000}
+          LOG_ERROR+=$MORE_TEXT
+        fi
+        echo "LOG_ERROR<<$EOF" >> $GITHUB_OUTPUT
+        echo "$LOG_ERROR" >> $GITHUB_OUTPUT
+        echo "$EOF" >> $GITHUB_OUTPUT
+
+        # GITHUB_STEP_SUMMARY=$(cat << '$EOF'
+        mapfile -d '' GITHUB_STEP_SUMMARY << '$EOF'
+        ${{ steps.post-processing-input-summary.outputs.GITHUB_STEP_SUMMARY }}
+        $EOF
+        # )
+        if [ ${#GITHUB_STEP_SUMMARY} -gt 20000 ]; then
+          GITHUB_STEP_SUMMARY=${GITHUB_STEP_SUMMARY:0:20000}
+          GITHUB_STEP_SUMMARY+=$MORE_TEXT
+        fi
+        echo "GITHUB_STEP_SUMMARY<<$EOF" >> $GITHUB_OUTPUT
+        echo "$GITHUB_STEP_SUMMARY" >> $GITHUB_OUTPUT
+        echo "$EOF" >> $GITHUB_OUTPUT
+
     - name: Create new issue
       continue-on-error: true
+      id: create-issue
       # https://docs.github.com/en/actions/using-workflows/using-github-cli-in-workflows
       # https://docs.github.com/en/actions/examples/using-the-github-cli-on-a-runner
       # # https://github.com/marketplace/actions/issues-helper
@@ -605,33 +787,26 @@ jobs:
       with:
         # assignees: "octocat, monalisa"
         title: Error found while fuzzing `${{ github.event.inputs.fuzz }}` in `${{ github.event.inputs.submodule }}`
-        labels: "bug, fuzzing, ci"
+        labels: "bug, fuzzing, ci, ${{ github.event.inputs.fuzz }}"
+        # CI GitHub Action failed: ${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}
         body: |-
           CI GitHub Action failed: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-          ## Fuzz log | grep "INFO:"
+          ## Fuzz log - INFO
 
           ```
-          ${{ steps.post-processing.outputs.LOG_INFO }}
+          ${{ steps.issue-content.outputs.LOG_INFO }}
           ```
 
-          ## Error
+          ## Fuzz log - Error
 
           ```
-          ${{ steps.post-processing.outputs.LOG_ERROR }}
-          ```
-
-          ## Input
-
-          Error occured with the following input:
-
-          ```
-          ${{ steps.post-processing.outputs.ERROR_INPUT }}
+          ${{ steps.issue-content.outputs.LOG_ERROR }}
           ```
 
           ## Summary
 
-          ${{ steps.post-processing.outputs.GITHUB_STEP_SUMMARY }}
+          ${{ steps.issue-content.outputs.GITHUB_STEP_SUMMARY }}
         # body: |-
         #   # :wave: Hi, {{#each assignees}}@{{this}}{{#unless @last}}, {{/unless}}{{/each}}!
         # pinned: true
@@ -639,6 +814,26 @@ jobs:
       #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #   ISSUE: ${{ github.event.issue.html_url }}
       # run: gh issue comment $ISSUE --body "Thank you for opening this issue!"
+
+    - name: Create new issue - Success
+      continue-on-error: true
+      uses: imjohnbo/issue-bot@v3
+      if: ${{ steps.create-issue.outcome != 'failure' }}
+      with:
+        title: No errors found while fuzzing `${{ github.event.inputs.fuzz }}` in `${{ github.event.inputs.submodule }}`
+        labels: "Success, fuzzing, ci, ${{ github.event.inputs.fuzz }}"
+        body: |-
+          CI GitHub Action succeeded: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          ## Fuzz log - INFO
+
+          ```
+          ${{ steps.issue-content.outputs.LOG_INFO }}
+          ```
+
+          ## Summary
+
+          ${{ steps.issue-content.outputs.GITHUB_STEP_SUMMARY }}
 
 # bin/act workflow_dispatch -j fuzz --input max_total_time=30 --input fuzz=fuzz_target_rrdp --input submodule=rpki-rs --input resume_with_artifacts=true | batcat
 # bin/act workflow_dispatch -j fuzz --input submodule=rpki-rs --input fuzz=fuzz_target_rrdp --input max_total_time=30 --input seed=0 --input only_ascii=1 --input corpus="../corpus/xml/snapshot/*" --input resume_with_artifacts=false --input upload_artifacts=false --input rust_toolchain=nightly --input verbose=false | batcat
