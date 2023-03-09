@@ -4,6 +4,8 @@ SCRIPT_PATH="${BASH_SOURCE[0]:-$0}";
 SCRIPT_DIR=$(dirname $SCRIPT_PATH);
 WORKSPACE_DIR=$(realpath $(dirname $SCRIPT_DIR))
 
+# PREP_FUZZ_TARGET_CORPUS=${1:-false}
+
 function reset_corpus() {
     # rm -rf $WORKSPACE_DIR/corpus && mkdir $WORKSPACE_DIR/corpus && cp $WORKSPACE_DIR/Corpus.zip $WORKSPACE_DIR/corpus/ && cd $WORKSPACE_DIR/corpus && unzip Corpus.zip && rm Corpus.zip && cd $OLDPWD
     rm -rf $WORKSPACE_DIR/corpus
@@ -33,7 +35,6 @@ function reset_corpus() {
     # echo ${CORPUS_ELS[@]} | sort -u
     cd $OLDPWD
 }
-reset_corpus
 
 function make_rsync_corpus() {
     CORPUS_RSYNC_DIR="$WORKSPACE_DIR/corpus/rsync"
@@ -49,7 +50,6 @@ function make_rsync_corpus() {
         printf "%s" $uris[$i] > $CORPUS_RSYNC_DIR/$i
     done
 }
-make_rsync_corpus
 
 function copy_corpus_from_submodule() {
     # cer
@@ -76,4 +76,15 @@ function copy_corpus_from_submodule() {
     # xml delta
     find $WORKSPACE_DIR -name "*delta*.xml" -exec cp --verbose {} $WORKSPACE_DIR/corpus/xml/delta/ \;
 }
+
+reset_corpus
+make_rsync_corpus
 copy_corpus_from_submodule
+
+# PREP_FUZZ_TARGET_CORPUS=true
+# if [ $PREP_FUZZ_TARGET_CORPUS == true ]; then
+#     fuzz_list=$(cargo +nightly -C $WORKSPACE_DIR/rpki-rs fuzz list)
+#     for fuzz_target in $fuzz_list; do
+#         echo "Preparing corpus for $fuzz_target"
+#     done
+# fi

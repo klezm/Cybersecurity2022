@@ -298,7 +298,7 @@ jobs:
         else
           echo -e "\t ARTIFACTS??? -------------------------------------------"
         fi
-          cat $LOG_PATH | grep "INFO:"
+          [ -f $LOG_PATH ] && cat $LOG_PATH | grep "INFO:"
 
     - name: Fuzzing Finished
       continue-on-error: true
@@ -323,7 +323,8 @@ jobs:
       continue-on-error: true
       run: |
         # loop over all Cargo.lock files
-        for f in $(find .. -name Cargo.lock -print); do
+        find . -name Cargo.lock -print | sort
+        for f in $(find . -name Cargo.lock -print); do
           echo -e "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
           echo -e "\n$f:\n"
           cat $f

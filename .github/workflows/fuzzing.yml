@@ -459,19 +459,9 @@ jobs:
               echo ""
               echo "\`\`\`"
             } >> $GITHUB_STEP_SUMMARY
-
-
-
-
-
             [ -f $x ] && echo "$x exists." || echo "$x does not exist."
             # [ -s $x ] && cat $x >> $GITHUB_STEP_SUMMARY
             echo "$(cat $x)" >> $GITHUB_STEP_SUMMARY
-
-
-
-
-
             {
               echo "\`\`\`"
               echo ""

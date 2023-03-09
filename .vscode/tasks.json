@@ -36,13 +36,21 @@
     {
       "label": "Cargo Clean all Crates",
       "type": "shell",
-      "command": "find . -name Cargo.toml -not -path \"*-diff/*\" -type f -exec dirname {} \\; | xargs -t -I % cargo +nightly -C % clean",
+      "command": "du -h -d 1 | sort -h; find . -name Cargo.toml -not -path \"*-diff/*\" -type f -exec dirname {} \\; | xargs -t -I % cargo +nightly -C % clean; du -h -d 1 | sort -h",
       "problemMatcher": []
     },
     {
       "label": "Corpus Reset",
       "type": "shell",
       "command": "rm -rf $CODESPACE_VSCODE_FOLDER/corpus && mkdir $CODESPACE_VSCODE_FOLDER/corpus && cp $CODESPACE_VSCODE_FOLDER/Corpus.zip $CODESPACE_VSCODE_FOLDER/corpus/ && cd $CODESPACE_VSCODE_FOLDER/corpus && unzip Corpus.zip && rm Corpus.zip && cd $OLDPWD",
+      "problemMatcher": []
+    },
+    {
+      "label": "Git Clean (depth 1)",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/git-clean.sh",
+      // "args": [],
+      // "runOptions": {},
       "problemMatcher": []
     }
   ]
